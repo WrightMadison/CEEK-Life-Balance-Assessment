@@ -10,7 +10,7 @@ I was told that I could develop the assessment in any way that I see fit and wou
 
 ## Milestones
 * August 26, 2018: The first complete version of the assessment was released for free trial mode.
-* October 10, 2018: My boss's book, "Navigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities", was released and the access code was turned on for the assessment.
+* October 10, 2018: My boss's book, *Navigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities*, was released and the access code was turned on for the assessment.
 
 ## Parameters
 * Access code for the assessment that allows users to take it twice, once for an initial evaluation and again after several months to measure personal growth
