@@ -201,15 +201,18 @@
 			}
 
 			#btnRemove {
-				/*#lstPriorityAreas margin-left: 160px + (#lstPriorityAreas width: 205px / 2) = 212.5px*/
-				/*#btnRemove width: 80px / 2 = 40px halfway point*/
-				/*#lstPriorityAreas width: 205px - #btnRemove width: 80px = 125px 62.5px margins on each side to center button*/
-				/*left off here*/
-				margin-left: 220px;
+				/*#lstPriorityAreas width: 205px - #btnRemove width: 80px = 125px / 2 = 62.5px margins on each side to center button*/
+				/*#lstPriorityAreas margin-left: 160px + 62.5 margin to center button = 222.5px #btnRemove margin-left (round down to 222 px for an integer)*/
+				margin-left: 222px;
 			}
 
 			#btnAdd {
-				margin-left: 230px;
+				/*302px from left side of page to right side of #btnRemove*/
+				/*#lstPriorityAreas margin-left: 160px + #lstPriorityAreas width: 205px = 365px*/
+				/*365 - 302 = 63px to right side of #lstPriorityAreas*/
+				/*#txtPriorityAreas width: 205px - #btnAdd width: 80px = 125px / 2 = 62.5px margins on each side to center button*/
+				/*63px to from #btnRemove to right side of #lstPriorityAreas + #txtPriorityAreas margin-left: 150px + 62.5 margin to center button = 275.5px #btnRemove margin-left (round down to 275 px for an integer)*/
+				margin-left: 275px;
 			}
 
 			#priorityAreaSelection {
@@ -810,18 +813,16 @@
 			 	unit: 'in',
 		   		format: [8.5, 11]
 			});
-			// according to permutations and combinations, with 20-digit access codes and 59 possible digits to choose from  (9 numbers, 25 lowercase letters, 25 upercase letters) over 2.61E35 codes are possible
-			// characters not used due to looking similar to other character(s): 0, "O" & 1, "I", "l" & "i", "j" --> (10 digits - 2), (26 lowercase letters - 3), (26 uppercase letters - 2)
-
-			// recalculate: left off here?
+			// according to permutations and combinations, with 20-digit access codes and 55 possible digits to choose from  (8 numbers, 23 lowercase letters, 24 upercase letters) over 6.42E34 codes are possible
+			// characters not used due to looking similar to other character(s): 0, "O" & 1, "I", "l" & "i", "j" --> (10 numbers - 2), (26 lowercase letters - 3), (26 uppercase letters - 2)
 
 			/*https://www.mathsisfun.com/combinatorics/combinations-permutations-calculator.html
-			n: 59
-			r: 25
+			n: 55
+			r: 20
 			Order important? Yes
 			Repetition allowed? Yes*/
 
-			// write code generator script?
+			// write code generator script? put access codes in Google sheet, code will check there to see if they are used or not
 			var accessCodes = ["djau1-5an4h-sj3l6-8cpzu-382nw", "eanz7-3mf82-kfn6a-g4nfj-xuef5"];
 
 			// Report Images
@@ -1442,7 +1443,7 @@
 				// report provided by
 				pdf.setFont(fontSecondary);
 				pdf.setFontSize(12);
-				pdf.text("This report is provided by CEEK LLC", xC, yC+0.49); // left off here (adjusting Y coordinate)
+				pdf.text("This report is provided by CEEK LLC", xC, yC+0.49);
 
 				// CEEK website and social media
 				pdf.setFontType('normal');
