@@ -1,11 +1,14 @@
-<!--Written by Madison Wright
-	Contact: wrightmadison@gmail.com-->
+<!--Coded by Madison Wright
+    Contact: wrightmadison@gmail.com-->
 
-	<DOCTYPE html>
-		<html>
-		<head>
+<!--Variable Conventions for this code:
+    '' used for variable values, element IDs, etc. (information that is not displayed to the user)
+    "" used for string values, text, etc. (information that is displayed to the user)-->
 
-			<style>
+<DOCTYPE html>
+<html>
+	<head>
+		<style>
 			#title {
 				position: relative;
 				overflow: hidden; 
@@ -15,6 +18,10 @@
 			#company, #tool {
 				position: relative;
 				float: left; 
+			}
+
+			#company {
+				padding-top: 1.75px; /*aligns the CEEK logo with the title text*/
 			}
 
 			#tool {
@@ -34,6 +41,8 @@
 			.subtitle {
 				font-weight: bold;
 			}
+
+
 
 			.questionLabel, #lstPriorityAreas {
 				display: inline-block;
@@ -57,7 +66,7 @@
 				width: 100%;
 				height: 15px;
 				border-radius: 5px; 
-				background: #383938;
+				background: #383938; /*CEEK gray sampled from logo*/
 				outline: none;
 				opacity: 0.5;
 				-webkit-transition: .2s;
@@ -75,7 +84,7 @@
 				width: 25px;
 				height: 25px;
 				border-radius: 50%; 
-				background: #00529b;
+				background: #00529b; /*CEEK blue sampled from logo*/
 				cursor: pointer;
 			}
 
@@ -157,7 +166,7 @@
 
 			#lstPriorityAreas, #txtPriorityAreas {
 				width: 200px;
-				height: 175px;
+				height: 185px;
 				resize: none;
 				position: relative;
 				float: left; 
@@ -165,6 +174,10 @@
 
 			#txtPriorityAreas {
 				margin-left: 110px;
+			}
+
+			#splashPrompt, #assessmentPrompt, #willingnessButtons, #actionsButtons {
+				font-size: 20px;
 			}
 
 			#no {
@@ -176,29 +189,46 @@
 			}
 
 			#never {
-				padding-left: 50px;
+				padding-left: 25px;
 			}
 
 			#rarely, #sometimes, #often, #always {
-				padding-left: 40px;
+				padding-left: 25px;
 			}
 
 			#btnReport {
 				margin-left: 220px;
 			}
 
+			.created {
+				color: white;
+				line-height: 1;
+			}
 		</style>
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css"/>
 
 		<title>CEEK Life Balance Assessment</title>
-
 	</head>
 	<body>
 		<div id="title">
-			<img src="http://www.ceekllc.com/wp-content/uploads/2013/09/CeekLogo.png" id="company">
+			<!--Image link will need to be changed if imgBB hosting services end;
+				hosting images through CEEK LLC's domain would be ideal-->
+			<img src="https://image.ibb.co/kwUk4c/CEEK_Logo.png" id="company" alt="CEEK LLC Logo"/>
 			<h1 id="tool">&nbsp;Life Balance Assessment</h1>
+		</div>
+
+		<!--Make code entry active later-->
+		<div id="codeEntry" style="display:none">
+			<label>Survey Access Code</label><br>
+			<input id="txtCode" type="text" placeholder="Please enter your 25-digit survey access code here."/>
+
+			<p id="lblRepeat">Have you taken this survey before?</p>
+			<form id="repeatButtons">
+				<label id="noRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="No"/>No</label>
+				<label id="yesRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="Yes"/>Yes</label>
+			</form>
 		</div>
 
 		<div id="basicInformation">
@@ -450,7 +480,7 @@
 
 			<form>
 				<div>
-					<label id="labelMailList"><input type="checkbox" id="checkMailList" checked="true">Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
+					<label id="labelMailList"><input type="checkbox" id="checkMailList" checked="true"/>Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
 				</div>
 			</form>
 		</div>
@@ -528,9 +558,9 @@
 			<div class="sliderBox">
 				<label class="questionLabel">On a scale of 1 to 10, how happy are you on a daily basis?</label>
 				<div class="slidecontainer">
-					<img src="https://cdn.pixabay.com/photo/2017/01/31/19/22/comic-characters-2026645_960_720.png" class="smilePic" id = happyFrown>
-					<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="happySmile">
-					<input type="range" class="slider" id="sliderHappy" min="1" max="10" step="1" value="1">
+					<img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id="happyFrown" alt="Frown"/>
+					<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="happySmile" alt="Smile"/>
+					<input type="range" class="slider" id="sliderHappy" min="1" max="10" step="1" value="1"/>
 					<label class="slideResponse" id="responseHappy">0</label>
 				</div>
 			</div><br>
@@ -538,13 +568,12 @@
 			<div class="sliderBox">
 				<label class="questionLabel">On a scale of 1 to 10, what is your level of stress on a typical day?</label>
 				<div class="slidecontainer">
-					<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="stressedSmile">
-					<img src="https://cdn.pixabay.com/photo/2017/01/31/19/22/comic-characters-2026645_960_720.png" class="smilePic" id = stressedFrown>
-					<input type="range" class="slider" id="sliderStress" min="1" max="10" step="1" value="1">
+					<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="stressedSmile" alt="Smile"/>
+					<img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id ="stressedFrown" alt="Frown"/>
+					<input type="range" class="slider" id="sliderStress" min="1" max="10" step="1" value="1"/>
 					<label class="slideResponse" id="responseStress">0</label>
 				</div>
 			</div><br>
-
 		</div>
 
 		<div id="preAssessment" style="display:none">
@@ -552,7 +581,7 @@
 
 			<p>This assessment calculates your life balance score based on your professed versus demonstrated priorities in life. Some suggested priority areas are already provided, which you can choose to delete or keep, in addition adding some of your own. Please be honest with your responses in order to receive the most accurate assessment of your life balance and best advice for your situation.</p><br>
 
-			<!-- Made into a div so that one break can uniformly be put below both the list box and text area -->
+			<!--Made into a div so that one break can uniformly be put below both the list box and text area-->
 			<div id="priorityAreaSelection"> 
 				<select multiple id="lstPriorityAreas" class="form-control">
 					<option>Career</option>
@@ -588,74 +617,110 @@
 			<p id="assessmentPrompt">Question goes here</p><br>
 
 			<form id="willingnessButtons">
-				<label id="no" class="radio-inline"><input type="radio" name="radioWillingness" value="No">No</label>
-				<label id="yes" class="radio-inline"><input type="radio" name="radioWillingness" value="Yes">Yes</label>
+				<label id="no" class="radio-inline"><input type="radio" name="radioWillingness" value="No"/>No</label>
+				<label id="yes" class="radio-inline"><input type="radio" name="radioWillingness" value="Yes"/>Yes</label>
 			</form>
 
 			<form id="actionsButtons" style="display:none">
-				<label id="never" class="radio-inline"><input type="radio" name="radioActions">Never</label>
-				<label id="rarely" class="radio-inline"><input type="radio" name="radioActions">Rarely</label>
-				<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions">Sometimes</label>
-				<label id="often" class="radio-inline"><input type="radio" name="radioActions">Often</label>
-				<label id="always" class="radio-inline"><input type="radio" name="radioActions">Always</label>
+				<label id="never" class="radio-inline"><input type="radio" name="radioActions"/>Never</label>
+				<label id="rarely" class="radio-inline"><input type="radio" name="radioActions"/>Rarely</label>
+				<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions"/>Sometimes</label>
+				<label id="often" class="radio-inline"><input type="radio" name="radioActions"/>Often</label>
+				<label id="always" class="radio-inline"><input type="radio" name="radioActions"/>Always</label>
 			</form>
 			<br>
 		</div>
+	</body>
 
-		<footer>
-			<button id="btnBack" class="btn btn-primary">Back</button>
+	<footer>
+		<button id="btnBack" class="btn btn-primary">Back</button>
 
-			<button id="btnNext" class="btn btn-primary">Next</button>
+		<button id="btnNext" class="btn btn-primary">Next</button>
 
-			<button id="btnReport" class = "btn btn-primary" style="display:none">Generate Report</button>
+		<!--add this to btnReport when PDF report is done: style="display:none"-->
+		<button id="btnReport" class = "btn btn-primary">Generate Report</button>
 
-			<br>
-			<br>
+		<br>
+		<br>
 
-			<p id="disclaimer">DISCLAIMER: Your name is NOT stored, it is only put in the PDF report is e-mailed to you that contains your results, which only you can view. Demographic and geographic information is collected for analysis of average assessment scores by age group, gender, occupation, and region. None of your assessment answers are stored, only your anonymous final score is. CEEK ensures that your personal information will not be shared with any organizations for any reason.</p><br>
+		<p id="disclaimer">DISCLAIMER: Your name is NOT stored, it is only put in the PDF report is e-mailed to you that contains your results, which only you can view. Demographic and geographic information is collected for analysis of average assessment scores by age group, gender, occupation, and region. None of your assessment answers are stored, only your anonymous final score is. CEEK ensures that your personal information will not be shared with any organizations for any reason.</p><br>
 
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
-			<!--For PDF generation-->
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+		<!--Created by-->
+		<p class='created'>Coded by Madison Wright</p>
+		<p class='created'>Contact: wrightmadison@gmail.com</p>
 
-
-			<script>
-				var currentPage = "basicInformation";
-				var firstName;
-				var lastName;
-				var age;
-				var gender;
-				var country;
-				var zipCode;
-				var email;
-				var emailSubscribe;
-				var education;
-				var pws;
-				var occupation;
-				var years;
-				var income;
-				var happiness;
-				var stress;
-				// when the next button is clicked in the pre-assessment, the array is populated with the priority areas in the list box
-				var priorityAreas;
-				var numAreas;
-				var numQuestions;
-				var questions;
-				var currentQuestion = 1;
-				var willingness;
-				var actions;
-				var a;
-				var b;
-				var areaA;
-				var areaB;
-				var part = "willingness";
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+		<!--For PDF generation-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 
 
-				$(document).ready(function() {
-				// make occupation select enabled only if full-time or part-time is selected
-				//document.getElementById("selectOccupation").disabled = true;
+		<script>
+			var currentPage = "basicInformation";
+			var firstName;
+			var lastName;
+			var age;
+			var gender;
+			var country;
+			var zipCode;
+			var email;
+			var emailSubscribe;
+			var education;
+			var pws;
+			var occupation;
+			var years;
+			var income;
+			var happiness;
+			var stress;
+			// when the next button is clicked in the pre-assessment, the array is populated with the priority areas in the list box
+			var priorityAreas;
+			var priorityAreasCap; // priority areas with the first letter of each word capitalized and the rest lowercase
+			var numAreas;
+			var numQuestions;
+			var questions;
+			var currentQuestion = 1;
+			var willingness;
+			var actions;
+			var a;
+			var b;
+			var areaA;
+			var areaB;
+			var part = "willingness";
+			var fullName;
+			var fullDate;
+			var pageNum = 0; // initialized at zero because the newPage() function increments the page number by 1 at the beginning of the method
+			var lineWidth;
+			var ySubtitle;
+			var ySubtitleLine;
+			var pdf = new jsPDF({ // Default export is a4 paper, portrait, using millimeters for units
+			// change units to inches and paper size to US letter paper
+			 	unit: 'in',
+		   		format: [8.5, 11]
+			});
+
+			// Report Images
+			/*Image links will need to be changed if imgBB hosting services end;
+			hosting images through CEEK LLC's domain would be ideal*/
+			var imgCover = new Image;
+			imgCover.crossOrigin = '';
+			imgCover.src = 'https://image.ibb.co/dkzppc/Report_Cover.png';
+
+			var imgHeader = new Image;
+			imgHeader.crossOrigin = '';
+			imgHeader.src = 'https://image.ibb.co/jJkqOH/Report_Header.png';
+
+			var imgFooter = new Image;
+			imgFooter.crossOrigin = '';
+			imgFooter.src = 'https://image.ibb.co/bvfeHc/Report_Footer.png';
+
+			var imgTableDemographics = new Image;
+			imgTableDemographics.crossOrigin = '';
+			imgTableDemographics.src = 'https://image.ibb.co/j63VqH/Demographic_Information_Table.png';
+
+			$(document).ready(function() {
+			// make occupation select enabled only if full-time or part-time is selected
+			//document.getElementById("selectOccupation").disabled = true;
 			});
 
 			/*$("#selectPWS").change(function() {
@@ -688,16 +753,17 @@
 
 			$("#btnNext").click(function() {
 				if (currentPage === "basicInformation") {
+					// uncomment out later
 					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtZipCode.value || !txtEmail.value) {
 						alert("Please fill in all of the fields before proceeding.");
 					} else {*/
-						firstName = document.getElementById("txtFirstName").value;
-						lastName = document.getElementById("txtLastName").value;
+						firstName = document.getElementById("txtFirstName").value.trim();
+						lastName = document.getElementById("txtLastName").value.trim();
 						age = document.getElementById("selectAge").value;
 						gender = document.getElementById("selectGender").value;
 						country = document.getElementById("selectCountry").value;
-						zipCode = document.getElementById("txtZipCode").value;
-						email = document.getElementById("txtEmail").value;
+						zipCode = document.getElementById("txtZipCode").value.trim();
+						email = document.getElementById("txtEmail").value.trim();
 						emailSubscribe = document.getElementById("checkMailList").value;
 
 						document.getElementById("disclaimer").style.display = "none";
@@ -708,6 +774,7 @@
 						document.getElementById("occupationalProfile").style.display = "block";
 					//}
 				} else if (currentPage === "occupationalProfile") {
+					// uncomment out later
 					/*if (!selectEducation.value || !selectPWS.value || !selectOccupation.value || !selectYears.value || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
 						alert("Please fill in all of the fields before proceeding.");
 					} else {*/
@@ -727,13 +794,18 @@
 						document.getElementById("preAssessment").style.display = "block";
 					//}
 				} else if (currentPage === "preAssessment") {
+					// uncomment out later
 					/*if (document.getElementById("lstPriorityAreas").length < 4) {
 						alert("Please provide at least four priority areas.");
 					} else {*/
 						// initializes the priorityAreas element as an array with as many elements as are in lstPriorityAreas
 						priorityAreas = new Array(document.getElementById("lstPriorityAreas").length);
+						// stores the properly capitalized priority areas for PDF generation
+						priorityAreasCap = new Array(document.getElementById("lstPriorityAreas").length);
 
 						for (var i = 0; i < lstPriorityAreas.length; i++) {
+							// maybe not make each priority area lower case? need to convert back to uppercase for report
+							priorityAreasCap[i] = document.getElementById("lstPriorityAreas").options[i].value;
 							priorityAreas[i] = document.getElementById("lstPriorityAreas").options[i].value.toLowerCase();
 						}
 						numAreas = document.getElementById("lstPriorityAreas").length;
@@ -788,22 +860,28 @@
 					
 					// Part 1 of 2: Willingness
 					if (currentQuestion >= 1 && currentQuestion <= numQuestions/2) {
-						if (currentQuestion == 2) {
-						// once the user has proceeded at least one question in, the back button is available again
-						// untoggle comment when making back button functionality
-						//document.getElementById("btnBack").style.visibility = "visible";
-						} else if (currentQuestion == (numQuestions/2)-1) {
-						// changes the btnNext text to 'Finish' on the last question in order to indicate to the user that they have reached the end of this section
-						// make sure this reverts back to Next when programming the back button functionality
-							document.getElementById("btnNext").innerHTML = "Finish";
-						}
-
 						// checks to make sure there is a response for the willingness options
 						// if there is no response, the question number is not incremented and an alert is shown
 						if (!$("input[name='radioWillingness']:checked").val()) {
 							alert("Please select a response before proceeding.");
 						} else {
+							// once the user has proceeded at least one question into this section, the back button is available again
+							if (currentQuestion == 2) {
+							// untoggle comment when making back button functionality
+							//document.getElementById("btnBack").style.visibility = "visible";
+							} 
+
+							/*changes the btnNext text to 'Finish' on the last question of the section 
+							in order to indicate to the user that they have reached the end of this section*/
+							if (currentQuestion == (numQuestions/2)-1) { 
+							/*not possible for second question of part 1 to also be second to last question of part 1 
+							because there is a minimum of 4 priority areas*/
+							// make sure this reverts back to Next when programming the back button functionality
+								document.getElementById("btnNext").innerHTML = "Finish";
 							// shows the splash screen for the actions section
+							} 
+
+							// Part 1 complete
 							if (currentQuestion == numQuestions/2) {
 								// updates the splash screen elements for Part 2 of 2: Actions
 								document.getElementById("btnNext").innerHTML = "Next";
@@ -821,6 +899,7 @@
 								currentPage = "splashScreen";
 								document.getElementById("assessment").style.display = "none";
 								document.getElementById("splashScreen").style.display = "block";
+							// Part 1 not complete
 							} else {
 								currentQuestion++;
 								generateQuestion(willingness);
@@ -829,25 +908,32 @@
 
 					// Part 2 of 2: Actions
 					} else if (currentQuestion > numQuestions/2 && currentQuestion <= numQuestions) {
-						if (currentQuestion == (numQuestions/2)+2) {
-						// once the user has proceeded to the second question of the actions section, the back button becomes available again
-						// untoggle comment when making back button functionality
-						//document.getElementById("btnBack").style.visibility = "visible";
-						} else if (currentQuestion == numQuestions-1) {
-						// changes the btnNext text to 'Finish' on the last question in order to indicate to the user that they have reached the end of this section
-						// make sure this reverts back to Next when programming the back button functionality
-							document.getElementById("btnNext").innerHTML = "Finish";
-						}
-
-						if (!$("input[name='radioWillingness']:checked").val()) {
+						// checks to make sure there is a response for the willingness options
+						// if there is no response, the question number is not incremented and an alert is shown
+						if (!$("input[name='radioActions']:checked").val()) {
 							alert("Please select a response before proceeding.");
 						} else {
-							// assessment complete
+							// once the user has proceeded at least one question into this section, the back button is available again
+							if (currentQuestion == (numQuestions/2)+2) {
+								// untoggle comment when making back button functionality
+								//document.getElementById("btnBack").style.visibility = "visible";
+							} 
+
+							/*changes the btnNext text to 'Finish' on the last question of the section 
+							in order to indicate to the user that they have reached the end of this section*/
+							if (currentQuestion == numQuestions-1) {
+								/*not possible for second question of part 2 to also be second to last question of part 2
+								because there is a minimum of 4 priority areas*/
+								// make sure this reverts back to Next when programming the back button functionality
+								document.getElementById("btnNext").innerHTML = "Finish";
+							}
+
+							// Part 2 complete (assessment complete)
 							if (currentQuestion == numQuestions) {
 								// generate PDF here
 								// easier to email results or generate PDF on the page?
 								document.getElementById("splashSubtitle").innerHTML = "View Results";
-								document.getElementById("splashPrompt").innerHTML = "You have completed the CEEK Life Balance Assessment! Please click the 'Generate Report' button below to have your results e-mailed to you in the form of a PDF.";
+								document.getElementById("splashPrompt").innerHTML = "You have completed the CEEK Life Balance Assessment! Please click the 'Generate Report' button below to save a PDF of your results to your computer. The PDF may take a few seconds to generate, so please only click the button once and wait a moment. Please check your 'Downloads' folder for the file. A copy will be e-mailed to you as well as a backup.";
 								document.getElementById("actionsButtons").style.display = "none";
 								document.getElementById("btnBack").style.display = "none";
 								document.getElementById("btnNext").style.display = "none";
@@ -856,6 +942,7 @@
 								currentPage = "splashScreen";
 								document.getElementById("assessment").style.display = "none";
 								document.getElementById("splashScreen").style.display = "block";
+							// Part 2 not complete
 							} else {
 								currentQuestion++;
 								generateQuestion(actions);
@@ -938,7 +1025,7 @@
 					var finishedPriorityArea = "";
 
 					for (var j = 0; j < words.length; j++) {
-						words[j] = words[j].toLowerCase(); // keep or leave?
+						words[j] = words[j].toLowerCase();
 						words[j] = words[j].charAt(0).toUpperCase() + words[j].slice(1);
 						
 						// adds spaces between words that are concatenated into one priority area
@@ -957,26 +1044,26 @@
 				for(var m = 0; m < newPriorityAreas.length; m++) {
 					if (document.getElementById("lstPriorityAreas").length == 10) {
 						alert("Please provide no more than ten priority areas. Remove a priority area to add a different one.");
-							/*need to break out of the loop so the alert does not repeat if there are more 
-							priority areas after the limit has already been reached*/
-							break;
-						} else {
-							var opt = document.createElement("option");
-							opt.text = newPriorityAreas[m];
-							opt.value = newPriorityAreas[m];
-						}
+						/*need to break out of the loop so the alert does not repeat if there are more 
+						priority areas after the limit has already been reached*/
+						break;
+					} else {
+						var opt = document.createElement("option");
+						opt.text = newPriorityAreas[m];
+						opt.value = newPriorityAreas[m];
+					}
 
-						for(var n = 0; n < document.getElementById("lstPriorityAreas").length; n++) {
-						/*checks to see if the element is already in the list
-						if it is, an alert is sent and the duplicate is not added*/
-							if (opt.value == document.getElementById("lstPriorityAreas").options[n].value) {
-								alert(opt.value + " is already on the priority area list.");
-								break;
-						/*once the entire list has been iterated through
-						if the new priority area is not found to be a duplicate 
+					for(var n = 0; n < document.getElementById("lstPriorityAreas").length; n++) {
+					/*checks to see if the element is already in the list
+					if it is, an alert is sent and the duplicate is not added*/
+						if (opt.value == document.getElementById("lstPriorityAreas").options[n].value) {
+							alert(opt.value + " is already on the priority area list.");
+							break;
+							/*once the entire list has been iterated through
+							if the new priority area is not found to be a duplicate 
 							then is it added to the list*/
-					} else if (n == document.getElementById("lstPriorityAreas").length - 1) {
-						document.getElementById("lstPriorityAreas").options.add(opt);
+						} else if (n == document.getElementById("lstPriorityAreas").length - 1) {
+							document.getElementById("lstPriorityAreas").options.add(opt);
 							/*break statement has to be added because once the new element is added, the 
 							length of the list increases so then it will run through the if and send the 
 							alert after adding the new item to the list*/
@@ -984,14 +1071,392 @@
 						}
 					}
 				}
-				document.getElementById("txtPriorityAreas").value = "";
+				document.getElementById('txtPriorityAreas').value = "";
+
+				// creates array to hold checked priority areas
+				var tempPAs = new Array(document.getElementById('lstPriorityAreas').length);
+
+				// puts priority areas currently in list into an array
+				for (var r = 0; r < document.getElementById('lstPriorityAreas').length; r++) {
+					tempPAs[r] = document.getElementById('lstPriorityAreas').options[r].value;
+				}
+
+				// alphabetically sorts the priority areas
+				tempPAs.sort();
+
+				// clears the list
+				document.getElementById('lstPriorityAreas').innerHTML = "";
+
+				// puts the sorted priority areas back into the list
+				for (var s = 0; s < tempPAs.length; s++) {
+					var opt = document.createElement("option");
+					opt.text = tempPAs[s];
+					opt.value = tempPAs[s];
+					document.getElementById('lstPriorityAreas').options.add(opt);
+				}
 			});
 
 			$("#btnReport").click(function() {
+				// calculate assesssment score here? (or in the final btnNext click and store in case of an error)
+				fullName = firstName + " " + lastName;
+				var d = new Date();
+				fullDate = writeMonth(d.getMonth()) + " " + d.getDate() + ", " + d.getFullYear();
+				lineWidth = 0.013;
+				var txtWidth = 6.5;
+				/*For x and y coordinate variables for each page, only change the values when working on a section independent from the rest of the text. Doing this will make it easy to shift sections down as a whole when changing the original/starting x and/or y coordinate(s).*/
+				var xNew = 1;
+				// change the following four variables by the same amount when shifting all page elements up and down
+				// ----------------------
+				var yNewSection = 1.8;
+				ySubtitle = 1.35;
+				ySubtitleLine = 1.48;
+				//var yNewPage = ?;
+				// ----------------------
+				// Helvetica, Times, and Courier are the three jsPDF-supported fonts (without adding a new font)
+				var fontPrimary = 'Helvetica';
+				var fontSecondary = 'Times';
+				var bodyFontSize = 11;
+
+				// use 0.1" grid on Word Document for mapping object locations
+				// when adding images to the pdf, make sure to get the size ratio of the images correct based on their pixel dimensions
+
+				/*keep in mind that text is positioned by the bottom left corner unlike images, which are positioned by 
+				the top left corner being placed at the provided coordinates*/
+
+				// https://unicode-table.com/en/ was used for finding unicode numbers
 				
+				// COVER
+				pdf.addImage(imgCover, 'PNG', 0, 0, 8.5, 11);
+				// coordinate variable naming conventions "letter + page #"
+				var xC = 0.95; // x cover
+				var yC = 2.95; // y cover - for some reason the Y coordinate for the title is 0.2" lower than expected
+				var lsC = 0.38; // line spacing cover
+				
+				// title
+				pdf.setFont(fontPrimary);
+				pdf.setFontSize(28);
+				pdf.setFontType('bold');
+				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
+				// CEEK LIFE
+				pdf.text("CEEK LIFE", xC, yC);
+				// Balance
+				pdf.text("B", xC, yC+lsC);
+				pdf.setFontSize(26);
+				pdf.setFontType('normal');
+				/*for whatever reason B rests slightly higher in the characer space than A and R 
+				so the following line is placed 0.005" higher to compensate*/
+				pdf.text("alance", xC+0.285, yC+(lsC-0.005));
+				// Assessment
+				pdf.setFontType('bold');
+				pdf.text("A", xC, yC+(2*lsC));
+				pdf.setFontSize(26);
+				pdf.setFontType('normal');
+				pdf.text("ssessment", xC+0.265, yC+(2*lsC));
+				// Report
+				pdf.setFontType('bold');
+				pdf.text("R", xC, yC+(3*lsC));
+				pdf.setFontSize(26);
+				pdf.setFontType('normal');
+				pdf.text("eport", xC+0.265, yC+(3*lsC));
+
+				// dividing line
+				pdf.setLineWidth(lineWidth);
+				pdf.setDrawColor(97,97,97); // sampled from template (hex: 616161)
+				pdf.line(3.63, 2.6, 3.63, 4.2); // (x1, y1, x2, y2)
+
+				// disclaimer at the bottom of the page
+				pdf.setFont(fontSecondary);
+				pdf.setFontSize(9);
+				pdf.setTextColor(0,0,0); // black
+				// U+00A9 = copyright symbol
+				var copyright = pdf.splitTextToSize("Copyright \u00A9 2018 by CEEK LLC. All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law. For permission requests, write to the publisher, addressed \"Attention: Permissions Coordinator.\"", 7.3);
+				pdf.text(copyright, 0.6, 9.59);
+
+				// full name
+				xC = 4.21;
+				yC = 2.81; // for some reason the Y coordinate for the name is 0.23" lower than expected (lowered more to make it line up with title)
+				pdf.setFont(fontPrimary);
+				pdf.setFontSize(14);
+				pdf.setFontType('bold');
+				pdf.text(fullName, xC, yC);
+				
+				// date
+				pdf.text(fullDate, xC, yC+0.23);
+
+				// report provided by
+				pdf.setFont(fontSecondary);
+				pdf.setFontSize(12);
+				pdf.text("This report is provided by CEEK LLC", xC, yC+0.49); // left off here (adjusting Y coordinate)
+
+				// CEEK website and social media
+				pdf.setFontType('normal');
+				pdf.setTextColor(89,89,89); // sampled from template (hex: 595959)
+				// each section is 0.17" apart
+				pdf.text("Email:", xC, yC+0.77);
+				pdf.text("Web:", xC, yC+0.94);
+				pdf.text("Twitter:", xC, yC+1.11);
+				pdf.text("LinkedIn:", xC, yC+1.28);
+
+				// hyperlinks and handle
+				xC = 5.1;
+				pdf.setFontSize(11); // why is this font size different??
+				pdf.setTextColor(0,0,0); // black
+				// each section is 0.17" apart
+				pdf.text("info@ceekllc.com", xC, yC+0.77);
+				pdf.textWithLink("www.ceekllc.com", xC, yC+0.94, {url:'www.ceekllc.com'});
+				pdf.text("@ceekllc", xC, yC+1.11);
+				pdf.textWithLink("www.linkedin.com/company/ceek-llc", xC, yC+1.28, {url:'www.linkedin.com/company/ceek-llc'});
+
+				pdf.setFont(fontPrimary); // only font used from this point forward
+
+				// PAGE 1
+				newPage();
+				newSection(1, "Introduction");
+				var x1 = xNew; // x page 1
+				var y1 = yNewSection; // y page 1
+				
+				/*U+2018 = left single quotation mark
+				  U+2019 = right single quotation mark
+				  U+201C = left double quotation mark
+				  U+201D = right double quotation mark*/
+				// reuse this variable for putting text in the PDF
+				var txt = pdf.splitTextToSize("In life, everyone will face the stress and pressure associated with competing priorities under time and/or resource constraints. For decades, researchers and organizations have studied the relationship between work and life as one of the most significant examples of such competing priorities. The term \u2018Work/Life Balance\u2019 has come to represent a critical priority for individuals in pursuit of general peace and fulfillment AND for organizations in pursuit of employee engagement and productivity.\n\nAt CEEK, we refer to \u2018Life Balance\u2019 as opposed to \u2018Work/Life Balance.\u2019 To us, \u2018Work\u2019 is simply one of the many competing priorities most of us contend with in \u2018Life.\u2019 In addition to \u2018Work\u2019, many people balance the demands of \u2018Family,\u2019 \u2018Faith,\u2019 Hobbies,\u2019 \u2018Friends,\u2019 \u2018Health,\u2019 and/or other priorities that consume the daily, weekly, monthly, and yearly focus of your lives.\n\nUnfortunately, the demands on our time are often imposed and accepted without conscious deliberation or thought. For many of us, our \u2018work\u2019 often defines the constraints around which the rest of our life and associated dreams can or cannot be pursued.\n\nAt CEEK, we dismiss the notion that personal and professional success are mutually exclusive. Individuals and organizations that actively pursue \u2018Life Balance\u2019 will manage the tension of competing priorities well. In doing so, such individuals and organizations greatly increase the odds of achieving personal and professional success.\n\nAt CEEK, we define Healthy Life Balance as \u201Ca state where professed priorities are consistent with demonstrated behaviors.\u201D In contrast, we define Unhealthy Life Balance as a \u201Cstate where professed priorities are inconsistent with demonstrated behaviors.\u201D\n\nThe CEEK Life Balance Assessment is designed to help you intentionally profess the priorities of your life. We compare your professed priorities to your demonstrated behaviors, or how you live your life. In the areas where your priorities and behaviors are in conflict there exists a source of tension in your life. Given such findings, this report calculates a Life Balance Assessment score and offers tips and suggestions to intentionally pursue enhanced balance and fulfillment, as applicable.\n\nThe Life Balance Assessment and this associated report are tools to help build awareness as the first and most important step to pursue enhanced Life Balance. We encourage you to refer to and leverage this report as you read the book, Finding Healthy Balance: a leader\u2019s guide to navigate chaos in pursuit of PEACE. Coupled with this assessment, the book will guide you through a simple, yet powerful approach to manage the tension well in pursuit of healthy Life Balance.\n\nThe remainder of this report summarizes the findings from your Life Balance Assessment. For further guidance, workshops, training or coaching support in pursuit of Life Balance for you and/or your organization, you can contact CEEK via email at info@ceekllc.com.", txtWidth);
+				// use these coordinates for the starting position of text
+				pdf.text(txt, x1, y1);
+
+				// PAGE 2
+				newPage();
+
+				// remove lines later - show top and bottom border boundaries
+				/*pdf.setLineWidth(lineWidth);
+				pdf.setDrawColor(0,0,0); // black
+				pdf.line(1, 1, 7.5, 1); // (x1, y1, x2, y2)
+				pdf.line(1, 10, 7.5, 10); // (x1, y1, x2, y2)*/
+
+				newSection(2, "Summary Results");
+				var x2 = xNew; // x page 2
+				var y2 = yNewSection; // y page 2
+				
+				// text area 1
+				txt = pdf.splitTextToSize("To assist with the assessment of your Life Balance and for comparison with your peers, the Life Balance Assessment collects and maintains non-attributed data across industries or job functions, years in profession, compensation levels, age and education level. At the beginning of the assessment, you provided the following information:", txtWidth);
+				pdf.text(txt, x2, y2);
+				y2 = imgBuffer(y2, 4);
+				
+				// demographics table
+				pdf.addImage(imgTableDemographics, 'PNG', x2, y2, 6.5, 3.176);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				var xTable = x2 + 0.085;
+				var yTable = y2 + 0.2727;
+				var lsTable = 0.39;
+				pdf.text("Age Range", xTable, yTable);
+				pdf.text("Gender", xTable, yTable+(1*lsTable));
+				pdf.text("Country", xTable, yTable+(2*lsTable));
+				pdf.text("Highest Educational Level", xTable, yTable+(3*lsTable));
+				pdf.text("Primary Working Status", xTable, yTable+(4*lsTable));
+				pdf.text("Occupational Category", xTable, yTable+(5*lsTable));
+				pdf.text("Years in Current Occupation", xTable, yTable+(6*lsTable));
+				pdf.text("Annual Household Income", xTable, yTable+(7*lsTable));
+				xTable = 3.35;
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+				pdf.text(age, xTable, yTable);
+				pdf.text(gender, xTable, yTable+(1*lsTable));
+				pdf.text(country, xTable, yTable+(2*lsTable));
+				pdf.text(education, xTable, yTable+(3*lsTable));
+				pdf.text(pws, xTable, yTable+(4*lsTable));
+				pdf.text(occupation, xTable, yTable+(5*lsTable));
+				pdf.text(years, xTable, yTable+(6*lsTable));
+				pdf.text(income, xTable, yTable+(7*lsTable));
+
+				// text area 2
+				y2 = y2 + 3.176;
+				y2 = newline(y2, 2);
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+				txt = pdf.splitTextToSize("In addition, each user of the tool is asked to evaluate their level of \u2018Happiness\u2019 and \u2018Stress\u2019 on a 1-10 scale. We use this data to correlate our Life Balance Assessment score with general levels of happiness and stress, demonstrating how proactive efforts to improve Life Balance can enhance happiness and reduce stress. In response to these questions, you indicated the following:", txtWidth);
+				pdf.text(txt, x2, y2);
+
+				// happiness and stress bullet points
+				y2 = bulletBuffer(y2, 5);
+				bulletPoint("Happiness: " + lmhScale(happiness), y2);
+				y2 = newline(y2, 1);
+				bulletPoint("Stress: " + lmhScale(stress), y2);
+				
+				// text area 3
+				y2 = newline(y2, 2);
+				txt = pdf.splitTextToSize("Finally, the Life Balance Assessment is a flexible tool that allows individuals to identify as many as ten priority areas within their life. In this way, we customize the tool to your unique circumstances. In completing the assessment, you identified the following list as priority areas within your life:", txtWidth);
+				pdf.text(txt, x2, y2);
+				y2 = bulletBuffer(y2, 4);
+				bulletList(priorityAreasCap, y2);
+
+				//PAGE 3
+				// left off here
+				// make code that fills in N/A for fields that don't apply to Student, Stay at Home Parent, Unemployed (Occupational Category, Years in Current Occupation)
+				
+				// CEEK LBA Report - FirstName LastName Year-Month-Day
+				pdf.save("CEEK LBA Report " + fullName + " " + d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + ".pdf");
+				// getMonth() returns a number 0-11 so 1 is added to account for this
 			});
 
+			function writeMonth(num) {
+				if (num == 0) {
+					return "January";
+				} else if (num == 1) {
+					return "February";
+				} else if (num == 2) {
+					return "March";
+				} else if (num == 3) {
+					return "April";
+				} else if (num == 4) {
+					return "May";
+				} else if (num == 5) {
+					return "June";
+				} else if (num == 6) {
+					return "July";
+				} else if (num == 7) {
+					return "August";
+				} else if (num == 8) {
+					return "September";
+				} else if (num == 9) {
+					return "October";
+				} else if (num == 10) {
+					return "November";
+				} else if (num == 11) {
+					return "December";
+				}
+			}
+
+			function newPage() {
+				pageNum++;
+				pdf.addPage();
+				pdf.addImage(imgHeader,'PNG', 0, 0, 8.5, 0.8807);
+				pdf.addImage(imgFooter, 'PNG', 0, 10.1063, 8.5, 0.8937);
+
+				// header text
+				var x = 1;
+				var y = 0.6;
+				pdf.setFontSize(9);
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				pdf.text("CEEK LIFE Balance Assessment Report", x, y);
+				pdf.text(fullName, x, y+0.15);
+
+				// footer text
+				y = 10.435;
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+				pdf.text("Page " + pageNum, x, y);
+				pdf.text("CEEK Proprietary and Confidential", 4.25, y, 'center'); // used for perfect centering - X coordinate is center of string
+				pdf.text(fullDate, 7.5, y, 'right'); // needed because length of date string varies - X coordinate is rightmost edge of string
+			}
+
+			function newSection(num, subtitle) {
+				// subtitle text
+				// Dubai is not an available font so Helvetica was used instead to match the website (set before page 1)
+				pdf.setFontSize(24);
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
+				pdf.text(num + ". " + subtitle, 4.25, ySubtitle, 'center'); // used for perfect centering - X coordinate is center of string
+				// subtitle string length varies so centering has to be used
+
+				// subtitle line
+				pdf.setLineWidth(lineWidth);
+				pdf.setDrawColor(0,0,0); // black
+				pdf.line(1, ySubtitleLine, 7.5, ySubtitleLine); // (x1, y1, x2, y2)
+
+				// resets font formatting since the first text areas after all sections share this formatting
+				pdf.setTextColor(0,0,0);
+				pdf.setFontSize(11);
+				pdf.setFontType('normal');
+			}
+
+			function newAttachment(num, subtitle) {
+				// subtitle text
+				// Dubai is not an available font so Helvetica was used instead to match the website (set before page 1)
+				pdf.setFontSize(24);
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
+				pdf.text("Attachment " + num + ": " + subtitle, 4.25, ySubtitle, 'center'); // used for perfect centering - X coordinate is center of string
+				// subtitle string length varies so centering has to be used
+
+				// subtitle line
+				pdf.setLineWidth(lineWidth);
+				pdf.setDrawColor(0,0,0); // black
+				pdf.line(1, ySubtitleLine, 7.5, ySubtitleLine); // (x1, y1, x2, y2)
+
+				// resets font formatting since the first text areas after all sections share this formatting
+				pdf.setTextColor(0,0,0);
+				pdf.setFontSize(11);
+				pdf.setFontType('normal');
+			}
+
+			function newline(line1, numLines) { // used after images and before text areas or as a manual newline
+				// 0.1757 = line spacing - calculated spacing between Arial 11 pt font lines
+				/*takes the original y coordinate, jumps to the bottom of the line based on the number of 
+				lines passed in and set line spacing*/
+				// add extra lines to create double, triple spacing, etc.
+				return line1+(0.1757*numLines);
+			}
+
+			function imgBuffer(line1, numLines) { // used after text areas and before images
+				// 0.1757 = line spacing - calculated spacing between Arial 11 pt font lines
+				// 0.0645 = text whitespace buffer - the whitespace between Arial 11 pt font lines
+				/*takes the original coordinate, jumps to the bottom of the line based on the number of 
+				lines passed in and set line spacing, adds a buffer to reach the start of the image since 
+				pictures start at the top left corner with provided coordinates (unlike text, which starts 
+				in the bottom left corner of provided coordinates)*/
+				// add extra lines to create double, triple spacing, etc.
+				return line1+(0.1757*numLines)+0.0645;
+			}
+
+			function bulletBuffer(line1, numLines) { // used before bullet point sections
+				// 0.1757 = line spacing - calculated spacing between Arial 11 pt font lines
+				// 0.08785 = 1.5 line spacing - half of calculated line spacing between Arial 11 pt font lines
+				/*takes the original y coordinate, jumps to the bottom of the line based on the number of 
+				lines passed in and set line spacing*/
+				// add extra lines to create double, triple spacing, etc.
+				return line1+(0.1757*numLines)+0.08785;
+			}
+
+			function bulletPoint(text, y) {
+				// U+2022 = bullet point
+				pdf.setFontSize(18);
+				pdf.text("\u2022", 1.28, y+0.026);
+				pdf.setFontSize(11);
+				pdf.text(text, 1.48, y);
+			}
+
+			function lmhScale(num) {
+				if (num >= 1 && num <= 4) {
+					return num + " (Low)";
+				} else if (num >= 5 && num <= 7) {
+					return num + " (Medium)";
+				} else if (num >= 8 && num <= 10) {
+					return num + " (High)";
+				}
+			}
+
+			function bulletList(array, y) {
+				for (var i = 0; i < array.length; i++) {
+					// U+2022 = bullet point
+					pdf.setFontSize(18);
+					pdf.text("\u2022", 1.28, y+0.026);
+					pdf.setFontSize(11);
+					pdf.text(array[i], 1.48, y);
+					y = newline(y, 1);
+				}
+			}
+
+			// test later
+			function numberedList(array, y) {
+				for (var i = 0; i < array.length; i++) {
+					pdf.text((i+1) + ".", 1.28, y);
+					pdf.text(array[i], 1.48, y);
+					y = newline(y, 1);
+				}
+			}
 		</script>
 	</footer>
-</body>
 </html>
