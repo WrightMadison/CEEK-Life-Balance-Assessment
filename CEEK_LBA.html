@@ -9,19 +9,17 @@
 <html>
 	<head>
 		<style>
-			#codeEntry, #demographics, #occupationalProfile, #preAssessment, #splashScreen, #assessment {
-				width: 950px;
+			.page {
+				width: 900px;
 			}
 
 			#title {
-				position: relative;
-				overflow: hidden; 
-				padding-left: 190px;
+				overflow: hidden; /*keeps the title on its own line*/
+				margin-left: 170px; /*used to center the title on the page*/
 			}
 
 			#company, #tool {
-				position: relative;
-				float: left;
+				float: left; /*makes the CEEK logo and assessment name display next to each other*/
 			}
 
 			#company {
@@ -35,8 +33,52 @@
 				font-weight: bold;
 			}
 
-			label {
-				text-align: left;
+			.accessLabel {
+				display: inline-block;
+				width: 350px;
+				margin-left: 150px; /*page width: 900px - (.accessLabel width: 350px + .userInput width: 250px) = 300px margin / 2 = 150px margin on each side*/
+				font-size: 16px;
+			}
+
+			.userInput {
+				/*2px border so the width is actually 250px when manually set as 246px*/
+				width: 246px;
+				display: inline-block;
+			}
+
+			.questionLabel, #lstPriorityAreas {
+				display: inline-block;
+				width: 250px;
+				/*page width: 900px - (.questionLabel width: 250px + .userInput width: 250px) = 400px margin / 2 = 200px margin on each side*/
+				margin-left: 200px;
+			}
+
+			.btn-primary {
+				display: inline;
+				width: 78px; /*.btn-primary default border is 1px, so total .btn-primary width is actually 80px*/
+				height: 30px;
+				font-size: 16px !important;
+				text-align:center !important;
+			}
+
+			.form-control, .selectpicker {
+				font-size: 16px !important;
+			}
+
+			.bootstrap-select .dropdown-menu {
+				font-size: 16px;
+			}
+
+			#btnNext, #btnBack {
+				/*CEEK blue sampled from logo*/
+				border-color: #00529b !important; 
+				background-color: #00529b !important;
+			}
+
+			#btnAdd, #btnRemove {
+				/*CEEK gray sampled from logo*/ 
+				border-color: #383938 !important;
+				background-color: #383938 !important;
 			}
 
 			.subtitle {
@@ -48,46 +90,53 @@
 			    position: relative;
 			}
 
-			#codePrompt, #splashPrompt, #assessmentPrompt, #willingnessButtons, #actionsButtons, .questionLabel, #preAssessmentPrompt {
-				font-size: 18px;
+			#codePrompt, #splashPrompt, #assessmentPrompt, #willingnessButtons, #actionsButtons, .questionLabel, #preAssessmentPrompt, #noRepeat, #yesRepeat, .sliderLabel,.sliderResponse, #disclaimer, .userInput, #labelMailList {
+				font-size: 16px;
 			}
 
-			.questionLabel, #lstPriorityAreas {
+			.sliderLabel, .sliderResponse {
+				float: left;
+			}
+
+			.sliderPrompt {
 				display: inline-block;
-				width: 400px;
-				margin-left: 150px;
 			}
 
-			.userInput, select, .slidercontainer, .slider {
-				width: 220px;
+			.bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn){
+				/*2px border so the width is actually 250px when manually set as 246px*/
+			 	width: 246px;
 			}
 
 			p {
 				font-family: "Helvetica";
-				padding-left: 30px;
-				width: 950px;
+				width: 900px;
 				word-wrap: break-word;
 			}
 
-			#noRepeat {
-				padding-left: 35px;
-			}
-
-			#yesRepeat {
-				padding-left: 50px;
-			}
-
 			#noRepeat, #yesRepeat {
-				font-size: 20px;
+				padding-left: 67px;
 			}
 
-			#checkMailList {
+			#labelMailList {
 				width: 13px;
 				height: 13px;
 				vertical-align: bottom;
 				position: relative;
 				top: -1px;
 				*overflow: hidden;
+			}
+
+			.checkbox-checkMailList-filled [type="checkbox"][class*='filled-in']:checked+label:after {
+				/*CEEK blue sampled from logo*/
+				border-color: #00529b;
+    			background-color: #000000;
+			}
+
+			.sliderLabel {
+				width: 480px;
+				/*page width: 900px - (.questionLabel width: 250px + .userInput width: 250px + space for response value: 20px) = 480px width*/
+				/*match .questionLabel margin-left*/
+				margin-left: 200px;
 			}
 
 			.slider {
@@ -116,13 +165,12 @@
 				cursor: pointer;
 			}
 
-			.sliderBox { 
-				display: table;
-			}
-
-			.slidecontainer { 
-				display: table-cell; 
-				vertical-align: middle; 
+			.slidecontainer {
+				/*.questionLabel width: 250px + .userInput width: 250px = 500px .slidercontainer width*/
+				width: 500px;
+				/*page width: 900px - (.questionLabel width: 250px + .userInput width: 250px) = 400px margin / 2 = 200px margin on each side*/
+				/*match .questionLabel margin-left*/
+				margin-left: 200px;
 			}
 
 			.smilePic {
@@ -130,48 +178,34 @@
 				height: 20px;
 			}
 
-			.slideResponse {
-				margin-left: 105px;
-			}
-
 			#happySmile, #stressedFrown {
-				margin-left: 175px;
+				/*.slidercontainer width: 500px - 2(.smilePic width: 20px) = 460px margin-left*/
+				margin-left: 456px;
 			}
 
 			#labelMailList {
 				display: block;
 				text-indent: -15px;
-				margin-left: 45px;
+				/*page width: 900px - (.questionLabel width: 250px + .userInput width: 250px) = 400px margin / 2 = 200px margin on each side*/
+				margin-left: 215px;
 				width: 500px;
 			}
 
-			button, .btn-primary {
-				text-align: center;
-				vertical-align: middle;
-			}
-
-			#btnBack, #btnNext {
-				display: inline;
-				width: 80px;
-				height: 30px;
-			}
-
 			#btnBack {
-				margin-left: 30px;
 				visibility: hidden;
 			}
 
 			#btnNext {
-				margin-left: 750px;
-			}
-
-			#btnRemove, #btnAdd {
-				width: 70px;
-				height: 25px;
+				/*page width: 900px - (.btn-primary width: 80px * 2 (#btnBack, #btnNext) = 740px margin = 740px #btnNext margin-left*/
+				margin-left: 740px; 
 			}
 
 			#btnRemove {
-				margin-left: 110px;
+				/*#lstPriorityAreas margin-left: 160px + (#lstPriorityAreas width: 205px / 2) = 212.5px*/
+				/*#btnRemove width: 80px / 2 = 40px halfway point*/
+				/*#lstPriorityAreas width: 205px - #btnRemove width: 80px = 125px 62.5px margins on each side to center button*/
+				/*left off here*/
+				margin-left: 220px;
 			}
 
 			#btnAdd {
@@ -183,16 +217,21 @@
 				overflow: hidden; 
 			}
 
+			#lstPriorityAreas {
+				/*page width: 900px - (#lstPriorityAreas width: 205px + #txtPriorityAreas width: 205px + #txtPriorityAreas margin-left: 150px) = 340px / 2 = 160px on each side*/
+				margin-left: 160px;
+			}
+
 			#lstPriorityAreas, #txtPriorityAreas {
-				width: 200px;
-				height: 185px;
+				width: 205px;
+				height: 205px;
 				resize: none;
 				position: relative;
 				float: left; 
 			}
 
 			#txtPriorityAreas {
-				margin-left: 110px;
+				margin-left: 150px;
 			}
 
 			#no {
@@ -234,398 +273,426 @@
 		</div>
 	</head>
 	<body>
-		<form id="gform" method="POST">
-			<div id="codeEntry">
+		<form id="gform" method="POST"> <!-- gform used for pushing data to Google Sheet -->
+
+			<div id="codeEntry" class='page'>
 				<h2 class="subtitle">Access Code Entry</h2><br>
 
 				<p id="codePrompt">Please enter your 20-digit assessment access code below. Proper capitalization of characters and dashes are required for the access code to work.</p><br>
 				
-				<fieldset>
-					<label class="questionLabel">Survey Access Code</label>
-					<input id="txtCode" class="userInput" type="text" placeholder="Access Code"/>
+				<fieldset class='field'>
+					<label class="accessLabel">Survey Access Code</label>
+					<div class='userInput'> <!-- The recommended way to set the width of text and select input elements stated in the bootstrap documentation is to wrap the input in a parent element, and set the column width there. -->
+					<!-- 'userInput' is used for all input areas of this assessment-->
+						<input id="txtCode" class="form-control" type="text" placeholder="Access Code"/>
+					</div>
 				</fieldset><br>
 
 				<fieldset>
-					<label class="questionLabel">Have you taken this assessment before?</label>
-					<form id="repeatButtons">
-						<label id="noRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="No"/>No</label>
-						<label id="yesRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="Yes"/>Yes</label>
-					</form>
+					<label class="accessLabel">Have you taken this assessment before?</label>
+					<div class='userInput'>
+						<form id="repeatButtons">
+							<label id="noRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="No"/>No</label>
+							<label id="yesRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="Yes"/>Yes</label>
+						</form>
+					</div>
 				</fieldset>
 			</div>
 
-			<div id="demographics" style="display:none">
+			<div id="demographics" class='page' style="display:none">
 				<h2 class="subtitle">Demographics</h2><br>
 
 				<!--This is a div because this response is not stored in the Google sheet-->
 				<div>
 					<label class="questionLabel">First Name</label>
-					<input id="txtFirstName" class="userInput" type="text" placeholder="First Name"/>
+					<div class='userInput'>
+						<input id="txtFirstName" class="form-control" type="text" placeholder="First Name"/>
+					</div>
 				</div>
 
 				<!--This is a div because this response is not stored in the Google sheet-->
 				<div>
 					<label class="questionLabel">Last Name</label>
-					<input id="txtLastName" class="userInput" type="text" placeholder="Last Name"/>
+					<div class='userInput'>
+						<input id="txtLastName" class="form-control" type="text" placeholder="Last Name"/>
+					</div>
 				</div>
 
 				<fieldset>
 					<label class="questionLabel">Age Range</label>
-					<select id="selectAge" class="selectpicker" title="Choose one of the following">
-						<option>14 and younger</option>
-						<option>15-19</option>
-						<option>20-24</option>
-						<option>25-29</option>
-						<option>30-34</option>
-						<option>35-39</option>
-						<option>40-44</option>
-						<option>45-49</option>
-						<option>50-54</option>
-						<option>55-59</option>
-						<option>60-64</option>
-						<option>65 and older</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectAge" class="selectpicker" title="Choose one of the following">
+							<option>14 and younger</option>
+							<option>15-19</option>
+							<option>20-24</option>
+							<option>25-29</option>
+							<option>30-34</option>
+							<option>35-39</option>
+							<option>40-44</option>
+							<option>45-49</option>
+							<option>50-54</option>
+							<option>55-59</option>
+							<option>60-64</option>
+							<option>65 and older</option>
+						</select>
+					</div>
 				</fieldset>
 
 				<fieldset>
 					<label class="questionLabel">Gender</label>
-					<select id="selectGender" class="selectpicker" title="Choose one of the following">
-						<option>Male</option>
-						<option>Female</option>
-						<option>Other</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectGender" class="selectpicker" title="Choose one of the following">
+							<option>Male</option>
+							<option>Female</option>
+							<option>Other</option>
+						</select>
+					</div>
 				</fieldset>
 
 				<fieldset>
 					<label class="questionLabel">Country</label>
-					<select id="selectCountry" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains">
-						<option>United States of America</option>
-						<option>Afghanistan</option>
-						<option>Albania</option>
-						<option>Algeria</option>
-						<option>Andorra</option>
-						<option>Angola</option>
-						<option>Antigua and Barbuda</option>
-						<option>Argentina</option>
-						<option>Armenia</option>
-						<option>Aruba</option>
-						<option>Australia</option>
-						<option>Austria</option>
-						<option>Azerbaijan</option>
-						<option>Bahamas, The</option>
-						<option>Bahrain</option>
-						<option>Bangladesh</option>
-						<option>Barbados</option>
-						<option>Belarus</option>
-						<option>Belgium</option>
-						<option>Belize</option>
-						<option>Benin</option>
-						<option>Bhutan</option>
-						<option>Bolivia</option>
-						<option>Bosnia and Herzegovina</option>
-						<option>Botswana</option>
-						<option>Brazil</option>
-						<option>Brunei</option>
-						<option>Bulgaria</option>
-						<option>Burkina Faso</option>
-						<option>Burma</option>
-						<option>Burundi</option>
-						<option>Cambodia</option>
-						<option>Cameroon</option>
-						<option>Canada</option>
-						<option>Cabo Verde</option>
-						<option>Central African Republic</option>
-						<option>Chad</option>
-						<option>Chile</option>
-						<option>China</option>
-						<option>Colombia</option>
-						<option>Comoros</option>
-						<option>Congo, Democratic Republic of the</option>
-						<option>Congo, Republic of the</option>
-						<option>Costa Rica</option>
-						<option>Cote d'Ivoire</option>
-						<option>Croatia</option>
-						<option>Cuba</option>
-						<option>Curacao</option>
-						<option>Cyprus</option>
-						<option>Czechia</option>
-						<option>Denmark</option>
-						<option>Djibouti</option>
-						<option>Dominica</option>
-						<option>Dominican Republic</option>
-						<option>Ecuador</option>
-						<option>Egypt</option>
-						<option>El Salvador</option>
-						<option>Equatorial Guinea</option>
-						<option>Eritrea</option>
-						<option>Estonia</option>
-						<option>Ethiopia</option>
-						<option>Fiji</option>
-						<option>Finland</option>
-						<option>France</option>
-						<option>Gabon</option>
-						<option>Gambia, The</option>
-						<option>Georgia</option>
-						<option>Germany</option>
-						<option>Ghana</option>
-						<option>Greece</option>
-						<option>Grenada</option>
-						<option>Guatemala</option>
-						<option>Guinea</option>
-						<option>Guinea-Bissau</option>
-						<option>Guyana</option>
-						<option>Haiti</option>
-						<option>Holy See</option>
-						<option>Honduras</option>
-						<option>Hong Kong</option>
-						<option>Hungary</option>
-						<option>Iceland</option>
-						<option>India</option>
-						<option>Indonesia</option>
-						<option>Iran</option>
-						<option>Iraq</option>
-						<option>Ireland</option>
-						<option>Israel</option>
-						<option>Italy</option>
-						<option>Jamaica</option>
-						<option>Japan</option>
-						<option>Jordan</option>
-						<option>Kazakhstan</option>
-						<option>Kenya</option>
-						<option>Kiribati</option>
-						<option>Korea, North</option>
-						<option>Korea, South</option>
-						<option>Kosovo</option>
-						<option>Kuwait</option>
-						<option>Kyrgyzstan</option>
-						<option>Laos</option>
-						<option>Latvia</option>
-						<option>Lebanon</option>
-						<option>Lesotho</option>
-						<option>Liberia</option>
-						<option>Libya</option>
-						<option>Liechtenstein</option>
-						<option>Lithuania</option>
-						<option>Luxembourg</option>
-						<option>Macau</option>
-						<option>Macedonia</option>
-						<option>Madagascar</option>
-						<option>Malawi</option>
-						<option>Malaysia</option>
-						<option>Maldives</option>
-						<option>Mali</option>
-						<option>Malta</option>
-						<option>Marshall Islands</option>
-						<option>Mauritania</option>
-						<option>Mauritius</option>
-						<option>Mexico</option>
-						<option>Micronesia</option>
-						<option>Moldova</option>
-						<option>Monaco</option>
-						<option>Mongolia</option>
-						<option>Montenegro</option>
-						<option>Morocco</option>
-						<option>Mozambique</option>
-						<option>Namibia</option>
-						<option>Nauru</option>
-						<option>Nepal</option>
-						<option>Netherlands</option>
-						<option>New Zealand</option>
-						<option>Nicaragua</option>
-						<option>Niger</option>
-						<option>Nigeria</option>
-						<option>North Korea</option>
-						<option>Norway</option>
-						<option>Oman</option>
-						<option>Pakistan</option>
-						<option>Palau</option>
-						<option>Palestinian Territories</option>
-						<option>Panama</option>
-						<option>Papua New Guinea</option>
-						<option>Paraguay</option>
-						<option>Peru</option>
-						<option>Philippines</option>
-						<option>Poland</option>
-						<option>Portugal</option>
-						<option>Qatar</option>
-						<option>Romania</option>
-						<option>Russia</option>
-						<option>Rwanda</option>
-						<option>Saint Kitts and Nevis</option>
-						<option>Saint Lucia</option>
-						<option>Saint Vincent and the Grenadines</option>
-						<option>Samoa</option>
-						<option>San Marino</option>
-						<option>Sao Tome and Principe</option>
-						<option>Saudi Arabia</option>
-						<option>Senegal</option>
-						<option>Serbia</option>
-						<option>Seychelles</option>
-						<option>Sierra Leone</option>
-						<option>Singapore</option>
-						<option>Sint Maarten</option>
-						<option>Slovakia</option>
-						<option>Slovenia</option>
-						<option>Solomon Islands</option>
-						<option>Somalia</option>
-						<option>South Africa</option>
-						<option>South Korea</option>
-						<option>South Sudan</option>
-						<option>Spain</option>
-						<option>Sri Lanka</option>
-						<option>Sudan</option>
-						<option>Suriname</option>
-						<option>Swaziland</option>
-						<option>Sweden</option>
-						<option>Switzerland</option>
-						<option>Syria</option>
-						<option>Taiwan</option>
-						<option>Tajikistan</option>
-						<option>Tanzania</option>
-						<option>Thailand</option>
-						<option>Timor-Leste (East Timor) </option>
-						<option>Togo</option>
-						<option>Tonga</option>
-						<option>Trinidad and Tobago</option>
-						<option>Tunisia</option>
-						<option>Turkey</option>
-						<option>Turkmenistan</option>
-						<option>Tuvalu</option>
-						<option>Uganda</option>
-						<option>Ukraine</option>
-						<option>United Arab Emirates</option>
-						<option>United Kingdom</option>
-						<option>Uruguay</option>
-						<option>Uzbekistan</option>
-						<option>Vanuatu</option>
-						<option>Venezuela</option>
-						<option>Vietnam</option>
-						<option>Yemen</option>
-						<option>Zambia</option>
-						<option>Zimbabwe</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectCountry" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains">
+							<option>United States of America</option>
+							<option>Afghanistan</option>
+							<option>Albania</option>
+							<option>Algeria</option>
+							<option>Andorra</option>
+							<option>Angola</option>
+							<option>Antigua and Barbuda</option>
+							<option>Argentina</option>
+							<option>Armenia</option>
+							<option>Aruba</option>
+							<option>Australia</option>
+							<option>Austria</option>
+							<option>Azerbaijan</option>
+							<option>Bahamas, The</option>
+							<option>Bahrain</option>
+							<option>Bangladesh</option>
+							<option>Barbados</option>
+							<option>Belarus</option>
+							<option>Belgium</option>
+							<option>Belize</option>
+							<option>Benin</option>
+							<option>Bhutan</option>
+							<option>Bolivia</option>
+							<option>Bosnia and Herzegovina</option>
+							<option>Botswana</option>
+							<option>Brazil</option>
+							<option>Brunei</option>
+							<option>Bulgaria</option>
+							<option>Burkina Faso</option>
+							<option>Burma</option>
+							<option>Burundi</option>
+							<option>Cambodia</option>
+							<option>Cameroon</option>
+							<option>Canada</option>
+							<option>Cabo Verde</option>
+							<option>Central African Republic</option>
+							<option>Chad</option>
+							<option>Chile</option>
+							<option>China</option>
+							<option>Colombia</option>
+							<option>Comoros</option>
+							<option>Congo, Democratic Republic of the</option>
+							<option>Congo, Republic of the</option>
+							<option>Costa Rica</option>
+							<option>Cote d'Ivoire</option>
+							<option>Croatia</option>
+							<option>Cuba</option>
+							<option>Curacao</option>
+							<option>Cyprus</option>
+							<option>Czechia</option>
+							<option>Denmark</option>
+							<option>Djibouti</option>
+							<option>Dominica</option>
+							<option>Dominican Republic</option>
+							<option>Ecuador</option>
+							<option>Egypt</option>
+							<option>El Salvador</option>
+							<option>Equatorial Guinea</option>
+							<option>Eritrea</option>
+							<option>Estonia</option>
+							<option>Ethiopia</option>
+							<option>Fiji</option>
+							<option>Finland</option>
+							<option>France</option>
+							<option>Gabon</option>
+							<option>Gambia, The</option>
+							<option>Georgia</option>
+							<option>Germany</option>
+							<option>Ghana</option>
+							<option>Greece</option>
+							<option>Grenada</option>
+							<option>Guatemala</option>
+							<option>Guinea</option>
+							<option>Guinea-Bissau</option>
+							<option>Guyana</option>
+							<option>Haiti</option>
+							<option>Holy See</option>
+							<option>Honduras</option>
+							<option>Hong Kong</option>
+							<option>Hungary</option>
+							<option>Iceland</option>
+							<option>India</option>
+							<option>Indonesia</option>
+							<option>Iran</option>
+							<option>Iraq</option>
+							<option>Ireland</option>
+							<option>Israel</option>
+							<option>Italy</option>
+							<option>Jamaica</option>
+							<option>Japan</option>
+							<option>Jordan</option>
+							<option>Kazakhstan</option>
+							<option>Kenya</option>
+							<option>Kiribati</option>
+							<option>Korea, North</option>
+							<option>Korea, South</option>
+							<option>Kosovo</option>
+							<option>Kuwait</option>
+							<option>Kyrgyzstan</option>
+							<option>Laos</option>
+							<option>Latvia</option>
+							<option>Lebanon</option>
+							<option>Lesotho</option>
+							<option>Liberia</option>
+							<option>Libya</option>
+							<option>Liechtenstein</option>
+							<option>Lithuania</option>
+							<option>Luxembourg</option>
+							<option>Macau</option>
+							<option>Macedonia</option>
+							<option>Madagascar</option>
+							<option>Malawi</option>
+							<option>Malaysia</option>
+							<option>Maldives</option>
+							<option>Mali</option>
+							<option>Malta</option>
+							<option>Marshall Islands</option>
+							<option>Mauritania</option>
+							<option>Mauritius</option>
+							<option>Mexico</option>
+							<option>Micronesia</option>
+							<option>Moldova</option>
+							<option>Monaco</option>
+							<option>Mongolia</option>
+							<option>Montenegro</option>
+							<option>Morocco</option>
+							<option>Mozambique</option>
+							<option>Namibia</option>
+							<option>Nauru</option>
+							<option>Nepal</option>
+							<option>Netherlands</option>
+							<option>New Zealand</option>
+							<option>Nicaragua</option>
+							<option>Niger</option>
+							<option>Nigeria</option>
+							<option>North Korea</option>
+							<option>Norway</option>
+							<option>Oman</option>
+							<option>Pakistan</option>
+							<option>Palau</option>
+							<option>Palestinian Territories</option>
+							<option>Panama</option>
+							<option>Papua New Guinea</option>
+							<option>Paraguay</option>
+							<option>Peru</option>
+							<option>Philippines</option>
+							<option>Poland</option>
+							<option>Portugal</option>
+							<option>Qatar</option>
+							<option>Romania</option>
+							<option>Russia</option>
+							<option>Rwanda</option>
+							<option>Saint Kitts and Nevis</option>
+							<option>Saint Lucia</option>
+							<option>Saint Vincent and the Grenadines</option>
+							<option>Samoa</option>
+							<option>San Marino</option>
+							<option>Sao Tome and Principe</option>
+							<option>Saudi Arabia</option>
+							<option>Senegal</option>
+							<option>Serbia</option>
+							<option>Seychelles</option>
+							<option>Sierra Leone</option>
+							<option>Singapore</option>
+							<option>Sint Maarten</option>
+							<option>Slovakia</option>
+							<option>Slovenia</option>
+							<option>Solomon Islands</option>
+							<option>Somalia</option>
+							<option>South Africa</option>
+							<option>South Korea</option>
+							<option>South Sudan</option>
+							<option>Spain</option>
+							<option>Sri Lanka</option>
+							<option>Sudan</option>
+							<option>Suriname</option>
+							<option>Swaziland</option>
+							<option>Sweden</option>
+							<option>Switzerland</option>
+							<option>Syria</option>
+							<option>Taiwan</option>
+							<option>Tajikistan</option>
+							<option>Tanzania</option>
+							<option>Thailand</option>
+							<option>Timor-Leste (East Timor) </option>
+							<option>Togo</option>
+							<option>Tonga</option>
+							<option>Trinidad and Tobago</option>
+							<option>Tunisia</option>
+							<option>Turkey</option>
+							<option>Turkmenistan</option>
+							<option>Tuvalu</option>
+							<option>Uganda</option>
+							<option>Ukraine</option>
+							<option>United Arab Emirates</option>
+							<option>United Kingdom</option>
+							<option>Uruguay</option>
+							<option>Uzbekistan</option>
+							<option>Vanuatu</option>
+							<option>Venezuela</option>
+							<option>Vietnam</option>
+							<option>Yemen</option>
+							<option>Zambia</option>
+							<option>Zimbabwe</option>
+						</select>
+					</div>
 				</fieldset>
 
-				<!--<fieldset>
+				<fieldset>
 					<label class="questionLabel">Zip Code</label>
-					<input id="txtZipCode" class="userInput" type="text" placeholder="Zip Code"/>
-				</fieldset>-->
+					<div class='userInput'>
+						<input id="txtZipCode" class="form-control" type="text" placeholder="Zip Code (optional)"/>
+					</div>
+				</fieldset>
 
 				<!--Not stored with the assessment results-->
 				<fieldset>
 					<label class="questionLabel">E-mail</label>
-					<input id="txtEmail" class="userInput" type="text" placeholder="E-mail required to receive results"/>
+					<div class='userInput'>
+						<input id="txtEmail" class="form-control" type="text" placeholder="Required to receive results"/>
+					<div class='userInput'>
 				</fieldset><br>
 
 				<fieldset>
-					<label id="labelMailList"><input type="checkbox" id="checkMailList" checked="true"/>Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
-				</fieldset>
+					<label id="labelMailList"><input id='checkMailList' type="checkbox" class="filled-in form-check-input" checked="checked"/>Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
+				</fieldset><br>
 			</div>
 
-			<div id="occupationalProfile" style="display:none">
+			<div id="occupationalProfile" class='page' style="display:none">
 				<h2 class="subtitle">Occuptional Profile</h2><br>
 
 				<fieldset>
 					<label class="questionLabel">Highest Educational Level</label>
-					<select id="selectEducation" data-live-search="true" data-live-search-style="contains" class="selectpicker" title="In progress or completed">
-						<option>None</option>
-						<option>High School</option>
-						<option>Associate's Degree</option>
-						<option>Bachelor's Degree</option>
-						<option>Master's Degree</option>
-						<option>Doctorate Degree</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectEducation" data-live-search="true" data-live-search-style="contains" class="selectpicker" title="In progress or completed">
+							<option>None</option>
+							<option>High School</option>
+							<option>Associate's Degree</option>
+							<option>Bachelor's Degree</option>
+							<option>Master's Degree</option>
+							<option>Doctorate Degree</option>
+						</select>
+					</div>
 				</fieldset>
 
 				<fieldset>
 					<label class="questionLabel">Primary Working Status</label>
-					<select id="selectPWS" class="selectpicker" title="Choose one of the following">
-						<option>Full-Time</option>
-						<option>Part-Time</option>
-						<option>Student</option>
-						<option>Stay at Home Parent</option>
-						<option>Unemployed</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectPWS" class="selectpicker" title="Choose one of the following">
+							<option>Full-Time</option>
+							<option>Part-Time</option>
+							<option>Student</option>
+							<option>Stay at Home Parent</option>
+							<option>Unemployed</option>
+						</select>
+					</div>
 				</fieldset>
 
 				<fieldset>
 					<label class="questionLabel">Occupational Category</label>
-					<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains" disabled='true'>
-						<option>Architecture and Engineering</option>
-						<option>Arts, Design, Entertainment, Sports, and Media</option>
-						<option>Building and Grounds Cleaning and Maintenance</option>
-						<option>Business and Financial Operations</option>
-						<option>Community and Social Services</option>
-						<option>Computers and Mathematics</option>
-						<option>Construction and Extraction</option>
-						<option>Education, Training, and Library</option>
-						<option>Farming, Fishing, and Forestry</option>
-						<option>Food Preparation and Serving Related</option>
-						<option>Healthcare Practitioners and Technical</option>
-						<option>Healthcare Support</option>
-						<option>Installation, Maintenancee, and Repairs</option>
-						<option>Legal</option>
-						<option>Life, Physical, and Social Sciences</option>
-						<option>Management</option>
-						<option>Office and Administrative Support</option>
-						<option>Personal Care and Service</option>
-						<option>Production</option>
-						<option>Protective Services</option>
-						<option>Sales and Related Occupations</option>
-						<option>Transportation and Material Moving</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains" disabled='true'>
+							<option>Architecture and Engineering</option>
+							<option>Arts, Design, Entertainment, Sports, and Media</option>
+							<option>Building and Grounds Cleaning and Maintenance</option>
+							<option>Business and Financial Operations</option>
+							<option>Community and Social Services</option>
+							<option>Computers and Mathematics</option>
+							<option>Construction and Extraction</option>
+							<option>Education, Training, and Library</option>
+							<option>Farming, Fishing, and Forestry</option>
+							<option>Food Preparation and Serving Related</option>
+							<option>Healthcare Practitioners and Technical</option>
+							<option>Healthcare Support</option>
+							<option>Installation, Maintenancee, and Repairs</option>
+							<option>Legal</option>
+							<option>Life, Physical, and Social Sciences</option>
+							<option>Management</option>
+							<option>Office and Administrative Support</option>
+							<option>Personal Care and Service</option>
+							<option>Production</option>
+							<option>Protective Services</option>
+							<option>Sales and Related Occupations</option>
+							<option>Transportation and Material Moving</option>
+						</select>
+					</div>
 				</fieldset>
 
 				<fieldset>
 					<label class="questionLabel">Years in Current Occupation</label>
-					<select id="selectYears" class="selectpicker" title="Choose one of the following" disabled='true'>
-						<option>0-4</option>
-						<option>5-9</option>
-						<option>10-14</option>
-						<option>15-19</option>
-						<option>20-24</option>
-						<option>25 or more</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectYears" class="selectpicker" title="Choose one of the following" disabled='true'>
+							<option>0-4</option>
+							<option>5-9</option>
+							<option>10-14</option>
+							<option>15-19</option>
+							<option>20-24</option>
+							<option>25 or more</option>
+						</select>
+					</div>
 				</fieldset>
 
 				<fieldset>
 					<label class="questionLabel">Annual Household Income</label>
-					<select id="selectIncome" class="selectpicker" title="Choose one of the following">
-						<option>$49,999 and below</option>
-						<option>$50,000-$99,999</option>
-						<option>$100,000-$199,999</option>
-						<option>$200,000-$499,999</option>
-						<option>$500,000-$999,999</option>
-						<option>$1,000,000 and above</option>
-					</select>
+					<div class='userInput'>
+						<select id="selectIncome" class="selectpicker" title="Choose one of the following">
+							<option>$49,999 and below</option>
+							<option>$50,000-$99,999</option>
+							<option>$100,000-$199,999</option>
+							<option>$200,000-$499,999</option>
+							<option>$500,000-$999,999</option>
+							<option>$1,000,000 and above</option>
+						</select>
+					</div>
 				</fieldset><br>
 
-				<fieldset>
-					<div class="sliderBox">
-						<label class="questionLabel">On a scale of 1 to 10, how happy are you on a daily basis?</label>
-						<div class="slidecontainer">
-							<img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id="happyFrown" alt="Frown"/>
-							<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="happySmile" alt="Smile"/>
-							<input type="range" class="slider" id="sliderHappy" min="1" max="10" step="1" value="1"/>
-							<label class="slideResponse" id="responseHappy">0</label>
-						</div>
+				<div class='sliderPrompt'>
+					<label class="sliderLabel">On a scale of 1 to 10, how happy are you on a daily basis?</label><label class="sliderResponse" id="responseHappy">0</label>
+				</div>
+				<div class="sliderBox">
+					<div class="slidecontainer" title="You must move the slider to record your response, even in order to select 1.">
+						<!-- <img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id="happyFrown" alt="Frown"/>
+						<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="happySmile" alt="Smile"/> -->
+						<input type="range" class="slider" id="sliderHappy" min="1" max="10" step="1" value="1"/>
 					</div>
-				</fieldset>
+				</div><br>
 
-				<fieldset>
-					<div class="sliderBox">
-						<label class="questionLabel">On a scale of 1 to 10, what is your level of stress on a typical day?</label>
-						<div class="slidecontainer">
-							<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="stressedSmile" alt="Smile"/>
-							<img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id ="stressedFrown" alt="Frown"/>
-							<input type="range" class="slider" id="sliderStress" min="1" max="10" step="1" value="1"/>
-							<label class="slideResponse" id="responseStress">0</label>
-						</div>
+				<div class='sliderPrompt'>
+					<label class="sliderLabel">On a scale of 1 to 10, how stressed are you on a daily basis?</label><label class="sliderResponse" id="responseStress">0</label>
+				</div>
+				<div class="sliderBox">
+					<div class="slidecontainer" title="You must move the slider to record your response, even in order to select 1.">
+						<!-- <img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="stressedSmile" alt="Smile"/>
+						<img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id ="stressedFrown" alt="Frown"/> -->
+						<input type="range" class="slider" id="sliderStress" min="1" max="10" step="1" value="1"/>
 					</div>
-				</fieldset>
+				</div>
 			</div>
 
-			<div id="preAssessment" style="display:none">
+			<div id="preAssessment" class='page' style="display:none">
 				<h2 class="subtitle">Priority Areas</h2><br>
 
 				<p id=preAssessmentPrompt>The Life Balance Assessment is tailored to that which you deem to be important. The list below suggests potential priority areas in your life. We encourage you to add or remove from this list to specify those areas of your life that you believe are most significant to you. You must select no fewer than four and no more than ten priority areas. Based upon the priority areas that you select, you will be asked to respond to a series of questions that will help identify sources of tension that might exist in relation to your priorities.</p><br>
@@ -641,40 +708,39 @@
 						<option>Hobbies</option>
 					</select>
 					
-					<textarea id="txtPriorityAreas" placeholder="Add desired priority areas by typing in this box. To add more than one at once, separate them with commas or by pressing 'Enter'."></textarea>
+					<textarea id="txtPriorityAreas" class='form-control' placeholder="Add desired priority areas by typing in this box. To add more than one at once, separate them with commas or by pressing 'Enter'."></textarea>
 				</div><br>
 
-				<button id="btnRemove">Remove</button>
+				<button id="btnRemove" class="btn btn-primary">Remove</button>
 
-				<button id="btnAdd">Add</button><br>
+				<button id="btnAdd" class="btn btn-primary">Add</button><br>
 				<br>
-
-				<p>To select and remove multiple priority areas at once, hold down 'Shift' and click on them individually, or click and drag your cursor across the ones that you wish to delete, and then click 'Remove'.</p>
 			</div>
 
-			<div id="splashScreen" style="display:none">
+			<div id="splashScreen" class='page' style="display:none">
 				<h2 id="splashSubtitle" class="subtitle">Part 1 of 2: Willingness</h2><br>
 
 				<p id="splashPrompt">Insert Splash Screen Text Here</p>
 			</div>
 
-			<div id="assessment" style="display:none">
+			<div id="assessment" class='page' style="display:none">
 				<h2 id="assessmentSubtitle" class="subtitle">Part 1 of 2: Willingness</h2><br>
 
 				<p id="assessmentPrompt">Question goes here</p>
 
 				<form id="willingnessButtons">
 					<!--are the button ids needed? values are-->
-					<label id="no" class="radio-inline"><input type="radio" name="radioWillingness" value="No"/>No</label>
-					<label id="yes" class="radio-inline"><input type="radio" name="radioWillingness" value="Yes"/>Yes</label>
+					<!-- values changed to numbers for adding later (may cause errors for now?) -->
+					<label id="no" class="radio-inline"><input type="radio" name="radioWillingness" value="0"/>No</label>
+					<label id="yes" class="radio-inline"><input type="radio" name="radioWillingness" value="1"/>Yes</label>
 				</form>
 
 				<form id="actionsButtons" style="display:none">
-					<label id="never" class="radio-inline"><input type="radio" name="radioActions" value="Never"/>Never</label>
-					<label id="rarely" class="radio-inline"><input type="radio" name="radioActions" value="Rarely"/>Rarely</label>
-					<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions" value="Sometimes"/>Sometimes</label>
-					<label id="often" class="radio-inline"><input type="radio" name="radioActions" value="Often"/>Often</label>
-					<label id="always" class="radio-inline"><input type="radio" name="radioActions" value="Always"/>Always</label>
+					<label id="never" class="radio-inline"><input type="radio" name="radioActions" value="0"/>Never</label>
+					<label id="rarely" class="radio-inline"><input type="radio" name="radioActions" value="0.25"/>Rarely</label>
+					<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions" value="0.5"/>Sometimes</label>
+					<label id="often" class="radio-inline"><input type="radio" name="radioActions" value="0.75"/>Often</label>
+					<label id="always" class="radio-inline"><input type="radio" name="radioActions" value="1"/>Always</label>
 				</form>
 			</div>
 
@@ -689,7 +755,7 @@
 		<button id="btnNext" class="btn btn-primary">Next</button><br>
 		<br>
 
-		<p id="disclaimer" style="display:none">DISCLAIMER: CEEK collects basic demographic data solely for statistical comparison purposes. We use your name and e-mail address ONLY for customization of the report results that will be sent to you and for inclusion in our mailing list, if you elect to participate. We will NOT provide your name, e-mail address, nor any personally identifiable information to any individuals or organizations. Furthermore, we will not maintain your name, e-mail, nor any personally identifiable information in our assessment database. Rather, we only maintain anonymous assessment scores associated with various generic demographic categories.</p>
+		<p id="disclaimer">DISCLAIMER: CEEK collects basic demographic data solely for statistical comparison purposes. We use your name and e-mail address ONLY for customization of the report results that will be sent to you and for inclusion in our mailing list, if you elect to participate. We will NOT provide your name, e-mail address, nor any personally identifiable information to any individuals or organizations. Furthermore, we will not maintain your name, e-mail, nor any personally identifiable information in our assessment database. Rather, we only maintain anonymous assessment scores associated with various generic demographic categories.</p>
 
 		<!--Created by-->
 		<p class='created'>Coded by Madison Wright</p>
@@ -744,7 +810,10 @@
 			 	unit: 'in',
 		   		format: [8.5, 11]
 			});
-			// according to permutations and combinations, with 20-digit access codes and 59 possible digits to choose from  (9 numbers, 25 lowercase letters, 25 upercase letters: 0 and "O" not used because they can look alike), over 2.61E35 codes are possible
+			// according to permutations and combinations, with 20-digit access codes and 59 possible digits to choose from  (9 numbers, 25 lowercase letters, 25 upercase letters) over 2.61E35 codes are possible
+			// characters not used due to looking similar to other character(s): 0, "O" & 1, "I", "l" & "i", "j" --> (10 digits - 2), (26 lowercase letters - 3), (26 uppercase letters - 2)
+
+			// recalculate: left off here?
 
 			/*https://www.mathsisfun.com/combinatorics/combinations-permutations-calculator.html
 			n: 59
@@ -844,12 +913,14 @@
 
 					//if (accessCodes.includes(accessCode) && $("input[name='radioRepeat']:checked").val()) {
 						document.getElementById("btnBack").style.visibility = "visible";
-						document.getElementById("disclaimer").style.display = "block";
+						document.getElementById("disclaimer").style.display = "none";
 
 						currentPage = "demographics";
 						document.getElementById("codeEntry").style.display = "none";
 						document.getElementById("demographics").style.display = "block";
 						// add alert for any access codes that are invalid "<insert codes that are invalid> are invalid access codes."
+
+						// not doing the compare to old score - opting to allow the user to take the assessment twice
 						
 						// write code that goes to new div/screen if radioButton is checked "Since you indicated that you have taken this assessment before, enter your past acess codes in the textbox below, separated by commas and including dashes. Your old scores will be found based on your access codes. If you do not have your old access codes or do not want to compare your new results to your past results, simply do not fill out the textbox"
 						
@@ -861,6 +932,8 @@
 						3. September 14, 2018 - 90% (+6)
 						4. October 24, 2018 - 85% (-5)
 						5. March 27, 2019 - 93% (+8)*/
+
+					// write an alert that says "first time this access code is being used, second/final time, etc." so the user knows if they are retaking the assessment with the same code or not
 
 					// when the user does not enter a valid access code nor selects a radio button
 					/*} else if (!accessCodes.includes(accessCode) && !$("input[name='radioRepeat']:checked").val()) {
@@ -876,7 +949,9 @@
 				} else if (currentPage === "demographics") {
 					// uncomment out later
 					// remove zip code value checker? if zip code is removed
-					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtZipCode.value || !txtEmail.value) {
+					// took out !txtZipCode.value
+					// put in "Did not answer" if zip code is undefined?
+					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtEmail.value) {
 						alert("Please fill in all of the fields before proceeding.");
 					} else {*/
 						firstName = document.getElementById("txtFirstName").value.trim();
@@ -902,8 +977,6 @@
 						income = document.getElementById("selectIncome").value;
 						happiness = document.getElementById("sliderHappy").value;
 						stress = document.getElementById("sliderStress").value;
-
-						document.getElementById("disclaimer").style.display = "none";
 
 						currentPage = "preAssessment";
 						document.getElementById("occupationalProfile").style.display = "none";
@@ -1118,7 +1191,7 @@
 			$("#btnBack").click(function() {
 				if (currentPage === "demographics") {
 					document.getElementById("btnBack").style.visibility = "hidden";
-					document.getElementById("disclaimer").style.display = "none";
+					document.getElementById("disclaimer").style.display = "block";
 
 					currentPage = "codeEntry";
 					document.getElementById("demographics").style.display = "none";
@@ -1128,7 +1201,6 @@
 					document.getElementById("occupationalProfile").style.display = "none";
 					document.getElementById("demographics").style.display = "block";
 				} else if (currentPage === "preAssessment") {
-					document.getElementById("disclaimer").style.display = "block";
 
 					currentPage = "occupationalProfile";
 					document.getElementById("preAssessment").style.display = "none";
@@ -1512,14 +1584,14 @@
 				// text area 2
 				y3 = newline(y3, 4);
 				pdf.setFontSize(11);
-				pdf.setFontType('normal');
+				pdf.setFontType('bold');
 				pdf.setTextColor(0,0,0); // black
 				txt = pdf.splitTextToSize("Based upon your identified priority areas and assessment results, you have a Life Balance Assessment Score of: " + score + "%. This score is consistent with a Life Balance Assessment rating of \u201C" + scoreType + "\u201D.", txtWidth);
 				pdf.text(txt, x3, y3);
 
 				//text area 3
 				y3 = newline (y3, 4);
-
+				pdf.setFontType('normal');
 				if (scoreType == "Balanced") {
 					txt = pdf.splitTextToSize("Your results are indicative of someone living a \u201CBalanced\u201D life. Such a rating is typically consistent with individuals that have a clear set of values and a compelling purpose or mission in their life. These values and a driving purpose bring clarity to your priorities. Your behaviors are consistent with your professed priorities. It is likely that you sustain a set of routines or recurring activities that reinforce the priority areas of your life. Furthermore, you are able to appreciate such routines and activities. In other words, you are commonly present to them without undue influence of the anxiety or stress associated with other commitments.\n\nIndividuals living a \u201CBalanced\u201D life are typically whole. You live an authentic life with enhanced clarity of who you are, what you desire, and how you live your life. We find that \u201CBalanced\u201D individuals are more likely to be fulfilled and at peace. Recognizing that we all face adversity in our lives, it is important for you to understand the source of your healthy balance. Just like any good business, you should develop contingency strategies to assess how you will best handle adversity if and when it occurs.", txtWidth);
 					pdf.text(txt, x3, y3);
