@@ -286,8 +286,227 @@
 		</div>
 	</head>
 	<body>
-		<form id="gform" method="POST"> <!-- gform used for pushing data to Google Sheet -->
+		<div id="preAssessment" class='page' style="display:none">
+			<h2 class="subtitle">Priority Areas</h2><br>
 
+			<p id=preAssessmentPrompt>The Life Balance Assessment is tailored to that which you deem to be important. The list below suggests potential priority areas in your life. We encourage you to add or remove from this list to specify those areas of your life that you believe are most significant to you. You must select no fewer than four and no more than ten priority areas. Based upon the priority areas that you select, you will be asked to respond to a series of questions that will help identify sources of tension that might exist in relation to your priorities.</p><br>
+
+			<!--Made into a div so that one break can uniformly be put below both the list box and text area-->
+			<div id="priorityAreaSelection">
+				<select multiple id="lstPriorityAreas" class="form-control">
+					<option>Career</option>
+					<option>Faith</option>
+					<option>Family</option>
+					<option>Friends</option>
+					<option>Health</option>
+					<option>Hobbies</option>
+				</select>
+				
+				<textarea id="txtPriorityAreas" class='form-control' placeholder="Add desired priority areas by typing in this box. To add more than one at once, separate them with commas or by pressing 'Enter'. There is a 25 character limit per priority area."></textarea>
+			</div><br>
+
+			<button id="btnRemove" class="btn btn-primary">Remove</button>
+
+			<button id="btnAdd" class="btn btn-primary">Add</button><br>
+			<br>
+		</div>
+
+		<div id="splashScreen" class='page' style="display:none">
+			<h2 id="splashSubtitle" class="subtitle">Part I &mdash; Professed Priorities</h2><br>
+
+			<p id="splashPrompt">Insert Splash Screen Text Here</p>
+		</div>
+
+		<div id="assessment" class='page' style="display:none">
+			<!-- combine splash screen and assessment into one? -->
+			<h2 id="assessmentSubtitle" class="subtitle">Part I &mdash; Professed Priorities</h2><br>
+
+			<label id="lblQuestion">Are you willing to sacrifice PriorityArea1 in favor of...</label><br><br>
+
+			<div id='questionBlock0' style='display:none'>
+				<label id='lblQuestion0' class='subQuestion'>0. PriorityArea0?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed0' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no0' class='radio-inline'><input type='radio' name='radProfessed0' value='0'/>No</label>
+						<label id='yes0' class='radio-inline'><input type='radio' name='radProfessed0' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated0' class='radgrpDemonstrated'>
+						<label id='never0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0'/>Never</label>
+						<label id='rarely0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.25'/>Rarely</label>
+						<label id='sometimes0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.5'/>Sometimes</label>
+						<label id='often0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.75'/>Often</label>
+						<label id='never0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock1'>
+				<label id='lblQuestion1' class='subQuestion'>1. PriorityArea1?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed1' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no1' class='radio-inline'><input type='radio' name='radProfessed1' value='0'/>No</label>
+						<label id='yes1' class='radio-inline'><input type='radio' name='radProfessed1' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated1' class='radgrpDemonstrated'>
+						<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0'/>Never</label>
+						<label id='rarely1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.25'/>Rarely</label>
+						<label id='sometimes1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.5'/>Sometimes</label>
+						<label id='often1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.75'/>Often</label>
+						<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock2'>
+				<label id='lblQuestion2' class='subQuestion'>2. PriorityArea2?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed2' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no2' class='radio-inline'><input type='radio' name='radProfessed2' value='0'/>No</label>
+						<label id='yes2' class='radio-inline'><input type='radio' name='radProfessed2' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated2' class='radgrpDemonstrated'>
+						<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0'/>Never</label>
+						<label id='rarely2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.25'/>Rarely</label>
+						<label id='sometimes2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.5'/>Sometimes</label>
+						<label id='often2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.75'/>Often</label>
+						<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock3'>
+				<label id='lblQuestion3' class='subQuestion'>3. PriorityArea3?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed3' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no3' class='radio-inline'><input type='radio' name='radProfessed3' value='0'/>No</label>
+						<label id='yes3' class='radio-inline'><input type='radio' name='radProfessed3' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated3' class='radgrpDemonstrated'>
+						<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0'/>Never</label>
+						<label id='rarely3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.25'/>Rarely</label>
+						<label id='sometimes3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.5'/>Sometimes</label>
+						<label id='often3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.75'/>Often</label>
+						<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock4' style='display:none'>
+				<label id='lblQuestion4' class='subQuestion'>4. PriorityArea4?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed4' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no4' class='radio-inline'><input type='radio' name='radProfessed4' value='0'/>No</label>
+						<label id='yes4' class='radio-inline'><input type='radio' name='radProfessed4' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated4' class='radgrpDemonstrated'>
+						<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0'/>Never</label>
+						<label id='rarely4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.25'/>Rarely</label>
+						<label id='sometimes4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.5'/>Sometimes</label>
+						<label id='often4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.75'/>Often</label>
+						<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock5' style='display:none'>
+				<label id='lblQuestion5' class='subQuestion'>5. PriorityArea5?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed5' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no5' class='radio-inline'><input type='radio' name='radProfessed5' value='0'/>No</label>
+						<label id='yes5' class='radio-inline'><input type='radio' name='radProfessed5' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated5' class='radgrpDemonstrated'>
+						<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0'/>Never</label>
+						<label id='rarely5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.25'/>Rarely</label>
+						<label id='sometimes5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.5'/>Sometimes</label>
+						<label id='often5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.75'/>Often</label>
+						<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock6' style='display:none'>
+				<label id='lblQuestion6' class='subQuestion'>6. PriorityArea6?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed6' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no6' class='radio-inline'><input type='radio' name='radProfessed6' value='0'/>No</label>
+						<label id='yes6' class='radio-inline'><input type='radio' name='radProfessed6' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated6' class='radgrpDemonstrated'>
+						<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0'/>Never</label>
+						<label id='rarely6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.25'/>Rarely</label>
+						<label id='sometimes6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.5'/>Sometimes</label>
+						<label id='often6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.75'/>Often</label>
+						<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock7' style='display:none'>
+				<label id='lblQuestion7' class='subQuestion'>7. PriorityArea7?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed7' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no7' class='radio-inline'><input type='radio' name='radProfessed7' value='0'/>No</label>
+						<label id='yes7' class='radio-inline'><input type='radio' name='radProfessed7' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated7' class='radgrpDemonstrated'>
+						<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0'/>Never</label>
+						<label id='rarely7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.25'/>Rarely</label>
+						<label id='sometimes7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.5'/>Sometimes</label>
+						<label id='often7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.75'/>Often</label>
+						<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock8' style='display:none'>
+				<label id='lblQuestion8' class='subQuestion'>8. PriorityArea8?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed8' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no8' class='radio-inline'><input type='radio' name='radProfessed8' value='0'/>No</label>
+						<label id='yes8' class='radio-inline'><input type='radio' name='radProfessed8' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated8' class='radgrpDemonstrated'>
+						<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0'/>Never</label>
+						<label id='rarely8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.25'/>Rarely</label>
+						<label id='sometimes8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.5'/>Sometimes</label>
+						<label id='often8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.75'/>Often</label>
+						<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+
+			<div id='questionBlock9' style='display:none'>
+				<label id='lblQuestion9' class='subQuestion'>9. PriorityArea9?</label>
+				<div class = 'questionResponse'>
+					<form id='radgrpProfessed9' class='radgrpProfessed'>
+						<!-- Word responses converted to numeric values for calculating final percentage score -->
+						<label id='no9' class='radio-inline'><input type='radio' name='radProfessed9' value='0'/>No</label>
+						<label id='yes9' class='radio-inline'><input type='radio' name='radProfessed9' value='1'/>Yes</label>
+					</form>
+					<form id='radgrpDemonstrated9' class='radgrpDemonstrated'>
+						<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0'/>Never</label>
+						<label id='rarely9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.25'/>Rarely</label>
+						<label id='sometimes9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.5'/>Sometimes</label>
+						<label id='often9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.75'/>Often</label>
+						<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='1'/>Always</label>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- The demographic information must be put last in the HTML section in order for the submission button at the end of the assessment to be underneath the final splash screen paragraph -->
+		<form id="gform" method="POST" class="pure-form pure-form-stacked" data-email="info@ceekllc.com" action="https://script.google.com/a/ceekllc.com/macros/s/AKfycbx9EFn2Pv6S4yavnhpX-dxH4LMJpMFIcUW9XzCd/exec"> 
+		<!-- gform used for pushing data to Google Sheet -->
 			<div id="codeEntry" class='page'>
 				<h2 class="subtitle">Access Code Entry</h2><br>
 
@@ -297,17 +516,15 @@
 					<label class="accessLabel">Survey Access Code</label>
 					<div class='userInput'> <!-- The recommended way to set the width of text and select input elements stated in the bootstrap documentation is to wrap the input in a parent element, and set the column width there. -->
 					<!-- 'userInput' is used for all input areas of this assessment-->
-						<input id="txtCode" class="form-control" type="text" placeholder="Access Code"/>
+						<input id="txtCode" class="form-control" type="text" placeholder="Access Code"/ name='Access-Code'>
 					</div>
 				</fieldset><br>
 
 				<fieldset>
 					<label class="accessLabel">Have you taken this assessment before?</label>
 					<div class='userInput'>
-						<form id="repeatButtons">
-							<label id="noRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="No"/>No</label>
-							<label id="yesRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="Yes"/>Yes</label>
-						</form>
+						<label id="noRepeat" class="radio-inline"><input type="radio" value="No" name="Repeat-Taker" />No</label>
+						<label id="yesRepeat" class="radio-inline"><input type="radio" value="Yes" name="Repeat-Taker" />Yes</label>
 					</div>
 				</fieldset>
 			</div>
@@ -316,25 +533,25 @@
 				<h2 class="subtitle">Demographics</h2><br>
 
 				<!--This is a div because this response is not stored in the Google sheet-->
-				<div>
+				<fieldset>
 					<label class="questionLabel">First Name</label>
 					<div class='userInput'>
 						<input id="txtFirstName" class="form-control" type="text" placeholder="First Name"/>
 					</div>
-				</div>
+				</fieldset>
 
 				<!--This is a div because this response is not stored in the Google sheet-->
-				<div>
+				<fieldset>
 					<label class="questionLabel">Last Name</label>
 					<div class='userInput'>
 						<input id="txtLastName" class="form-control" type="text" placeholder="Last Name"/>
 					</div>
-				</div>
+				</fieldset>
 
 				<fieldset>
 					<label class="questionLabel">Age Range</label>
 					<div class='userInput'>
-						<select id="selectAge" class="selectpicker" title="Choose one of the following">
+						<select id="selectAge" class="selectpicker" title="Choose one of the following" name='Age-Range'>
 							<option>14 and younger</option>
 							<option>15-19</option>
 							<option>20-24</option>
@@ -354,7 +571,7 @@
 				<fieldset>
 					<label class="questionLabel">Gender</label>
 					<div class='userInput'>
-						<select id="selectGender" class="selectpicker" title="Choose one of the following">
+						<select id="selectGender" class="selectpicker" title="Choose one of the following" name='Gender'>
 							<option>Male</option>
 							<option>Female</option>
 							<option>Other</option>
@@ -365,7 +582,7 @@
 				<fieldset>
 					<label class="questionLabel">Country</label>
 					<div class='userInput'>
-						<select id="selectCountry" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains">
+						<select id="selectCountry" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains" name='Country'>
 							<option>United States of America</option>
 							<option>Afghanistan</option>
 							<option>Albania</option>
@@ -577,7 +794,7 @@
 				<fieldset>
 					<label class="questionLabel">Zip Code</label>
 					<div class='userInput'>
-						<input id="txtZipCode" class="form-control" type="text" placeholder="Zip Code (optional)"/>
+						<input id="txtZipCode" class="form-control" type="text" placeholder="Zip Code (optional)" name='Zip-Code'/>
 					</div>
 				</fieldset>
 
@@ -600,7 +817,7 @@
 				<fieldset>
 					<label class="questionLabel">Highest Educational Level</label>
 					<div class='userInput'>
-						<select id="selectEducation" data-live-search="true" data-live-search-style="contains" class="selectpicker" title="In progress or completed">
+						<select id="selectEducation" data-live-search="true" data-live-search-style="contains" class="selectpicker" title="In progress or completed" name='Highest-Educational-Level'>
 							<option>None</option>
 							<option>High School</option>
 							<option>Associate's Degree</option>
@@ -614,7 +831,7 @@
 				<fieldset>
 					<label class="questionLabel">Primary Working Status</label>
 					<div class='userInput'>
-						<select id="selectPWS" class="selectpicker" title="Choose one of the following">
+						<select id="selectPWS" class="selectpicker" title="Choose one of the following" name='Primary-Working-Status'>
 							<option>Full-Time</option>
 							<option>Part-Time</option>
 							<option>Student</option>
@@ -627,7 +844,7 @@
 				<fieldset>
 					<label class="questionLabel">Occupational Category</label>
 					<div class='userInput'>
-						<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains" disabled='true'>
+						<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains" disabled='true' name='Occupational-Category'>
 							<option>Active Military Member</option>
 							<option>Architecture and Engineering</option>
 							<option>Arts, Design, Entertainment, Sports, and Media</option>
@@ -641,7 +858,7 @@
 							<option>Food Preparation and Serving Related</option>
 							<option>Healthcare Practitioners and Technical</option>
 							<option>Healthcare Support</option>
-							<option>Installation, Maintenancee, and Repairs</option>
+							<option>Installation, Maintenance, and Repairs</option>
 							<option>Legal</option>
 							<option>Life, Physical, and Social Sciences</option>
 							<option>Management</option>
@@ -658,7 +875,7 @@
 				<fieldset>
 					<label class="questionLabel">Years in Current Occupation</label>
 					<div class='userInput'>
-						<select id="selectYears" class="selectpicker" title="Choose one of the following" disabled='true'>
+						<select id="selectYears" class="selectpicker" title="Choose one of the following" disabled='true' name='Years-in-Current-Occupation'>
 							<option>0-4</option>
 							<option>5-9</option>
 							<option>10-14</option>
@@ -672,7 +889,7 @@
 				<fieldset>
 					<label class="questionLabel">Annual Household Income</label>
 					<div class='userInput'>
-						<select id="selectIncome" class="selectpicker" title="Choose one of the following">
+						<select id="selectIncome" class="selectpicker" title="Choose one of the following" name='Annual-Household-Income'>
 							<option>$49,999 and below</option>
 							<option>$50,000-$99,999</option>
 							<option>$100,000-$199,999</option>
@@ -683,251 +900,49 @@
 					</div>
 				</fieldset><br>
 
-				<div class='sliderPrompt'>
-					<label class="sliderLabel">On a scale of 1 to 10, how happy are you on a daily basis?</label><label class="sliderResponse" id="responseHappy">0</label>
-				</div>
-				<div class="sliderBox">
-					<div class="slidecontainer" title="You must move the slider to record your response, even in order to select 1.">
-						<!-- <img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id="happyFrown" alt="Frown"/>
-						<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="happySmile" alt="Smile"/> -->
-						<input type="range" class="slider" id="sliderHappy" min="1" max="10" step="1" value="1"/>
+				<fieldset>
+					<div class='sliderPrompt'>
+						<label class="sliderLabel">On a scale of 1 to 10, how happy are you on a daily basis?</label><label class="sliderResponse" id="responseHappy">0</label>
 					</div>
-				</div><br>
+					<div class="sliderBox">
+						<div class="slidecontainer" title="You must move the slider to record your response, even in order to select 1.">
+							<!-- <img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id="happyFrown" alt="Frown"/>
+							<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="happySmile" alt="Smile"/> -->
+							<input type="range" class="slider" id="sliderHappy" min="1" max="10" step="1" value="1" name='Happiness-Level'/>
+						</div>
+					</div>
+				</fieldset><br>
 
-				<div class='sliderPrompt'>
-					<label class="sliderLabel">On a scale of 1 to 10, how stressed are you on a daily basis?</label><label class="sliderResponse" id="responseStress">0</label>
-				</div>
-				<div class="sliderBox">
-					<div class="slidecontainer" title="You must move the slider to record your response, even in order to select 1.">
-						<!-- <img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="stressedSmile" alt="Smile"/>
-						<img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id ="stressedFrown" alt="Frown"/> -->
-						<input type="range" class="slider" id="sliderStress" min="1" max="10" step="1" value="1"/>
+				<fieldset>
+					<div class='sliderPrompt'>
+						<label class="sliderLabel">On a scale of 1 to 10, how stressed are you on a daily basis?</label><label class="sliderResponse" id="responseStress">0</label>
 					</div>
-				</div>
+					<div class="sliderBox">
+						<div class="slidecontainer" title="You must move the slider to record your response, even in order to select 1.">
+							<!-- <img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="stressedSmile" alt="Smile"/>
+							<img src="https://www.goodfreephotos.com/albums/vector-images/unhappy-face-vector-clipart.png" class="smilePic" id ="stressedFrown" alt="Frown"/> -->
+							<input type="range" class="slider" id="sliderStress" min="1" max="10" step="1" value="1" name='Stress-Level'/>
+						</div>
+					</div>
+				</fieldset>
+
+				 <!-- hidden fieldset for submitting the user's life balance score -->
+    			<input id='scoreSubmit' type="hidden" name="Score" value='0'/>
 			</div>
 
-			<div id="preAssessment" class='page' style="display:none">
-				<h2 class="subtitle">Priority Areas</h2><br>
-
-				<p id=preAssessmentPrompt>The Life Balance Assessment is tailored to that which you deem to be important. The list below suggests potential priority areas in your life. We encourage you to add or remove from this list to specify those areas of your life that you believe are most significant to you. You must select no fewer than four and no more than ten priority areas. Based upon the priority areas that you select, you will be asked to respond to a series of questions that will help identify sources of tension that might exist in relation to your priorities.</p><br>
-
-				<!--Made into a div so that one break can uniformly be put below both the list box and text area-->
-				<div id="priorityAreaSelection">
-					<select multiple id="lstPriorityAreas" class="form-control">
-						<option>Career</option>
-						<option>Faith</option>
-						<option>Family</option>
-						<option>Friends</option>
-						<option>Health</option>
-						<option>Hobbies</option>
-					</select>
-					
-					<textarea id="txtPriorityAreas" class='form-control' placeholder="Add desired priority areas by typing in this box. To add more than one at once, separate them with commas or by pressing 'Enter'. There is a 25 character limit per priority area."></textarea>
-				</div><br>
-
-				<button id="btnRemove" class="btn btn-primary">Remove</button>
-
-				<button id="btnAdd" class="btn btn-primary">Add</button><br>
-				<br>
-			</div>
-
-			<div id="splashScreen" class='page' style="display:none">
-				<h2 id="splashSubtitle" class="subtitle">Part I &mdash; Professed Priorities</h2><br>
-
-				<p id="splashPrompt">Insert Splash Screen Text Here</p>
-			</div>
-
-			<div id="assessment" class='page' style="display:none">
-				<!-- combine splash screen and assessment into one? -->
-				<h2 id="assessmentSubtitle" class="subtitle">Part I &mdash; Professed Priorities</h2><br>
-
-				<label id="lblQuestion">Are you willing to sacrifice PriorityArea1 in favor of...</label><br><br>
-
-				<div id='questionBlock0' style='display:none'>
-					<label id='lblQuestion0' class='subQuestion'>0. PriorityArea0?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed0' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no0' class='radio-inline'><input type='radio' name='radProfessed0' value='0'/>No</label>
-							<label id='yes0' class='radio-inline'><input type='radio' name='radProfessed0' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated0' class='radgrpDemonstrated'>
-							<label id='never0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0'/>Never</label>
-							<label id='rarely0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.25'/>Rarely</label>
-							<label id='sometimes0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.5'/>Sometimes</label>
-							<label id='often0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.75'/>Often</label>
-							<label id='never0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock1'>
-					<label id='lblQuestion1' class='subQuestion'>1. PriorityArea1?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed1' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no1' class='radio-inline'><input type='radio' name='radProfessed1' value='0'/>No</label>
-							<label id='yes1' class='radio-inline'><input type='radio' name='radProfessed1' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated1' class='radgrpDemonstrated'>
-							<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0'/>Never</label>
-							<label id='rarely1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.25'/>Rarely</label>
-							<label id='sometimes1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.5'/>Sometimes</label>
-							<label id='often1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.75'/>Often</label>
-							<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock2'>
-					<label id='lblQuestion2' class='subQuestion'>2. PriorityArea2?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed2' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no2' class='radio-inline'><input type='radio' name='radProfessed2' value='0'/>No</label>
-							<label id='yes2' class='radio-inline'><input type='radio' name='radProfessed2' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated2' class='radgrpDemonstrated'>
-							<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0'/>Never</label>
-							<label id='rarely2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.25'/>Rarely</label>
-							<label id='sometimes2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.5'/>Sometimes</label>
-							<label id='often2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.75'/>Often</label>
-							<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock3'>
-					<label id='lblQuestion3' class='subQuestion'>3. PriorityArea3?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed3' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no3' class='radio-inline'><input type='radio' name='radProfessed3' value='0'/>No</label>
-							<label id='yes3' class='radio-inline'><input type='radio' name='radProfessed3' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated3' class='radgrpDemonstrated'>
-							<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0'/>Never</label>
-							<label id='rarely3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.25'/>Rarely</label>
-							<label id='sometimes3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.5'/>Sometimes</label>
-							<label id='often3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.75'/>Often</label>
-							<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock4' style='display:none'>
-					<label id='lblQuestion4' class='subQuestion'>4. PriorityArea4?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed4' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no4' class='radio-inline'><input type='radio' name='radProfessed4' value='0'/>No</label>
-							<label id='yes4' class='radio-inline'><input type='radio' name='radProfessed4' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated4' class='radgrpDemonstrated'>
-							<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0'/>Never</label>
-							<label id='rarely4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.25'/>Rarely</label>
-							<label id='sometimes4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.5'/>Sometimes</label>
-							<label id='often4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.75'/>Often</label>
-							<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock5' style='display:none'>
-					<label id='lblQuestion5' class='subQuestion'>5. PriorityArea5?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed5' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no5' class='radio-inline'><input type='radio' name='radProfessed5' value='0'/>No</label>
-							<label id='yes5' class='radio-inline'><input type='radio' name='radProfessed5' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated5' class='radgrpDemonstrated'>
-							<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0'/>Never</label>
-							<label id='rarely5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.25'/>Rarely</label>
-							<label id='sometimes5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.5'/>Sometimes</label>
-							<label id='often5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.75'/>Often</label>
-							<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock6' style='display:none'>
-					<label id='lblQuestion6' class='subQuestion'>6. PriorityArea6?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed6' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no6' class='radio-inline'><input type='radio' name='radProfessed6' value='0'/>No</label>
-							<label id='yes6' class='radio-inline'><input type='radio' name='radProfessed6' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated6' class='radgrpDemonstrated'>
-							<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0'/>Never</label>
-							<label id='rarely6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.25'/>Rarely</label>
-							<label id='sometimes6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.5'/>Sometimes</label>
-							<label id='often6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.75'/>Often</label>
-							<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock7' style='display:none'>
-					<label id='lblQuestion7' class='subQuestion'>7. PriorityArea7?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed7' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no7' class='radio-inline'><input type='radio' name='radProfessed7' value='0'/>No</label>
-							<label id='yes7' class='radio-inline'><input type='radio' name='radProfessed7' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated7' class='radgrpDemonstrated'>
-							<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0'/>Never</label>
-							<label id='rarely7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.25'/>Rarely</label>
-							<label id='sometimes7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.5'/>Sometimes</label>
-							<label id='often7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.75'/>Often</label>
-							<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock8' style='display:none'>
-					<label id='lblQuestion8' class='subQuestion'>8. PriorityArea8?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed8' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no8' class='radio-inline'><input type='radio' name='radProfessed8' value='0'/>No</label>
-							<label id='yes8' class='radio-inline'><input type='radio' name='radProfessed8' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated8' class='radgrpDemonstrated'>
-							<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0'/>Never</label>
-							<label id='rarely8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.25'/>Rarely</label>
-							<label id='sometimes8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.5'/>Sometimes</label>
-							<label id='often8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.75'/>Often</label>
-							<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock9' style='display:none'>
-					<label id='lblQuestion9' class='subQuestion'>9. PriorityArea9?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed9' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no9' class='radio-inline'><input type='radio' name='radProfessed9' value='0'/>No</label>
-							<label id='yes9' class='radio-inline'><input type='radio' name='radProfessed9' value='1'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated9' class='radgrpDemonstrated'>
-							<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0'/>Never</label>
-							<label id='rarely9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.25'/>Rarely</label>
-							<label id='sometimes9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.5'/>Sometimes</label>
-							<label id='often9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.75'/>Often</label>
-							<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<!-- may need to keep it here for submission purposes?? -->
-			<!-- add line return above this for extra room if possible!! -->
-			<button id="btnReport" class="btn btn-primary" type="submit" style="display:none">Generate Report</button>
+			<button id="btnReport" class="btn btn-primary" type="submit" style="display:none">
+				<i class="fa fa-paper-plane"></i>Generate Report
+			</button>
 		</form>
+
+		<!-- Customise the Thankyou Message People See when they submit the form: -->
+		<div style="display:none;" id="thankyou_message">
+			<h2><em>Thanks</em> for contacting us!
+				We will get back to you soon!</h2>
+		</div>
+
+		<!-- Submit the Form to Google Using "AJAX" -->
+		<script data-cfasync="false" type="text/javascript" src="form-submission-handler.js"></script>
 	</body>
 
 	<footer>
@@ -957,7 +972,6 @@
 			var age;
 			var gender;
 			var country;
-			//var zipCode;
 			var email;
 			var emailSubscribe;
 			var education;
@@ -1123,7 +1137,7 @@
 					// write code for checkng if access code is in Google sheet already, if it is write alert that says "Invalid access code" or "this access code has already been used"
 					// uncomment out later
 
-					//if (accessCodes.includes(accessCode) && $("input[name='radioRepeat']:checked").val()) {
+					//if (accessCodes.includes(accessCode) && $("input[name='Repeat-Taker']:checked").val()) {
 						document.getElementById("btnBack").style.visibility = "visible";
 						document.getElementById("disclaimer").style.display = "none";
 
@@ -1135,13 +1149,13 @@
 					// write an alert that says "first time this access code is being used, second/final time, etc." so the user knows if they are retaking the assessment with the same code or not
 
 					// when the user does not enter a valid access code nor selects a radio button
-					/*} else if (!accessCodes.includes(accessCode) && !$("input[name='radioRepeat']:checked").val()) {
+					/*} else if (!accessCodes.includes(accessCode) && !$("input[name='Repeat-Taker']:checked").val()) {
 						alert("Please enter a valid, unused access code and indicate if you have taken this assessment before.");
 					// when the user enters a code not in the access code list
 					} else if (!accessCodes.includes(accessCode)) {
 						alert("Please enter a valid access code.");
 					// when the user does not select a radio button
-					} else if (!$("input[name='radioRepeat']:checked").val()) {
+					} else if (!$("input[name='Repeat-Taker']:checked").val()) {
 						alert("Please indicate if you have taken this assessment before.");
 					}*/
 					
@@ -1386,7 +1400,7 @@
 						if (currentArea == numAreas) { // out of bounds of the array by 1, complete assessment
 							// U+2013 = en dash
 							document.getElementById("splashSubtitle").innerHTML = "View Results";
-							document.getElementById("splashPrompt").innerHTML = "Thank you for completing the Life Balance Assessment! Please click the \u2018Generate Report\u2019 button below to receive your personalized \u201CLife Balance Assessment Report.\u201D Please wait a few sceonds for the PDF to generate before clicking the button again. A copy of it will be downloaded to your computer. If you desire additional support in your pursuit of healthy life balance, we encourage you to read our book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D and/or send an email to info@ceekllc.com to speak with a Life Balance coach and consultant.";
+							document.getElementById("splashPrompt").innerHTML = "Thank you for completing the Life Balance Assessment! Please click the \u2018Generate Report\u2019 button below ONCE and wait a few seconds to receive your personalized \u201CLife Balance Assessment Report.\u201D A copy of it will be downloaded to your computer. If you desire additional support in your pursuit of healthy life balance, we encourage you to read our book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D and/or send an email to info@ceekllc.com to speak with a Life Balance coach and consultant.";
 
 							// hides the demonstrated buttons: the class returns all elements of that class and each has to be individually hidden
 							[].forEach.call(document.querySelectorAll('.radgrpDemonstrated'), function (el) {
@@ -1621,6 +1635,8 @@
 
 				// Balance Equivalency Factor: ((combinations + sum of negative results) / combinations)*100
 				score = Math.round(((numCombinations + negativeBoxes) / numCombinations) * 100);
+				// set the hidden fieldset 'scoreSubmit' value to the value of 'score' in order to push it into the Google Sheet
+				document.getElementById('scoreSubmit').value = score;
 
 				if (score >= 92) {
 					scoreType = "Balanced";
@@ -2011,9 +2027,60 @@
 				txt = pdf.splitTextToSize("The following bar chart compares your Balance Assessment Score to the average values reported within your specified Age Range, Gender, Country, Highest Educational Level, Primary Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income.", txtWidth);
 				pdf.text(txt, x4, y4);
 				
-				// put graph here
+				// 0.065 = 1%
+				var xGraphMin = 1;
+				var xGraphMax = 7.5;
+				var yGraphStart = 1.78;
+				var yGraphSpace = 0.75;
+				var textSpace = 0.25;
+				var barWidth = 0.4;
+
+				pdf.setLineWidth(barWidth);
+				pdf.setDrawColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
+				pdf.setFontType('bold');
+				pdf.text("Age Range: " + age + " (" + 1 + ")", 1, yGraphStart+(1*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(1*yGraphSpace), xGraphMax, yGraphStart+(1*yGraphSpace)); // (x1, y1, x2, y2)
+				pdf.text("Gender: " + gender + " (" + 1 + ")", 1, yGraphStart+(2*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(2*yGraphSpace), xGraphMax, yGraphStart+(2*yGraphSpace)); // (x1, y1, x2, y2)
+				pdf.text("Country: " + country + " (" + 1 + ")", 1, yGraphStart+(3*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(3*yGraphSpace), xGraphMax, yGraphStart+(3*yGraphSpace)); // (x1, y1, x2, y2)
+				pdf.text("Highest Educational Level: " + education + " (" + 1 + ")", 1, yGraphStart+(4*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(4*yGraphSpace), xGraphMax, yGraphStart+(4*yGraphSpace)); // (x1, y1, x2, y2)
+				pdf.text("Primary Working Status: " + pws + " (" + 1 + ")", 1, yGraphStart+(5*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(5*yGraphSpace), xGraphMax, yGraphStart+(5*yGraphSpace)); // (x1, y1, x2, y2)
+				pdf.text("Occupational Category: " + occupation + " (" + 1 + ")", 1, yGraphStart+(6*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(6*yGraphSpace), xGraphMax, yGraphStart+(6*yGraphSpace)); // (x1, y1, x2, y2)
+				pdf.text("Years in Current Occupation: " + years + " (" + 1 + ")", 1, yGraphStart+(7*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(7*yGraphSpace), xGraphMax, yGraphStart+(7*yGraphSpace)); // (x1, y1, x2, y2)
+				pdf.text("Annual Household Income: " + income + " (" + 1 + ")", 1, yGraphStart+(8*yGraphSpace)-textSpace);
+				pdf.line(xGraphMin, yGraphStart+(8*yGraphSpace), xGraphMax, yGraphStart+(8*yGraphSpace)); // (x1, y1, x2, y2)
+
+				var xPercent = 1.1;
+				var textSpace = 0.055;
+
+				pdf.setTextColor(255,255,255); // white
+				pdf.text("100%", xPercent, yGraphStart+(1*yGraphSpace)+textSpace);
+				pdf.text("100%", xPercent, yGraphStart+(2*yGraphSpace)+textSpace);
+				pdf.text("100%", xPercent, yGraphStart+(3*yGraphSpace)+textSpace);
+				pdf.text("100%", xPercent, yGraphStart+(4*yGraphSpace)+textSpace);
+				pdf.text("100%", xPercent, yGraphStart+(5*yGraphSpace)+textSpace);
+				pdf.text("100%", xPercent, yGraphStart+(6*yGraphSpace)+textSpace);
+				pdf.text("100%", xPercent, yGraphStart+(7*yGraphSpace)+textSpace);
+				pdf.text("100%", xPercent, yGraphStart+(8*yGraphSpace)+textSpace);
+
+				pdf.setLineWidth(0.05);
+				pdf.setDrawColor(56,57,56); // CEEK gray sampled from logo (hex: #383938)
+				pdf.line(xGraphMin+((xGraphMax-xGraphMin)*(score/100)), yGraphStart+yGraphSpace-(barWidth/2), xGraphMin+((xGraphMax-xGraphMin)*(score/100)), yGraphStart+(yGraphSpace*8)+(barWidth/2)); // (x1, y1, x2, y2)
+				pdf.setTextColor(0,0,0); // black
+				pdf.text(score + "%", xGraphMin+((xGraphMax-xGraphMin)*(score/100)), yGraphStart+(yGraphSpace*8)+barWidth, 'center'); // x-coordinate used for centering
+
+				// left off here
+
+				pdf.setFontType('normal');
 				txt = pdf.splitTextToSize("The remainder of this report further details the findings associated with your completion of the Life Balance Assessment. We summarize professed priorities and your willingness to sacrifice one priority area in favor of another (Section 3). We evaluate sources of tension based upon sacrifices made that conflict with professed priorities (Section 4). And, we identify potential sources for \u2018slack\u2019 in which you could consider a reallocation of time and resources consistent with professed priorities (Section 5). The report concludes with a summary of findings and recommendations to pursue enhanced Life Balance (Section 6). Lastly, we offer templates to assist further assist as you develop and assessment plans of action to enhance or sustain healthy Life Balance.", txtWidth);
-				pdf.text(txt, x4, 5); // adjust this based on graph placement!!
+				pdf.text(txt, x4, 8.595); // adjust this based on graph placement!!
+
+				// configure it for students, etc. too!!
 
 				// PAGE 5
 				newPage();
@@ -2967,8 +3034,6 @@
 				yTable = newline(yTable, 11);
 				txt = pdf.splitTextToSize("How might future circumstances change that would challenge my priorities?", columnWidth);
 				pdf.text(txt, xTable, yTable);
-
-				// left off here
 				
 				// CEEK LBA Report - FirstName LastName Year-Month-Day
 				pdf.save("CEEK LBA Report " + fullName + " " + d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + ".pdf");
