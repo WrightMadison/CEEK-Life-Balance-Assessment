@@ -509,7 +509,7 @@
 			</select><br>
 
 			<label class="questionLabel">Occupational Category</label>
-			<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains">
+			<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains" disabled='true'>
 				<option>Architecture and Engineering</option>
 				<option>Arts, Design, Entertainment, Sports, and Media</option>
 				<option>Building and Grounds Cleaning and Maintenance</option>
@@ -535,7 +535,7 @@
 			</select><br>
 
 			<label class="questionLabel">Years in Current Occupation</label>
-			<select id="selectYears" class="selectpicker" title="Choose one of the following">
+			<select id="selectYears" class="selectpicker" title="Choose one of the following" disabled='true'>
 				<option>0-4</option>
 				<option>5-9</option>
 				<option>10-14</option>
@@ -617,16 +617,17 @@
 			<p id="assessmentPrompt">Question goes here</p><br>
 
 			<form id="willingnessButtons">
+				<!--are the button ids needed? values are-->
 				<label id="no" class="radio-inline"><input type="radio" name="radioWillingness" value="No"/>No</label>
 				<label id="yes" class="radio-inline"><input type="radio" name="radioWillingness" value="Yes"/>Yes</label>
 			</form>
 
 			<form id="actionsButtons" style="display:none">
-				<label id="never" class="radio-inline"><input type="radio" name="radioActions"/>Never</label>
-				<label id="rarely" class="radio-inline"><input type="radio" name="radioActions"/>Rarely</label>
-				<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions"/>Sometimes</label>
-				<label id="often" class="radio-inline"><input type="radio" name="radioActions"/>Often</label>
-				<label id="always" class="radio-inline"><input type="radio" name="radioActions"/>Always</label>
+				<label id="never" class="radio-inline"><input type="radio" name="radioActions" value="Never"/>Never</label>
+				<label id="rarely" class="radio-inline"><input type="radio" name="radioActions" value="Rarely"/>Rarely</label>
+				<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions" value="Sometimes"/>Sometimes</label>
+				<label id="often" class="radio-inline"><input type="radio" name="radioActions" value="Often"/>Often</label>
+				<label id="always" class="radio-inline"><input type="radio" name="radioActions" value="Always"/>Always</label>
 			</form>
 			<br>
 		</div>
@@ -637,8 +638,7 @@
 
 		<button id="btnNext" class="btn btn-primary">Next</button>
 
-		<!--add this to btnReport when PDF report is done: style="display:none"-->
-		<button id="btnReport" class = "btn btn-primary">Generate Report</button>
+		<button id="btnReport" class = "btn btn-primary" style="display:none">Generate Report</button>
 
 		<br>
 		<br>
@@ -649,7 +649,7 @@
 		<p class='created'>Coded by Madison Wright</p>
 		<p class='created'>Contact: wrightmadison@gmail.com</p>
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
 		<!--For PDF generation-->
@@ -682,10 +682,9 @@
 			var currentQuestion = 1;
 			var willingness;
 			var actions;
+			// coordinates used for loading response into arrays
 			var a;
 			var b;
-			var areaA;
-			var areaB;
 			var part = "willingness";
 			var fullName;
 			var fullDate;
@@ -718,19 +717,47 @@
 			imgTableDemographics.crossOrigin = '';
 			imgTableDemographics.src = 'https://image.ibb.co/j63VqH/Demographic_Information_Table.png';
 
-			$(document).ready(function() {
-			// make occupation select enabled only if full-time or part-time is selected
-			//document.getElementById("selectOccupation").disabled = true;
+			// makes selectOccupation and selectYears dropdowns enabled only if "Full-Time" or "Part-Time" is selected
+			$('#selectPWS').change(function() {
+				// if the selectOccupation and selectYears dropdowns are already disabled then reset their values
+				if (document.getElementById("selectPWS").value == "Full-Time" || document.getElementById("selectPWS").value == "Part-Time") {
+					$('#selectOccupation').prop('disabled', false);
+					$("#selectOccupation").val('default');
+					$('#selectOccupation')
+					    .selectpicker({title: "Choose one of the following"})
+					    .selectpicker('refresh');
+					occupation = null;
+
+					$('#selectYears').prop('disabled', false);
+					$("#selectYears").val('default');
+					$('#selectYears')
+					    .selectpicker({title: "Choose one of the following"})
+					    .selectpicker('refresh');
+					years = null;
+				} else {
+					$('#selectOccupation').prop('disabled', true);
+					$('#selectOccupation').val('default');
+					$('#selectOccupation')
+					    .selectpicker({title: "Not Applicable"})
+					    .selectpicker('refresh');
+					occupation = "Not Applicable";
+
+					$('#selectYears').prop('disabled', true);
+					$('#selectYears').val('default');
+					$('#selectYears')
+					    .selectpicker({title: "Not Applicable"})
+					    .selectpicker('refresh');
+					years = "Not Applicable";
+				}
 			});
 
-			/*$("#selectPWS").change(function() {
-				if (document.getElementById("selectPWS").value == "Full-Time" || document.getElementById("selectPWS").value == "Part-Time") {
-					document.getElementById("selectOccupation").disabled = false;
-				} else {
-					document.getElementById("selectOccupation").disabled = true;
-				}
-			});*/
+			$('#selectOccupation').change(function() {
+				occupation = document.getElementById("selectOccupation").value;
+			});
 
+			$('#selectYears').change(function() {
+				years = document.getElementById("selectYears").value;
+			});
 
 			$("#sliderHappy").change(function() {
 				document.getElementById("responseHappy").innerHTML = document.getElementById("sliderHappy").value;
@@ -753,10 +780,9 @@
 
 			$("#btnNext").click(function() {
 				if (currentPage === "basicInformation") {
-					// uncomment out later
-					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtZipCode.value || !txtEmail.value) {
+					if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtZipCode.value || !txtEmail.value) {
 						alert("Please fill in all of the fields before proceeding.");
-					} else {*/
+					} else {
 						firstName = document.getElementById("txtFirstName").value.trim();
 						lastName = document.getElementById("txtLastName").value.trim();
 						age = document.getElementById("selectAge").value;
@@ -772,16 +798,13 @@
 						currentPage = "occupationalProfile";
 						document.getElementById("basicInformation").style.display = "none";
 						document.getElementById("occupationalProfile").style.display = "block";
-					//}
+					}
 				} else if (currentPage === "occupationalProfile") {
-					// uncomment out later
-					/*if (!selectEducation.value || !selectPWS.value || !selectOccupation.value || !selectYears.value || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
+					if (!selectEducation.value || !selectPWS.value || occupation==null || years==null || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
 						alert("Please fill in all of the fields before proceeding.");
-					} else {*/
+					} else {
 						education = document.getElementById("selectEducation").value;
 						pws = document.getElementById("selectPWS").value;
-						occupation = document.getElementById("selectOccupation").value;
-						years = document.getElementById("selectYears").value;
 						income = document.getElementById("selectIncome").value;
 						happiness = document.getElementById("sliderHappy").value;
 						stress = document.getElementById("sliderStress").value;
@@ -792,12 +815,11 @@
 						currentPage = "preAssessment";
 						document.getElementById("occupationalProfile").style.display = "none";
 						document.getElementById("preAssessment").style.display = "block";
-					//}
+					}
 				} else if (currentPage === "preAssessment") {
-					// uncomment out later
-					/*if (document.getElementById("lstPriorityAreas").length < 4) {
+					if (document.getElementById("lstPriorityAreas").length < 4) {
 						alert("Please provide at least four priority areas.");
-					} else {*/
+					} else {
 						// initializes the priorityAreas element as an array with as many elements as are in lstPriorityAreas
 						priorityAreas = new Array(document.getElementById("lstPriorityAreas").length);
 						// stores the properly capitalized priority areas for PDF generation
@@ -815,13 +837,13 @@
 						// makes 2D array for willingness responses (yes/no)
 						willingness = new Array(numAreas);
 						for (var j = 0; j < numAreas; j++) {
-							willingness[j] = new Array(10);
+							willingness[j] = new Array(numAreas);
 						}
 
 						// makes 2D array for actions responses (never/rarely/sometimes/often/always)
 						actions = new Array(numAreas);
 						for (var k = 0; k < numAreas; k++) {
-							actions[k] = new Array(10);
+							actions[k] = new Array(numAreas);
 						}
 
 						// Part 1 of 2: Willingness Splash Screen
@@ -830,7 +852,7 @@
 						currentPage = "splashScreen";
 						document.getElementById("preAssessment").style.display = "none";
 						document.getElementById("splashScreen").style.display = "block";
-					//}
+					}
 				} else if (currentPage === "splashScreen") {
 					if (currentQuestion == 1) {
 						// hides the back button once the assessment has begun so that the user cannot change the priority areas
@@ -865,6 +887,12 @@
 						if (!$("input[name='radioWillingness']:checked").val()) {
 							alert("Please select a response before proceeding.");
 						} else {
+							if ($("input[name='radioWillingness']:checked").val() == "No") {
+								willingness[a][b] = 0;
+							} else if ($("input[name='radioWillingness']:checked").val() == "Yes") {
+								willingness[a][b] = 1;
+							}
+							
 							// once the user has proceeded at least one question into this section, the back button is available again
 							if (currentQuestion == 2) {
 							// untoggle comment when making back button functionality
@@ -879,7 +907,7 @@
 							// make sure this reverts back to Next when programming the back button functionality
 								document.getElementById("btnNext").innerHTML = "Finish";
 							// shows the splash screen for the actions section
-							} 
+							}
 
 							// Part 1 complete
 							if (currentQuestion == numQuestions/2) {
@@ -913,6 +941,18 @@
 						if (!$("input[name='radioActions']:checked").val()) {
 							alert("Please select a response before proceeding.");
 						} else {
+							if ($("input[name='radioActions']:checked").val() == "Never") {
+								actions[a][b] = 0;
+							} else if ($("input[name='radioActions']:checked").val() == "Rarely") {
+								actions[a][b] = 0.25;
+							} else if ($("input[name='radioActions']:checked").val() == "Sometimes") {
+								actions[a][b] = 0.5;
+							} else if ($("input[name='radioActions']:checked").val() == "Often") {
+								actions[a][b] = 0.75;
+							} else if ($("input[name='radioActions']:checked").val() == "Always") {
+								actions[a][b] = 1;
+							}
+
 							// once the user has proceeded at least one question into this section, the back button is available again
 							if (currentQuestion == (numQuestions/2)+2) {
 								// untoggle comment when making back button functionality
@@ -954,6 +994,9 @@
 
 			function generateQuestion(array) {
 				// picks two unique, random priority areas
+				var areaA;
+				var areaB;
+
 				do {
 					// returns a number between 0 and numAreas-1
 					a = Math.floor(Math.random() * numAreas);
@@ -1097,7 +1140,46 @@
 			});
 
 			$("#btnReport").click(function() {
-				// calculate assesssment score here? (or in the final btnNext click and store in case of an error)
+				// calculates assesssment score
+				var numYellow = 0;
+				var numRed = 0;
+				var score;
+				var scoreType;
+
+				var results = new Array(numAreas);
+				for (var m = 0; m < numAreas; m++) {
+					results[m] = new Array(numAreas);
+				}
+
+				for (var i = 0; i < numAreas; i++) {
+					for (var j = 0; j < numAreas; j++) {
+						if (i != j) {
+							results[i][j] = willingness[i][j] - actions[i][j];
+
+							if (willingness[i][j] == 0) {
+								if (results[i][j] == -0.5) {
+									numYellow++;
+								} else if (results[i][j] == -0.75) {
+									numRed++;
+								} else if (results[i][j] == -1) {
+									numRed++;
+								}
+							} 
+						}
+					}
+				}
+				score = Math.round((((numQuestions/2)-((numYellow*1)+(numRed*2)))/(numQuestions/2))*100);
+
+				if (score >= 90) {
+					scoreType = "Balanced";
+				} else if (score >= 75 && score <= 89) {
+					scoreType = "Occasionally Shaky";
+				} else if (score >= 60 && score <= 74) {
+					scoreType = "Frequently Shaky";
+				} else if (score < 60) {
+					scoreType = "Unbalanced";
+				}
+
 				fullName = firstName + " " + lastName;
 				var d = new Date();
 				fullDate = writeMonth(d.getMonth()) + " " + d.getDate() + ", " + d.getFullYear();
@@ -1107,10 +1189,10 @@
 				var xNew = 1;
 				// change the following four variables by the same amount when shifting all page elements up and down
 				// ----------------------
-				var yNewSection = 1.8;
 				ySubtitle = 1.35;
 				ySubtitleLine = 1.48;
-				//var yNewPage = ?;
+				var yNewSection = 1.8;
+				var yNewPage = 1.35;
 				// ----------------------
 				// Helvetica, Times, and Courier are the three jsPDF-supported fonts (without adding a new font)
 				var fontPrimary = 'Helvetica';
@@ -1226,13 +1308,6 @@
 
 				// PAGE 2
 				newPage();
-
-				// remove lines later - show top and bottom border boundaries
-				/*pdf.setLineWidth(lineWidth);
-				pdf.setDrawColor(0,0,0); // black
-				pdf.line(1, 1, 7.5, 1); // (x1, y1, x2, y2)
-				pdf.line(1, 10, 7.5, 10); // (x1, y1, x2, y2)*/
-
 				newSection(2, "Summary Results");
 				var x2 = xNew; // x page 2
 				var y2 = yNewSection; // y page 2
@@ -1292,8 +1367,82 @@
 				bulletList(priorityAreasCap, y2);
 
 				//PAGE 3
-				// left off here
-				// make code that fills in N/A for fields that don't apply to Student, Stay at Home Parent, Unemployed (Occupational Category, Years in Current Occupation)
+				newPage();
+				var x3 = xNew; // x page 3
+				var y3 = yNewPage; // y page 3
+				
+				// text area 1
+				// shape is 3" wide and 0.3" buffer on left and buttom - 3.2" for text
+				txt = pdf.splitTextToSize("Based upon these inputs, you were asked a series of questions to evaluate your willingness to sacrifice one priority area in favor of another. Similarly, you were asked to evaluate the frequency in which you do sacrifice one priority area in favor of another. Via the response to these questions, the Life Balance Assessment identifies sources of tension among competing priorities. Based upon the magnitude and frequency of such tensions, we calculate a Life", 3.2);
+				pdf.text(txt, x3, y3);
+				y3 = newline(y3, 10);
+				txt = pdf.splitTextToSize("Balance Assessment Score as a percentage from 0 to 100%. As defined in the adjacent text box, the Life Balance Assessment Score correlates to a general rating regarding your degree of \u2018Life Balance.\u2019", txtWidth);
+				pdf.text(txt, x3, y3);
+
+				// balance assessment scale
+				pdf.setLineWidth(0.31);
+				pdf.setDrawColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
+				var xScale = x3 + 3.58;
+				var yScale = yNewPage+0.04;
+				pdf.line(4.5, yNewPage+0.04, 7.5, yScale); // (x1, y1, x2, y2)
+				pdf.setFontSize(14);
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				yScale = yScale+0.075;
+				pdf.text("Balance Assessment Scale", 6, yScale, 'center');
+				pdf.setFontSize(11);
+				pdf.setFontType('bolditalic');
+				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
+				yScale = yScale + 0.33;
+				pdf.text("90% or Higher:", xScale, yScale);
+				pdf.text("\u201CBalanced\u201D", xScale+1.26, yScale);
+				yScale = halfSpacing(yScale, 1);
+				pdf.text("75% to 89%:", xScale, yScale);
+				pdf.text("\u201COccasionally Shaky\u201D", xScale+1.26, yScale);
+				yScale = halfSpacing(yScale, 1);
+				pdf.text("60% to 74%:", xScale, yScale);
+				pdf.text("\u201CFrequently Shaky\u201D", xScale+1.26, yScale);
+				yScale = halfSpacing(yScale, 1);
+				pdf.text("Less Than 60%:", xScale, yScale);
+				pdf.text("\u201CUnbalanced\u201D", xScale+1.26, yScale);
+
+				// text area 2
+				y3 = newline(y3, 4);
+				pdf.setFontSize(11);
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+				txt = pdf.splitTextToSize("Based upon your identified priority areas and assessment results, you have a Life Balance Assessment Score of: " + score + "%. This score is consistent with a Life Balance Assessment rating of \u201C" + scoreType + "\u201D.", txtWidth);
+				pdf.text(txt, x3, y3);
+
+				//text area 3
+				y3 = newline (y3, 4);
+
+				if (scoreType == "Balanced") {
+					txt = pdf.splitTextToSize("Your results are indicative of someone living a \u201CBalanced\u201D life. Such a rating is typically consistent with individuals that have a clear set of values and a compelling purpose or mission in their life. These values and a driving purpose bring clarity to your priorities. Your behaviors are consistent with your professed priorities. It is likely that you sustain a set of routines or recurring activities that reinforce the priority areas of your life. Furthermore, you are able to appreciate such routines and activities. In other words, you are commonly present to them without undue influence of the anxiety or stress associated with other commitments.\n\nIndividuals living a \u201CBalanced\u201D life are typically whole. You live an authentic life with enhanced clarity of who you are, what you desire, and how you live your life. We find that \u201CBalanced\u201D individuals are more likely to be fulfilled and at peace. Recognizing that we all face adversity in our lives, it is important for you to understand the source of your healthy balance. Just like any good business, you should develop contingency strategies to assess how you will best handle adversity if and when it occurs.", txtWidth);
+					pdf.text(txt, x3, y3);
+				} else if (scoreType == "Occasionally Shaky") {
+					txt = pdf.splitTextToSize("Your results are indicative of someone living an \u201COccasionally Shaky\u201D life. Your professed priorities are generally consistent with demonstrated behaviors. You rating is reflective of individuals that live a relatively balanced life that is periodically dirupted. These disruptions may be the result of external circumstances that warrant a temporary reshuffling of your priorities. However, it is important to remember that you are in control of your priorities and associated Life Balance.\n\nWhile you may have a clear set of priorities and the values or purpose that feed those priorities, your behaviors are not always consistent with your professed priorities. It is likely that you have some routines or recurring activities that help reinforce the priority areas of your life. However, you may not be consistent in the follow through on such commitments, occasionally allowing other less important demands to infringe upon such activities. It is also possible that other life stresses may occasionally detract from your presence to activities that are consistent with your professed priorities.\n\nThough individuals living an \u201COccasionally Shaky\u201D life may feel overwhelmed at times, you are generally fulfilled and content with the circumstances of your life. Most commony, you have good self-awareness and are intentional in most of the commitments and choices that you make. Because you occasionally lack healthy balance, it important to assess how well equipped you are to handle adversity that may apply pressure to the priorities in your life. Just like any good business, you should develop contingency strategies to assess how you will best handle adversity if and when it occurs.", txtWidth);
+					pdf.text(txt, x3, y3);
+				} else if (scoreType == "Frequently Shaky") {
+					txt = pdf.splitTextToSize("Your results are indicative of someone living a \u201CFrequently Shaky\u201D life. Your professed priorities are inconsistent with demonstrated behaviors. Your rating is reflective of individuals whose priorities are commonly dirupted. These disruptions may be the result of external circumstances that warrant a temporary reshuffling of your priorities. Alternatively, you may be in the midst of some adversity or life circumstance that warrants focus in one priority area of your life at the expense of others. Regardless of the circumstances, it is important to remember that you are in control of your priorities and associated Life Balance.\n\nIt is possible that you do not have a clear set of priorities at this stage of your life. If you have not done so already, you may want to revisit your core values and/or what may be a compelling purpose or mission that should influence or drive your priorities.\n\nIf you have an identified set of routines or recurring activities that help reinforce the priority areas of your life, it is likely that you are not able to effectively sustain such commitments. Individuals characterized as \u201CFrequently Shaky\u201D often allow less important demands to infringe upon routines or activities that reinforce professed priorities. It is also common that other life stresses may frequently detract from your presence to any activities that may be consistent with your professed priorities.\n\nIndividuals living a \u201CFrequently Shaky\u201D life can feel overwhelmed. Though you may have a sense of self and/or aspire to a compelling purpose, you are unable to consistently live the life you desire. Often, individuals in this category are unfulfilled in their profession and/or struggle to find sustained peace in their lives. Because you frequently lack healthy balance, you may not be equipped to handle adversity that may further apply pressure to the priorities in your life. It is important to clarify your priorities at this stage of your life and to set a foundation of supporting routines and activities that are sustained in a manner consistent with those priorities.", txtWidth);
+					pdf.text(txt, x3, y3);
+				} else if (scoreType == "Unbalanced") {
+					txt = pdf.splitTextToSize("Your results are indicative of someone living an \u201CUnbalanced\u201D life. Your professed priorities are are often inconsistent with demonstrated behaviors. Your rating is reflective of individuals whose priorities are not well known or are otherwise consistently dirupted. These disruptions may be the result of external circumstances that warrant a reshuffling of your priorities. Alternatively, you may be in the midst of some adversity or life circumstance that warrants extended focus in one priority area of your life at the expense of the others. Regardless of the circumstances, it is important to begin the process to restore some semblance of healthy Life Balance.\n\nIt is likely that you do not have a clear set of priorities at this stage of your life. If you have not done so already, you may want to revisit your core values and/or what may be a compelling purpose or mission that should influence or drive your priorities.\n\nIt is common that individuals leading an \u201CUnbalanced\u201D life either have not defined or are unable to sustain a set of routines or recurring activities that help reinforce the priority areas of their life. Individuals characterized as \u201CUnbalanced\u201D commonly allow less important demands to infringe upon routines or activities that reinforce professed priorities. It is also common that other life stresses frequently detract from your presence to any activities that may be consistent with your professed priorities.\n\nIndividuals living an \u201CUnbalanced\u201D life often feel overwhelmed and are unable to consistently live the life they desire. Many individuals in this category are unfulfilled in their profession and/or are unable to attain sustained peace in their lives. Because you lack healthy balance, you may not be equipped to handle additional adversity that may further apply pressure to the priorities in your life. It is important to clarify your priorities at this stage of your life and to take modest steps that will set a foundation for restoring some balance in your life.", txtWidth);
+					pdf.text(txt, x3, y3);
+				}
+
+				//PAGE 4
+				newPage();
+				var x4 = xNew; // x page 4
+				var y4 = yNewPage; // y page 4
+				txt = pdf.splitTextToSize("The following bar chart compares your Balance Assessment Score to the average values reported within your specified Age Range, Gender, Country, Highest Educational Level, Primary Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income.", txtWidth);
+				pdf.text(txt, x4, y4);
+
+				// remove lines later - show top and bottom border boundaries
+				/*pdf.setLineWidth(lineWidth);
+				pdf.setDrawColor(0,0,0); // black
+				pdf.line(1, 1, 7.5, 1); // (x1, y1, x2, y2)
+				pdf.line(1, 10, 7.5, 10); // (x1, y1, x2, y2)*/
 				
 				// CEEK LBA Report - FirstName LastName Year-Month-Day
 				pdf.save("CEEK LBA Report " + fullName + " " + d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + ".pdf");
@@ -1350,6 +1499,11 @@
 				pdf.text("Page " + pageNum, x, y);
 				pdf.text("CEEK Proprietary and Confidential", 4.25, y, 'center'); // used for perfect centering - X coordinate is center of string
 				pdf.text(fullDate, 7.5, y, 'right'); // needed because length of date string varies - X coordinate is rightmost edge of string
+
+				// resets font formatting since the first text areas after all sections share this formatting
+				pdf.setTextColor(0,0,0);
+				pdf.setFontSize(11);
+				pdf.setFontType('normal');
 			}
 
 			function newSection(num, subtitle) {
@@ -1398,6 +1552,16 @@
 				lines passed in and set line spacing*/
 				// add extra lines to create double, triple spacing, etc.
 				return line1+(0.1757*numLines);
+			}
+
+			function halfSpacing(line1, numLines) { // used after images and before text areas or as a manual newline
+				// 0.1757 = line spacing - calculated spacing between Arial 11 pt font lines
+				// 0.08785 = half line spacing - calculated half spacing between Arial 11 pt font lines
+				// 0.26335 = 1.5 line spacing - total of line spacing and half line spacing between Arial 11 pt font lines
+				/*takes the original y coordinate, jumps to the bottom of the line based on the number of 
+				lines passed in and set line spacing*/
+				// add extra lines to create double, triple spacing, etc.
+				return line1+(0.26355*numLines);
 			}
 
 			function imgBuffer(line1, numLines) { // used after text areas and before images
