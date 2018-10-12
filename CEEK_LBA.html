@@ -986,7 +986,11 @@
 			// variables for PDF generation
 			var fullName;
 			var fullDate;
-			var pageNum = 0; // initialized at zero because the newPage() function increments the page number by 1 at the beginning of the method
+			var pageMode = "results"; // results OR attachments
+			// both initialized at zero because their respective functions increment the page number by 1 at the beginning of the method
+			var pageNum = 0; 
+			var pageNumAttach = 0;
+			// -------------------
 			var bodyFontSize;
 			var lineWidth;
 			var txtWidth;
@@ -1056,11 +1060,11 @@
 
 			var imgTablePAGoals = new Image;
 			imgTablePAGoals.crossOrigin = '';
-			imgTablePAGoals.src = 'https://image.ibb.co/kj5q9J/3_Priority_Area_Goals_Table_w_text.png';
+			imgTablePAGoals.src = 'https://image.ibb.co/is5ePT/Priority_Area_Goals_Table.png';
 
 			var imgTableWSQuestions = new Image;
 			imgTableWSQuestions.crossOrigin = '';
-			imgTableWSQuestions.src = 'https://image.ibb.co/hR3tUJ/4_Worksheet_Questions_Table_w_text.png';
+			imgTableWSQuestions.src = 'https://image.ibb.co/kXAoM8/Worksheet_Questions_Table.png';
 
 			// makes selectOccupation and selectYears dropdowns enabled only if "Full-Time" or "Part-Time" is selected
 			$('#selectPWS').change(function() {
@@ -1382,7 +1386,7 @@
 						if (currentArea == numAreas) { // out of bounds of the array by 1, complete assessment
 							// U+2013 = en dash
 							document.getElementById("splashSubtitle").innerHTML = "View Results";
-							document.getElementById("splashPrompt").innerHTML = "Thank you for completing the Life Balance Assessment! Please click the \u2018Generate Report\u2019 button below to receive your personalized \u201CLife Balance Assessment Report.\u201D A copy of it will be downloaded to your computer and another will be e-mailed to you as a backup. If you desire additional support in your pursuit of healthy life balance, we encourage you to read our book, \u201CDiscover Healthy Balance \u2013 a Leader\u2019s Guide to Navigate Chaos in Pursuit of PEACE\u201D and/or send an email to info@ceekllc.com to speak with a Life Balance coach and consultant.";
+							document.getElementById("splashPrompt").innerHTML = "Thank you for completing the Life Balance Assessment! Please click the \u2018Generate Report\u2019 button below to receive your personalized \u201CLife Balance Assessment Report.\u201D Please wait a few sceonds for the PDF to generate before clicking the button again. A copy of it will be downloaded to your computer. If you desire additional support in your pursuit of healthy life balance, we encourage you to read our book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D and/or send an email to info@ceekllc.com to speak with a Life Balance coach and consultant.";
 
 							// hides the demonstrated buttons: the class returns all elements of that class and each has to be individually hidden
 							[].forEach.call(document.querySelectorAll('.radgrpDemonstrated'), function (el) {
@@ -1726,24 +1730,25 @@
 					}
 				}
 
-				// for reference so i dont have to keep scrolling up lol
-				/*function priorityArea (name) {
-				    this.name = name;
-				    this.professed = 0; // total professed score
-				    this.demonstrated = 0; // total demonstrated score
-				}
+				// PDF Section 5, Page 7
 
-				function unclearPair (areaA, areaB) {
-					this.areaA = areaA;
-					this.areaB = areaB;
-				}
+				// checks for areas in which "Yes" (1) was professed but "Never" (0) or "Rarely" (0.25) was demonstrated		
+				for (var x = 0; x < professed.length; x++) {
+					for (var y = 0; y < professed.length; y++) {
+						if (x != y && professed[x][y] == 1 && demonstrated[x][y] <= 0.25) {
+							var txtDemonstrated = "";
 
-				// used to create the slackPairs and tensionPairs arrays
-				function discrepancyPair (areaA, areaB, demonstrated) {
-					this.areaA = areaA;
-					this.areaB = areaB;
-					this.demonstrated = 0;
-				}*/
+							if (demonstrated[x][y] == 0) {
+								txtDemonstrated = "never";
+							} else if (demonstrated[x][y] == 0.25) {
+								txtDemonstrated = "rarely";
+							}
+
+							var pair = new discrepancyPair(priorityAreas[x], priorityAreas[y], txtDemonstrated);
+							slackPairs.push(pair);
+						}
+					}
+				}
 
 				// store: Age Range, Gender, Country, Highest Educational Level, Primary, Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income!!
 				// Used for Google Sheet: https://github.com/dwyl/learn-to-send-email-via-google-script-html-no-server!!
@@ -1865,7 +1870,7 @@
 				  U+201D = right double quotation mark
 				  U+2014 = em dash*/
 				// reuse this variable for putting text in the PDF
-				var txt = pdf.splitTextToSize("In life, everyone will face the stress and pressure associated with competing priorities under time and/or resource constraints. For decades, researchers and organizations have studied the relationship between work and life as one of the most significant examples of such competing priorities. The term \u2018Work/Life Balance\u2019 has come to represent a critical priority for individuals in pursuit of general peace and fulfillment AND for organizations in pursuit of employee engagement and productivity.\n\nAt CEEK, we refer to \u2018Life Balance\u2019 as opposed to \u2018Work/Life Balance.\u2019 To us, \u2018Work\u2019 is simply one of the many competing priorities most of us contend with in \u2018Life.\u2019 In addition to \u2018Work\u2019, many people balance the demands of \u2018Family,\u2019 \u2018Faith,\u2019 Hobbies,\u2019 \u2018Friends,\u2019 \u2018Health,\u2019 and/or other priorities that consume the daily, weekly, monthly, and yearly focus of your lives.\n\nUnfortunately, the demands on our time are often imposed and accepted without conscious deliberation or thought. For many of us, our \u2018work\u2019 often defines the constraints around which the rest of our life and associated dreams can or cannot be pursued.\n\nAt CEEK, we dismiss the notion that personal and professional success are mutually exclusive. Individuals and organizations that actively pursue \u2018Life Balance\u2019 will manage the tension of competing priorities well. In doing so, such individuals and organizations greatly increase the odds of achieving personal and professional success.\n\nAt CEEK, we define Healthy Life Balance as \u201Ca state where professed priorities are consistent with demonstrated behaviors.\u201D In contrast, we define Unhealthy Life Balance as a \u201Cstate where professed priorities are inconsistent with demonstrated behaviors.\u201D\n\nThe CEEK Life Balance Assessment is designed to help you intentionally profess the priorities of your life. We compare your professed priorities to your demonstrated behaviors, or how you live your life. In the areas where your priorities and behaviors are in conflict there exists a source of tension in your life. Given such findings, this report calculates a Life Balance Assessment score and offers tips and suggestions to intentionally pursue enhanced balance and fulfillment, as applicable.\n\nThe Life Balance Assessment and this associated report are tools to help build awareness as the first and most important step to pursue enhanced Life Balance. We encourage you to refer to and leverage this report as you read the book, \u201CDiscover Healthy Balance \u2014 a Leader\u2019s Guide to navigate Chaos in Pursuit of PEACE\u201D. Coupled with this assessment, the book will guide you through a simple, yet powerful approach to manage the tension well in pursuit of healthy Life Balance.\n\nThe remainder of this report summarizes the findings from your Life Balance Assessment. For further guidance, workshops, training or coaching support in pursuit of Life Balance for you and/or your organization, you can contact CEEK via email at info@ceekllc.com.", txtWidth);
+				var txt = pdf.splitTextToSize("In life, everyone will face the stress and pressure associated with competing priorities under time and/or resource constraints. For decades, researchers and organizations have studied the relationship between work and life as one of the most significant examples of such competing priorities. The term \u2018Work/Life Balance\u2019 has come to represent a critical priority for individuals in pursuit of general peace and fulfillment AND for organizations in pursuit of employee engagement and productivity.\n\nAt CEEK, we refer to \u2018Life Balance\u2019 as opposed to \u2018Work/Life Balance.\u2019 To us, \u2018Work\u2019 is simply one of the many competing priorities most of us contend with in \u2018Life.\u2019 In addition to \u2018Work\u2019, many people balance the demands of \u2018Family,\u2019 \u2018Faith,\u2019 Hobbies,\u2019 \u2018Friends,\u2019 \u2018Health,\u2019 and/or other priorities that consume the daily, weekly, monthly, and yearly focus of your lives.\n\nUnfortunately, the demands on our time are often imposed and accepted without conscious deliberation or thought. For many of us, our \u2018work\u2019 often defines the constraints around which the rest of our life and associated dreams can or cannot be pursued.\n\nAt CEEK, we dismiss the notion that personal and professional success are mutually exclusive. Individuals and organizations that actively pursue \u2018Life Balance\u2019 will manage the tension of competing priorities well. In doing so, such individuals and organizations greatly increase the odds of achieving personal and professional success.\n\nAt CEEK, we define Healthy Life Balance as \u201Ca state where professed priorities are consistent with demonstrated behaviors.\u201D In contrast, we define Unhealthy Life Balance as a \u201Cstate where professed priorities are inconsistent with demonstrated behaviors.\u201D\n\nThe CEEK Life Balance Assessment is designed to help you intentionally profess the priorities of your life. We compare your professed priorities to your demonstrated behaviors, or how you live your life. In the areas where your priorities and behaviors are in conflict there exists a source of tension in your life. Given such findings, this report calculates a Life Balance Assessment score and offers tips and suggestions to intentionally pursue enhanced balance and fulfillment, as applicable.\n\nThe Life Balance Assessment and this associated report are tools to help build awareness as the first and most important step to pursue enhanced Life Balance. We encourage you to refer to and leverage this report as you read the book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D. Coupled with this assessment, the book will guide you through a simple, yet powerful approach to manage the tension well in pursuit of healthy Life Balance.\n\nThe remainder of this report summarizes the findings from your Life Balance Assessment. For further guidance, workshops, training or coaching support in pursuit of Life Balance for you and/or your organization, you can contact CEEK via email at info@ceekllc.com.", txtWidth);
 				// use these coordinates for the starting position of text
 				pdf.text(txt, x1, y1);
 
@@ -2045,18 +2050,16 @@
 						sameRankings = false;
 						txt = pdf.splitTextToSize("As you will notice, the ranked list of your professed priorities differs from the ranked list of your demonstrated priorities. The section that follows will elaborate on such differences and the associated tension that may exist.", txtWidth);
 						pdf.text(txt, x5, y5);
+						y5 = newline(y5, 4);
 						break;
 					} else if (rankProfessed[i].name == rankDemonstrated[i].name && i == numAreas - 1) { 
 						// will only be true if all other rankings are identical as well
-						txt = pdf.splitTextToSize("As you will notice, the ranked list of your professed priorities is identical to the ranked list of your demonstrated priorities. This is a good sign that is indicative of individuals with healthy Life Balance.", txtWidth);
+						txt = pdf.splitTextToSize("As you will notice, the ranked list of your professed priorities is identical to the ranked list of your demonstrated priorities. This is a good sign that is commonly indicative of individuals with healthy Life Balance. However, you may still experience sources of tension as detailed in the section that follows.", txtWidth);
 						pdf.text(txt, x5, y5);
+						y5 = newline(y5, 5);
 					}
 				}
-				y5 = newline(y5, 4); // both statements are 3 lines, so a constant newline buffer is appropriate
-
-				// unclear priorities (may need to generate a second page to fit them if the user provides a lot of PAs >.>)??
-				// test w/ 10 priorities!!!!!!!!!!!!!!!!
-
+				
 				if (unclearPairs.length > 0) {
 					txt = pdf.splitTextToSize("In some cases, your priorities are not clear. The following bullets summarize instances where you are unwilling to sacrifice one area of your life in favor of another, and vice-versa.", txtWidth);
 					pdf.text(txt, x5, y5);
@@ -2096,10 +2099,72 @@
 				y6 = newline(y6, 3);
 
 				if (sameRankings == true) {
-					txt = pdf.splitTextToSize("Based upon your response to survey questions, your \u2018professed\u2019 and \u2018demonstrated\u2019 priorities are in direct alignment. This assessment result is most often consistent with individuals that live an authentic life, consistent with their core values and professed priorities. However, it is possible that you have the capacity to push yourself further to pursue your passion and interests. Furthermore, it is important to consider how life circumstances or unexpected adversity might impact your priorities and associated Life Balance.", txtWidth);
+					txt = pdf.splitTextToSize("Based upon your response to survey questions, your \u2018professed\u2019 and \u2018demonstrated\u2019 priorities are in direct alignment. This assessment result is most often consistent with individuals that live an authentic life, consistent with their core values and professed priorities.", txtWidth);
 					pdf.text(txt, x6, y6);
-					y6 = newline(y6, 7);
+					y6 = newline(y6, 4);
 
+					if (tensionPairs.length > 0) {
+						txt = pdf.splitTextToSize("However, as listed below, it appears that you still make some sacrifices in areas of your life that are more important in favor of other areas that are deemed less important.", txtWidth);
+						pdf.text(txt, x6, y6);
+
+						y6 = listBuffer(y6, 2);
+						// bulleted list order: always > often > sometimes
+						// always
+						for (var i = 0; i < tensionPairs.length; i++) {
+							if (y6 > 10) {
+								newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+								x6 = xNew;
+								y6 = yNewPage;
+							}
+
+							if (tensionPairs[i].demonstrated == "always") {
+								bulletPoint("You " + tensionPairs[i].demonstrated + " sacrifice " + tensionPairs[i].areaA.name + " in favor of " + tensionPairs[i].areaB.name + ".", y6);
+								y6 = newline(y6, 1);
+							}
+						}
+						// often
+						for (var i = 0; i < tensionPairs.length; i++) {
+							if (y6 > 10) {
+								newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+								x6 = xNew;
+								y6 = yNewPage;
+							}
+
+							if (tensionPairs[i].demonstrated == "often") {
+								bulletPoint("You " + tensionPairs[i].demonstrated + " sacrifice " + tensionPairs[i].areaA.name + " in favor of " + tensionPairs[i].areaB.name + ".", y6);
+								y6 = newline(y6, 1);
+							}
+						}
+						// sometimes
+						for (var i = 0; i < tensionPairs.length; i++) {
+							if (y6 > 10) {
+								newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+								x6 = xNew;
+								y6 = yNewPage;
+							}
+
+							if (tensionPairs[i].demonstrated == "sometimes") {
+								bulletPoint("You " + tensionPairs[i].demonstrated + " sacrifice " + tensionPairs[i].areaA.name + " in favor of " + tensionPairs[i].areaB.name + ".", y6);
+								y6 = newline(y6, 1);
+							}
+						}
+						y6 = newline(y6, 1); // needed since this section may not be shown
+					}
+
+					if (newline (y6, 2) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					txt = pdf.splitTextToSize("It is possible that you have the capacity to push yourself further to pursue your passion and interests. Furthermore, it is important to consider how life circumstances or unexpected adversity might impact your priorities and associated Life Balance.", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					y6 = newline(y6, 4);
+					if (newline (y6, 3) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					pdf.setFontType('bold');
 					txt = pdf.splitTextToSize("ACTION", txtWidth);
 					pdf.text(txt, x6, y6);
@@ -2110,6 +2175,11 @@
 
 					// discrepancy pair table
 					y6 = imgBuffer(y6, 4);
+					if (y6 + 1.225 > 10) { // checks for overflow image - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					pdf.addImage(imgTableDiscrepancyPair, 'PNG', x6, y6, 6.5, 1.225);
 					
 					pdf.setFontType('bold');
@@ -2129,6 +2199,11 @@
 
 					y6 = y6 + 1.225; // height of the table - used as a buffer to find the next text line after the table
 					y6 = newline(y6, 2);
+					if (newline (y6, 5) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					pdf.setFontType('normal');
 					pdf.setTextColor(0,0,0); // black
 					txt = pdf.splitTextToSize("Even though your professed and demonstrated priorities are aligned, it is important to define what healthy \u2018Life Balance\u2019 means to you. In many cases, individuals will define goals such as spend \u2018more time with family\u2019 or \u2018less time at work.\u2019 Defining balance in terms of \u2018more\u2019 or \u2018less\u2019 is an unattainable goal because there will always exist the potential for \u2018more\u2019 or \u2018less.\u2019 At CEEK, we encourage individuals to define balance in terms of commitments you can make within the realistic constraints of your life. For example...", txtWidth);
@@ -2136,23 +2211,68 @@
 
 					// bulleted list
 					y6 = listBuffer(y6, 6);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to have dinner with the family each night?", y6);
 					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to exercise for a half hour every day?", y6);
 					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to spend time on strategic, but not urgent, matters each week at work?", y6);
 					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to put the cell phone and computer aside for two hours each day?", y6);
 					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to spend a day each month focused on a child or significant other?", y6);
 					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to attend a class or pursue a hobby or other interest?", y6);
 					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to an annual vacation void of distraction?", y6);
 					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					bulletPoint("Can I COMMIT...to serve a higher calling on a weekly, monthly or yearly basis?", y6);
 					
 					y6 = newline(y6, 2);
+					if (newline(y6, 3) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
 					txt = pdf.splitTextToSize("Because your professed and demonstrated priorities are consistent, it is likely that you have a set of established routines or activities that support the priority areas of your life. Regardless, we encourage you to refer to Attachment 1 of this report for an example template to put such goals, or commitments, in writing for the priority areas of your life.", txtWidth);
 					pdf.text(txt, x6, y6);
 				} else if (sameRankings == false) {
@@ -2337,9 +2457,518 @@
 
 				txt = pdf.splitTextToSize("Just as the Life Balance Assessment can reveal sources of tension in your life, it can also reveal sources for \u2018slack.\u2019 At CEEK, we define \u2018slack\u2019 as potential for an individual or organization to create time and space to pursue that which is strategic, but not urgent. Relative to the Life Balance Assessment, we consider a potential source for \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but rarely do.", txtWidth);
 				pdf.text(txt, x7, y7);
+				
 				y7 = newline(y7, 6);
+				if (slackPairs.length == 0) {
+					txt = pdf.splitTextToSize("Based upon your response to survey questions, you sometimes, often, or always sacrifice lower priority areas of your life in favor of a higher priority area of your life. As a result, you may have limited, if any, room for \u2018slack.\u2019 While you may be effective at maintaining focus on the most significant priorities in your life, it is possible that your neglect for other interests or priorities could introduce new, unresolved tension.", txtWidth);
+					pdf.text(txt, x7, y7);
+					
+					y7 = newline(y7, 6);
+					pdf.setFontType('bold');
+					txt = pdf.splitTextToSize("ACTION", txtWidth);
+					pdf.text(txt, x7, y7);
 
-				// left off here - conditional logic for slack pairs
+					pdf.setFontType('normal');
+					txt = pdf.splitTextToSize("               \u2013 We encourage you to reflect upon your neglect for lower priority areas specified in your survey response. Consider the following questions. (See Attachment 3 for an associated worksheet template.)", txtWidth);
+					pdf.text(txt, x7, y7);
+
+					// slack pair table
+					y7 = imgBuffer(y7, 3);
+					pdf.addImage(imgTableDiscrepancyPair, 'PNG', x7, y7, 6.5, 1.225);
+					
+					pdf.setFontType('bold');
+					pdf.setTextColor(255,255,255); // white
+					xTable = x7 + 0.085;
+					yTable = y7 + 0.2727;
+					var lsTable = 0.39;
+					pdf.text("1", xTable, yTable);
+					pdf.text("2", xTable, yTable+(1*lsTable));
+					pdf.text("3", xTable, yTable+(2*lsTable));
+					xTable = 1.33;
+					pdf.setFontType('normal');
+					pdf.setTextColor(0,0,0); // black
+					txt = pdf.splitTextToSize("Has my focus on the most important priorities in my life prevented me from pursuing other lower priorities that would enhance my fulfillment in life?", 6.15);
+					pdf.text(txt, xTable, yTable-(0.25*lsTable));
+					txt = pdf.splitTextToSize("If yes, what commitments can I make that will restore some focus on neglected priority areas?", 6.15);
+					pdf.text(txt, xTable, yTable+(0.75*lsTable));
+					pdf.text("If no, what is it about these other areas of my life that make it a worthwhile priority?", xTable, yTable+(2*lsTable));
+
+					y7 = y7 + 1.225; // height of the table - used as a buffer to find the next text line after the table
+					y7 = newline(y7, 2);
+					txt = pdf.splitTextToSize("Such circumstances most commonly occur when dealing with the illness of a loved one, supporting a critical, time-sensitive work demand, or dealing with an unexpected crisis. While life circumstances sometimes dictate intense periods of focus, it is important to remain intentional about your own mental, physical and spiritual health during such periods. Finding time to pursue other interests or priorities during such periods can enhance productivity and/or fulfillment while mitigating any associated stress.", txtWidth);
+					pdf.text(txt, x7, y7);
+				} else if (slackPairs.length > 0) {
+					txt = pdf.splitTextToSize("Based upon your response to survey questions, there are instances in which you rarely or never sacrifice a lower priority area of your life in favor of a higher priority area of your life. These instances afford you the opportunity for additional focus on one or more priority areas in your life if, and when, circumstances warrant the need for additional attention in that particular area. The list below summarizes such instances where you never or rarely sacrifice a lower priority area in favor of a higher priority area:", txtWidth);
+					pdf.text(txt, x7, y7);
+
+					y7 = listBuffer(y7, 6);
+					// bulleted list order: never > rarely
+					// never
+					for (var i = 0; i < slackPairs.length; i++) {
+						if (y7 > 10) {
+							newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+							x7 = xNew;
+							y7 = yNewPage;
+						}
+
+						if (slackPairs[i].demonstrated == "never") {
+							bulletPoint("You " + slackPairs[i].demonstrated + " sacrifice " + slackPairs[i].areaA.name + " in favor of " + slackPairs[i].areaB.name + ".", y7);
+							y7 = newline(y7, 1);
+						}
+					}
+					// rarely
+					for (var i = 0; i < slackPairs.length; i++) {
+						if (y7 > 10) {
+							newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+							x7 = xNew;
+							y7 = yNewPage;
+						}
+
+						if (slackPairs[i].demonstrated == "rarely") {
+							bulletPoint("You " + slackPairs[i].demonstrated + " sacrifice " + slackPairs[i].areaA.name + " in favor of " + slackPairs[i].areaB.name + ".", y7);
+							y7 = newline(y7, 1);
+						}
+					}
+
+					y7 = newline(y7, 1);;
+					if (newline(y7, 6) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x7 = xNew;
+						y7 = yNewPage;
+					}
+					txt = pdf.splitTextToSize("Such instances represent opportunities for \u2018slack.\u2019 If, and when, circumstances warrant additional time and resources focused on higher priorities areas, you have the potential to capitalize on time and resources currently spent in lower priorities areas. It is useful to be aware of these sources for \u2018slack\u2019 and to identify circumstances under which you would sacrifice lower priority areas to focus on one or more high-priority areas. As an example, if work demands, a family illness or significant life event warrant an intense period of focus, you will know where you can conserve time and resources to support more imminent priorities.", txtWidth);
+					pdf.text(txt, x7, y7);
+
+					y7 = newline(y7, 8);
+					if (newline(y7, 2) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x7 = xNew;
+						y7 = yNewPage;
+					}
+					pdf.setFontType('bold');
+					txt = pdf.splitTextToSize("ACTION", txtWidth);
+					pdf.text(txt, x7, y7);
+
+					pdf.setFontType('normal');
+					txt = pdf.splitTextToSize("               \u2013 We encourage you to consider the following questions that will prepare you for inevitable circumstances that warrant enhanced focus in a high-priority area of your life. (See Attachment 4 for an associated worksheet template.)", txtWidth);
+					pdf.text(txt, x7, y7);
+
+					// slack pair table
+					y7 = imgBuffer(y7, 3);
+					if (y7 + 1.225 > 10) { // checks for overflow image - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x7 = xNew;
+						y7 = yNewPage;
+					}
+					pdf.addImage(imgTableDiscrepancyPair, 'PNG', x7, y7, 6.5, 1.225);
+					
+					pdf.setFontType('bold');
+					pdf.setTextColor(255,255,255); // white
+					xTable = x7 + 0.085;
+					yTable = y7 + 0.2727;
+					var lsTable = 0.39;
+					pdf.text("1", xTable, yTable);
+					pdf.text("2", xTable, yTable+(1*lsTable));
+					pdf.text("3", xTable, yTable+(2*lsTable));
+					xTable = 1.33;
+					pdf.setFontType('normal');
+					pdf.setTextColor(0,0,0); // black
+
+					pdf.text("What current commitments do you maintain that are optional?", xTable, yTable);
+					pdf.text("What circumstances might warrant reconsideration of such optional commitments?", xTable, yTable+(1*lsTable));
+					txt = pdf.splitTextToSize("What actions, if any, are required to temporarily suspend or permanently discontinue such commitments?", 6.15);
+					pdf.text(txt, xTable, yTable+(1.75*lsTable));
+
+					y7 = y7 + 1.225; // height of the table - used as a buffer to find the next text line after the table
+					y7 = newline(y7, 2);
+					if (newline(y7, 4) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x7 = xNew;
+						y7 = yNewPage;
+					}
+					txt = pdf.splitTextToSize("Contingency planning of this nature will help you sustain reasonable \u2018Life Balance\u2019 while mitigating stress and anxiety during periods of unexpected demands. At CEEK, we refer to this as pre-crisis integrity. The intentional pursuit of Life Balance will not only help you pursue peace and fulfillment in your life, but will also help you endure challenges faced when life throws adversity your way.", txtWidth);
+					pdf.text(txt, x7, y7);
+				}
+
+				// PAGE 8
+				newPage();
+				newSection(6, "Summary");
+				var x8 = xNew; // x page 8
+				var y8 = yNewSection; // y page 8
+
+				txt = pdf.splitTextToSize("The simple initiative to complete this assessment, demonstrates an intentional effort on your part to pursue healthy Life Balance. In completing the assessment, you identified " + numAreas + " priority areas of your life. Based upon the magnitude and frequency of competing tensions among your professed and demonstrated priorities, we calculated a Life Balance Assessment Score of " + score + "%. This score is consistent with our definition of a(n) \u201C" + scoreType + "\u201D life.", txtWidth);
+				pdf.text(txt, x8, y8);
+
+				y8 = newline(y8, 6);
+				txt = pdf.splitTextToSize("Regardless of your current assessment results, your perspective on balance, and objectives related to it, will change depending on the circumstances of your life. Nonetheless, it is important to take the steps necessary to restore or sustain healthy Life Balance based upon your current circumstances. Doing so now, will equip you to effectively manage this tension when life throws adversity your way. Equally important, your intentional effort to pursue healthy Life Balance will enhance your personal joy, fulfillment and peace while also enhancing productivity.", txtWidth);
+				pdf.text(txt, x8, y8);
+
+				y8 = newline(y8, 7);
+				txt = pdf.splitTextToSize("To assist you in your pursuit of healthy Life Balance, we provide an attachment to this report of various templates to help develop and sustain a Plan of Action in pursuit of healthy Life Balance. Among other templates for consideration, this attachment includes the actions and associated questions suggested in Sections 4 and 5 of this report. We recommend the following next steps:", txtWidth);
+				pdf.text(txt, x8, y8);
+
+				y8 = listBuffer(y8, 4);
+				numberedPoint(1, "Complete the relevant portions of \u2018Plan of Action\u2019 templates.", y8);
+				y8 = newline(y8, 1);
+				numberedPoint(2, "Update your calendar with any new commitments.", y8);
+				y8 = newline(y8, 1);
+				numberedPoint(3, "Reassess your Life Balance in three to six months.", y8);
+
+				y8 = newline(y8, 2);
+				// U+00AE = registered symbol
+				txt = pdf.splitTextToSize("To further assist in your pursuit of healthy Life Balance, we also encourage you to leverage this report as you read the book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D. And, if you desire to do more, or if you are a leader in your organization that seeks to promote a culture of healthy balance, we encourage you to consider participation in one or more of our \u2018CEEK a Better Way\u00AE\u2019 workshops.", txtWidth);
+				pdf.text(txt, x8, y8);
+
+				y8 = newline(y8, 6);
+				txt = pdf.splitTextToSize("Send an email to info@ceekllc.com to inquire about upcoming webinars or to discuss how we can deliver a healthy Life Balance workshop or speaking engagement within your organization that will promote enhanced accountability and productivity while pursuing healthy Life Balance and personal fulfillment.", txtWidth);
+				pdf.text(txt, x8, y8);
+
+				y8 = newline(y8, 7);
+				pdf.setFontSize(10);
+				pdf.text("* Please retain this report and use the following access to reassess your life balance at a future date:", 4.25, y8, 'center'); // used for perfect centering - X coordinate is center of string
+				y8 = newline(y8, 1);
+				pdf.text(accessCode, 4.25, y8, 'center'); // used for perfect centering - X coordinate is center of string
+
+				pdf.setFontSize(bodyFontSize);
+				
+				pageMode = "attachments"; // used to change the page numbering
+
+				// PAGE 9
+				newPage();
+				newAttachment(1, "Priority Goals/Commitments");
+				var x9 = xNew; // x page 9
+				var y9 = yNewSection; // y page 9
+
+				txt = pdf.splitTextToSize("For each of the priority areas that you specified in your Life Balance Assessment, we encourage you to define at least three goals, stated as daily, weekly, monthly, or yearly commitments, that you can make to reinforce your professed priorities in life. Specify the schedule and frequency with which you commit to fulfill each activity. As appropriate, place the specified commitments on your home and work calendars. Consider tracking your progress in a journal as a relative percent of commitments maintained.", txtWidth);
+				pdf.text(txt, x9, y9);
+
+				y9 = newline(y9, 8);
+				pdf.setFontType('bold');
+				pdf.text("Priority Area: __________________________________________", x9, y9);
+
+				// goal/commitment table
+				y9 = imgBuffer(y9, 1);
+				pdf.addImage(imgTablePAGoals, 'PNG', x9, y9, 6.5, 2.741);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x9 + 0.085;
+				yTable = y9 + 0.77;
+				lsTable = 0.8;
+				pdf.text("Goal/Commitment", xTable+1.595, y9+0.215);
+				pdf.text("Schedule/Frequency", xTable+4.735, y9+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+				y9 = y9 + 2.741; // height of the table - used as a buffer to find the next text line after the table
+
+				y9 = newline(y9, 3);
+				pdf.setTextColor(0,0,0); // black
+				pdf.text("Priority Area: __________________________________________", x9, y9);
+
+				// goal/commitment table
+				y9 = imgBuffer(y9, 1);
+				pdf.addImage(imgTablePAGoals, 'PNG', x9, y9, 6.5, 2.741);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x9 + 0.085;
+				yTable = y9 + 0.77;
+				lsTable = 0.8;
+				pdf.text("Goal/Commitment", xTable+1.595, y9+0.215);
+				pdf.text("Schedule/Frequency", xTable+4.735, y9+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+
+				// PAGE 10
+				newPage();
+				var x10 = xNew; // x page 10
+				var y10 = yNewPage; // y page 10
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(0,0,0); // black
+				pdf.text("Priority Area: __________________________________________", x10, y10);
+
+				// goal/commitment table
+				y10 = imgBuffer(y10, 1);
+				pdf.addImage(imgTablePAGoals, 'PNG', x10, y10, 6.5, 2.741);
+				
+				pdf.setTextColor(255,255,255); // white
+				xTable = x10 + 0.085;
+				yTable = y10 + 0.77;
+				lsTable = 0.8;
+				pdf.text("Goal/Commitment", xTable+1.595, y10+0.215);
+				pdf.text("Schedule/Frequency", xTable+4.735, y10+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+				y10 = y10 + 2.741; // height of the table - used as a buffer to find the next text line after the table
+
+				y10 = newline(y10, 3);
+				pdf.setTextColor(0,0,0); // black
+				pdf.text("Priority Area: __________________________________________", x10, y10);
+
+				// goal/commitment table
+				y10 = imgBuffer(y10, 1);
+				pdf.addImage(imgTablePAGoals, 'PNG', x10, y10, 6.5, 2.741);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x10 + 0.085;
+				yTable = y10 + 0.77;
+				lsTable = 0.8;
+				pdf.text("Goal/Commitment", xTable+1.595, y10+0.215);
+				pdf.text("Schedule/Frequency", xTable+4.735, y10+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+
+				pdf.setFontSize(10);
+				pdf.setTextColor(0,0,0); // black
+				pdf.text("* Print extra copies of this sheet as necessary to address additional priority areas in your life.", 4.25, 9.85, 'center');
+				pdf.setFontSize(bodyFontSize);
+
+				// PAGE 11
+				newPage();
+				newAttachment(2, "Resolving Balance Tensions");
+				var x11 = xNew; // x page 11
+				var y11 = yNewSection; // y page 11
+
+				pdf.setFontType('bold');
+				txt = pdf.splitTextToSize("ACTION", txtWidth);
+				pdf.text(txt, x11, y11);
+
+				pdf.setFontType('normal');
+				txt = pdf.splitTextToSize("               \u2013 For and priority areas in which the professed priority is not consistent with your demonstrated behavior, we encourage you to assess the existing or potential sources of tension that may hinder your ability to sustain the goals or commitments you have proposed. Consider the following questions for each priority area and the associated commitments.", txtWidth);
+				pdf.text(txt, x11, y11);
+
+				y11 = newline(y11, 6);
+				pdf.setFontType('bold');
+				pdf.text("Priority Area: __________________________________________", x11, y11);
+
+				// question/response table
+				y11 = imgBuffer(y11, 1);
+				pdf.addImage(imgTableWSQuestions, 'PNG', x11, y11, 6.5, 6.312);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x11 + 0.085;
+				yTable = y11 + 1.33;
+				lsTable = 1.98;
+				pdf.text("Question", xTable+0.595, y11+0.215);
+				pdf.text("Response", xTable+3.78, y11+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+				
+				xTable = 1.33;
+				yTable = y11 + 0.526;
+				columnWidth = 1.6;
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+
+				txt = pdf.splitTextToSize("What, if anything, would prevent me from making and keeping the commitments associated with this priority area?", columnWidth);
+				yTable = newline(yTable, 2);
+				pdf.text(txt, xTable, yTable);
+				
+				txt = pdf.splitTextToSize("What, if anything, can I do to remove such obstacles?", columnWidth);
+				yTable = newline(yTable, 13);
+				pdf.text(txt, xTable, yTable);
+
+				txt = pdf.splitTextToSize("Who can I enroll, or what can I do, to hold myself accountable to such commitments?", columnWidth);
+				yTable = newline(yTable, 10.5);
+				pdf.text(txt, xTable, yTable);
+
+				// PAGE 12
+				newPage();
+				var x12 = xNew; // x page 11
+				var y12 = yNewPage; // y page 11
+
+				pdf.setFontType('bold');
+				pdf.text("Priority Area: __________________________________________", x12, y12);
+
+				// question/response table
+				y12 = imgBuffer(y12, 1);
+				pdf.addImage(imgTableWSQuestions, 'PNG', x12, y12, 6.5, 6.312);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x12 + 0.085;
+				yTable = y12 + 1.33;
+				lsTable = 1.98;
+				pdf.text("Question", xTable+0.595, y12+0.215);
+				pdf.text("Response", xTable+3.78, y12+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+				
+				xTable = 1.33;
+				yTable = y12 + 0.526;
+				columnWidth = 1.6;
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+
+				yTable = newline(yTable, 2);
+				txt = pdf.splitTextToSize("What, if anything, would prevent me from making and keeping the commitments associated with this priority area?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+				
+				yTable = newline(yTable, 13);
+				txt = pdf.splitTextToSize("What, if anything, can I do to remove such obstacles?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				yTable = newline(yTable, 10.5);
+				txt = pdf.splitTextToSize("Who can I enroll, or what can I do, to hold myself accountable to such commitments?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				pdf.setFontSize(10);
+				pdf.setFontType('bold');
+				pdf.setTextColor(0,0,0); // black
+				pdf.text("* Print extra copies of this sheet to address each priority area and the associated commitments.", 4.25, 9.85, 'center');
+				pdf.setFontSize(bodyFontSize);
+
+				// PAGE 13
+				newPage();
+				newAttachment(3, "Neglected Priority Areas");
+				var x13 = xNew; // x page 13
+				var y13 = yNewSection; // y page 13
+
+				pdf.setFontType('bold');
+				txt = pdf.splitTextToSize("ACTION", txtWidth);
+				pdf.text(txt, x13, y13);
+
+				pdf.setFontType('normal');
+				txt = pdf.splitTextToSize("               \u2013 Relative to the Life Balance Assessment, we consider \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but rarely do. If you often or always sacrifice lower priority areas of your life in favor of a higher priority area of your life, you may have limited, if any, room for \u2018slack.\u2019 While you may be effective at maintaining focus on the most significant priorities in your life, it is possible that your neglect for other interests or priorities could introduce new, unresolved tension. We encourage you to reflect upon your neglect for lower priority areas via the following questions.", txtWidth);
+				pdf.text(txt, x13, y13);
+
+				// question/response table
+				y13 = imgBuffer(y13, 7);
+				pdf.addImage(imgTableWSQuestions, 'PNG', x13, y13, 6.5, 6.312);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x13 + 0.085;
+				yTable = y13 + 1.33;
+				lsTable = 1.98;
+				pdf.text("Question", xTable+0.595, y13+0.215);
+				pdf.text("Response", xTable+3.78, y13+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+				
+				xTable = 1.33;
+				yTable = y13 + 0.526;
+				columnWidth = 1.6;
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+
+				yTable = newline(yTable, 1);
+				txt = pdf.splitTextToSize("Has my focus on the most important priorities in my life prevented me from pursuing other lower priorities that would enhance my fulfillment in life? In what ways?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+				
+				yTable = newline(yTable, 12);
+				txt = pdf.splitTextToSize("If yes, what commitments can I make that will restore some focus on neglected priority areas?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				yTable = newline(yTable, 12.5);
+				txt = pdf.splitTextToSize("If no, what is it about these other areas of my life that make it a worthwhile priority?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				// PAGE 14
+				newPage();
+				newAttachment(4, "\u201CSlack\u201D Assessment");
+				var x14 = xNew; // x page 14
+				var y14 = yNewSection; // y page 14
+
+				pdf.setFontType('bold');
+				txt = pdf.splitTextToSize("ACTION", txtWidth);
+				pdf.text(txt, x14, y14);
+
+				pdf.setFontType('normal');
+				txt = pdf.splitTextToSize("               \u2013 Relative to the Life Balance Assessment, we consider a \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but rarely do. If you you rarely or never sacrifice a lower priority area of your life in favor of a higher priority area of your life, you likely have room for \u2018slack.\u2019 It is useful to be aware of these sources for \u2018slack\u2019 and to identify circumstances under which you would sacrifice lower priority areas to focus on one or more high-priority areas. We encourage you to reflect upon following questions in preparation for circumstances that may warrant enhanced focus in another priority area of your life.", txtWidth);
+				pdf.text(txt, x14, y14);
+
+				// question/response table
+				y14 = imgBuffer(y14, 7);
+				pdf.addImage(imgTableWSQuestions, 'PNG', x14, y14, 6.5, 6.312);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x14 + 0.085;
+				yTable = y14 + 1.33;
+				lsTable = 1.98;
+				pdf.text("Question", xTable+0.595, y14+0.215);
+				pdf.text("Response", xTable+3.78, y14+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+				
+				xTable = 1.33;
+				yTable = y14 + 0.526;
+				columnWidth = 1.6;
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+
+				yTable = newline(yTable, 3);
+				txt = pdf.splitTextToSize("What current commitments do you maintain that are optional?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+				
+				yTable = newline(yTable, 11.5);
+				txt = pdf.splitTextToSize("What circumstances might warrant reconsideration of such optional commitments?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				yTable = newline(yTable, 10);
+				txt = pdf.splitTextToSize("What actions, if any, are required to temporarily suspend or permanently discontinue such commitments?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				// PAGE 15
+				newPage();
+				newAttachment(5, "Balance Contingency Plan");
+				var x15 = xNew; // x page 15
+				var y15 = yNewSection; // y page 15
+
+				pdf.setFontType('bold');
+				txt = pdf.splitTextToSize("ACTION", txtWidth);
+				pdf.text(txt, x15, y15);
+
+				pdf.setFontType('normal');
+				txt = pdf.splitTextToSize("               \u2013 If your professed and demonstrated priorities are well-aligned, we encourage you to reflect upon the circumstances of your life that enable you to effectively prioritize that which is important to you. It is important to establish a routine and the intentional discipline to periodically reassess your priorities to maintain effective Life Balance. Consider the following questions.", txtWidth);
+				pdf.text(txt, x15, y15);
+
+				// question/response table
+				y15 = imgBuffer(y15, 4);
+				pdf.addImage(imgTableWSQuestions, 'PNG', x15, y15, 6.5, 6.312);
+				
+				pdf.setFontType('bold');
+				pdf.setTextColor(255,255,255); // white
+				xTable = x14 + 0.085;
+				yTable = y15 + 1.33;
+				lsTable = 1.98;
+				pdf.text("Question", xTable+0.595, y15+0.215);
+				pdf.text("Response", xTable+3.78, y15+0.215);
+				pdf.text("1", xTable, yTable);
+				pdf.text("2", xTable, yTable+(1*lsTable));
+				pdf.text("3", xTable, yTable+(2*lsTable));
+				
+				xTable = 1.33;
+				yTable = y15 + 0.526;
+				columnWidth = 1.6;
+				pdf.setFontType('normal');
+				pdf.setTextColor(0,0,0); // black
+
+				yTable = newline(yTable, 3);
+				txt = pdf.splitTextToSize("What characteristics of current circumstances enable me to maintain effective balance?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+				
+				yTable = newline(yTable, 11.5);
+				txt = pdf.splitTextToSize("Do such circumstances offer an opportunity for me to further pursue a passion or interest?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				yTable = newline(yTable, 11);
+				txt = pdf.splitTextToSize("How might future circumstances change that would challenge my priorities?", columnWidth);
+				pdf.text(txt, xTable, yTable);
+
+				// left off here
 				
 				// CEEK LBA Report - FirstName LastName Year-Month-Day
 				pdf.save("CEEK LBA Report " + fullName + " " + d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + ".pdf");
@@ -2375,7 +3004,6 @@
 			}
 
 			function newPage() {
-				pageNum++;
 				pdf.addPage();
 				pdf.addImage(imgHeader,'PNG', 0, 0, 8.5, 0.8807);
 				pdf.addImage(imgFooter, 'PNG', 0, 10.1063, 8.5, 0.8937);
@@ -2393,7 +3021,13 @@
 				y = 10.435;
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,0,0); // black
-				pdf.text("Page " + pageNum, x, y);
+				if (pageMode == "results") {
+					pageNum++;
+					pdf.text("Page " + pageNum, x, y);
+				} else if (pageMode == "attachments") {
+					pageNumAttach++;
+					pdf.text("Page A-" + pageNumAttach, x, y);
+				}
 				pdf.text("CEEK Proprietary and Confidential", 4.25, y, 'center'); // used for perfect centering - X coordinate is center of string
 				pdf.text(fullDate, 7.5, y, 'right'); // needed because length of date string varies - X coordinate is rightmost edge of string
 
@@ -2436,7 +3070,7 @@
 				pdf.setFontSize(24);
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
-				pdf.text("Attachment " + num + ": " + subtitle, 4.25, ySubtitle, 'center'); // used for perfect centering - X coordinate is center of string
+				pdf.text("Attachment " + num + ". " + subtitle, 4.25, ySubtitle, 'center'); // used for perfect centering - X coordinate is center of string
 				// subtitle string length varies so centering has to be used
 
 				// subtitle line
