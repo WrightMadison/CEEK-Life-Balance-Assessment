@@ -8,7 +8,8 @@
  <!-- Quick Search:
  	?? = potential change
  	!! = needs to be implemented
- 	uncomment out later = conditionals that need to be uncommented out before release -->
+ 	uncomment out later = conditionals that need to be uncommented out before release 
+ 	left off here = find the most recently edited code while development is still underway -->
 
 <DOCTYPE html>
 <html>
@@ -976,18 +977,21 @@
 			// arrays for user responses
 			var professed;
 			var demonstrated;
-			// arrays for PDF generation based on user responses
-			var professedImportance;
-			var demonstratedImportance;
-			var unclearPriorities;
-			var tensionPairs;
-			var slackPairs;
+			// arrays for PDF generation based on user responses (priorityArea data type)
+			var rankProfessed = [];
+			var rankDemonstrated = [];
+			var unclearPairs = [];
+			var tensionPairs = [];
+			var slackPairs = [];
 			// variables for PDF generation
 			var fullName;
 			var fullDate;
 			var pageNum = 0; // initialized at zero because the newPage() function increments the page number by 1 at the beginning of the method
 			var bodyFontSize;
 			var lineWidth;
+			var txtWidth;
+			var listIndent;
+			var xNew;
 			var ySubtitle;
 			var ySubtitleLine;
 			var pdf = new jsPDF({ // Default export is a4 paper, portrait, using millimeters for units
@@ -1024,7 +1028,7 @@
 			function discrepancyPair (areaA, areaB, demonstrated) {
 				this.areaA = areaA;
 				this.areaB = areaB;
-				this.demonstrated = 0;
+				this.demonstrated = demonstrated;
 			}
 
 			// Report Images
@@ -1045,6 +1049,18 @@
 			var imgTableDemographics = new Image;
 			imgTableDemographics.crossOrigin = '';
 			imgTableDemographics.src = 'https://image.ibb.co/j63VqH/Demographic_Information_Table.png';
+
+			var imgTableDiscrepancyPair = new Image;
+			imgTableDiscrepancyPair.crossOrigin = '';
+			imgTableDiscrepancyPair.src = 'https://image.ibb.co/m2G8wy/Discrepancy_Pair_Question_Table.png';
+
+			var imgTablePAGoals = new Image;
+			imgTablePAGoals.crossOrigin = '';
+			imgTablePAGoals.src = 'https://image.ibb.co/kj5q9J/3_Priority_Area_Goals_Table_w_text.png';
+
+			var imgTableWSQuestions = new Image;
+			imgTableWSQuestions.crossOrigin = '';
+			imgTableWSQuestions.src = 'https://image.ibb.co/hR3tUJ/4_Worksheet_Questions_Table_w_text.png';
 
 			// makes selectOccupation and selectYears dropdowns enabled only if "Full-Time" or "Part-Time" is selected
 			$('#selectPWS').change(function() {
@@ -1095,17 +1111,6 @@
 			$("#sliderStress").change(function() {
 				document.getElementById("responseStress").innerHTML = document.getElementById("sliderStress").value;
 			});
-
-			/*$("#professedButtons").change(function() {
-				professed[a][b] = $("input[name=radioProfessed]:checked", "#professedButtons").val();
-			});
-
-			$("#demonstratedButtons").change(function() {
-				demonstrated[a][b] = $("input[name=radioDemonstrated]:checked", "#demonstratedButtons").val();
-			});*/
-
-			// on change event for saving user's response
-			// load their answer back in using array
 
 			$("#btnNext").click(function() {
 				if (currentPage === "codeEntry") {
@@ -1277,7 +1282,7 @@
 									alert("Please answer all questions before proceeding.");
 									break;
 								} else {
-									professed[currentArea][i] = $(test).val();
+									professed[currentArea][i] = parseFloat($(test).val());
 								}
 							}
 							// if the every question up through last question passes the value check, the currentArea is incremented by 1
@@ -1287,7 +1292,6 @@
 							/*once the last question of the priority area is reached, if that priority area is second to last or earlier then more questions are generated*/
 							if (i == numAreas - 1 && currentArea < numAreas) {
 								generateQuestions();
-								//document.getElementById('lblQuestion').innerHTML = "test";
 							}
 						}
 
@@ -1346,7 +1350,7 @@
 									alert("Please answer all questions before proceeding.");
 									break;
 								} else {
-									demonstrated[currentArea][i] = $(test).val();
+									demonstrated[currentArea][i] = parseFloat($(test).val());
 								}
 							}
 							// if the every question up through last question passes the value check, the currentArea is incremented by 1
@@ -1396,9 +1400,6 @@
 				}
 			});
 
-			// write storeResponses() function!! or put in btnNext??
-
-			/*figure this out lol?*/
 			function generateQuestions() {
 				// adds the priority areas to the respective question blocks
 				/*as the user proceeds through the assessment, the question priority area
@@ -1543,6 +1544,10 @@
 							break;
 						}
 					}
+
+					if (document.getElementById("lstPriorityAreas").length == 0) { // must add condition for the case in which the list is empty	
+						document.getElementById("lstPriorityAreas").options.add(opt);
+					}
 				}
 				document.getElementById('txtPriorityAreas').value = "";
 
@@ -1572,8 +1577,8 @@
 			$("#btnReport").click(function() {
 				// calculates assesssment score and more 
 				// keep all report calculations at the top!! (move others as needed)
-				// LEFT OFF HERE
 				var score;
+				// does this need to be 0.00 or can it be 0??
 				var negativeBoxes = 0.00; // must intialize as zero in case there are no negative boxes
 				var scoreType;
 
@@ -1586,6 +1591,7 @@
 				var tempProfessed = 0;
 				var tempDemonstrated = 0;
 
+				// sums the results for each priority area
 				for (var x = 0; x < numAreas; x++) {
 					for (var y = 0; y < numAreas; y++) {
 						if (x != y) {
@@ -1607,27 +1613,118 @@
 					tempDemonstrated = 0;
 				}
 
-				// left off here
+				// PDF Section 2, Page 3
 
-				// Section 3 of the PDF
-				// debug!!
-				/*Check if there was an instance that respondent put "No" (0) for willing to sacrifice A for B and B for A 
+				// Balance Equivalency Factor: ((combinations + sum of negative results) / combinations)*100
+				score = Math.round(((numCombinations + negativeBoxes) / numCombinations) * 100);
+
+				if (score >= 92) {
+					scoreType = "Balanced";
+				} else if (score >= 84 && score <= 91) {
+					scoreType = "Occasionally Shaky";
+				} else if (score >= 76 && score <= 83) {
+					scoreType = "Frequently Shaky";
+				} else if (score < 76) {
+					scoreType = "Unbalanced";
+				}
+
+				// PDF Section 3, Page 5
+
+				// sorts the priority areas by professed importance
+				// starts with the lowest number (least frequently sacrificed) and moves to the highest (most frequently sacrificed)
+				// e.g. 6 priority areas, array positions {5, 4, 3, 2, 1, 0}
+				for (var j = 0; j < numAreas; j++) {
+					// clears the array each time a professed rank is searched for
+					var tempArray = [];
+
+					// runs through each priority area in the array
+					for (var k = 0; k < numAreas; k++) {
+						/*if the current priority area professed importance equals the current professed 
+						importance being searched for, it is pushed into the temporary array*/
+						if (priorityAreas[k].professed == j) {
+							tempArray.push(priorityAreas[k]);
+						}
+					}
+
+					/*after collecting all priority areas of the same professed importance, pushes 
+					priority areas into array based on their demonstrated importance (lowest to highest number)*/
+					// decremented by 0.25 each time since demonstrated importance is ranked on a scale of {0, 0.25, 0.5, 0.75, 1} instead of 0 or 1
+					for (var m = 0; m <= numAreas - 1; m += 0.25) { // must use <= numAreas - 1 because of the 0.25 increments instead of 1 increments
+						for (var n = 0; n < tempArray.length; n++) {
+							if (tempArray[n].demonstrated == m) {
+							/*simply pushes the priority areas from lowest to highest numerical demonstrated importance
+							when two areas have the same professed and demonstrated performance, they should be alphabetized
+							it should be alphabetized anyway since the original list is aphabetized and elements are pulled from top to bottom */
+								rankProfessed.push(tempArray[n]);
+							}
+						}
+					}
+				}
+
+				// sorts the priority areas by demonstrated importance
+				// starts with the lowest number (least frequently sacrificed) and moves to the highest (most frequently sacrificed)
+				// e.g. 6 priority areas, array positions {5, 4, 3, 2, 1, 0}
+				for (var j = 0; j <= numAreas - 1; j += 0.25) { // must use <= numAreas - 1 because of the 0.25 increments instead of 1 increments
+					// clears the array each time a demonstrated rank is searched for
+					var tempArray = [];
+
+					// runs through each priority area in the array
+					for (var k = 0; k < numAreas; k++) {
+						/*if the current priority area demonstrated importance equals the current demonstrated 
+						importance being searched for, it is pushed into the temporary array*/
+						if (priorityAreas[k].demonstrated == j) {
+							tempArray.push(priorityAreas[k]);
+						}
+					}
+
+					/*after collecting all priority areas of the same demonstrated importance, pushes 
+					priority areas into array based on their professed importance (lowest to highest number)*/
+					// decremented by 0.25 each time since professed importance is ranked on a scale of {0, 0.25, 0.5, 0.75, 1} instead of 0 or 1
+					for (var m = 0; m < numAreas; m++) {
+						for (var n = 0; n < tempArray.length; n++) {
+							if (tempArray[n].professed == m) {
+							/*simply pushes the priority areas from lowest to highest numerical professed importance
+							when two areas have the same demonstrated and professed performance, they should be alphabetized
+							it should be alphabetized anyway since the original list is aphabetized and elements are pulled from top to bottom */
+								rankDemonstrated.push(tempArray[n]);
+							}
+						}
+					}
+				}
+
+				/*Check if there was an instance that respondent put "No" (0) for willing to sacrifice A for B and B for A
 				by checking (x,y) and (y,x) for both equaling 0*/
-				/*for (var x = 0; x < professed.length - 1; x++) {
+				for (var x = 0; x < professed.length - 1; x++) {
 				// set to less than array length - 1 because all possible combinations are evaluated by the time the second to last column is reached
 					for (var y = x + 1; y < professed.length; y++) {
 						if (professed[x][y] == 0 && professed [y][x] == 0) {
-							var pair = new unclearPair(priorityAreas[x].name, priorityAreas[y].name);
-							unclearPrioritites.push(pair);
+							var pair = new unclearPair(priorityAreas[x], priorityAreas[y]);
+							unclearPairs.push(pair);
 						}
 					}
-				}*/
+				}
 
-				// Section 4 of the PDF
-				// debug!!
+				// PDF Section 4, Page 6
 
-				// Section 5 of the PDF
-				// debug!!
+				// checks for areas in which "No" (0) was professed but "Sometimes" (0.5), "Often" (0.75), or "Always" (1) was demonstrated		
+				for (var x = 0; x < professed.length; x++) {
+					for (var y = 0; y < professed.length; y++) {
+						if (x != y && professed[x][y] == 0 && demonstrated[x][y] >= 0.5) {
+							var txtDemonstrated = "";
+
+							if (demonstrated[x][y] == 0.5) {
+								txtDemonstrated = "sometimes";
+							} else if (demonstrated[x][y] == 0.75) {
+								txtDemonstrated = "often";
+							} else if (demonstrated[x][y] == 1) {
+								txtDemonstrated = "always";
+							}
+
+							var pair = new discrepancyPair(priorityAreas[x], priorityAreas[y], txtDemonstrated);
+							tensionPairs.push(pair);
+						}
+					}
+				}
 
 				// for reference so i dont have to keep scrolling up lol
 				/*function priorityArea (name) {
@@ -1647,19 +1744,6 @@
 					this.areaB = areaB;
 					this.demonstrated = 0;
 				}*/
-				
-				// Balance Equivalency Factor: ((combinations + sum of negative results) / combinations)*100
-				score = Math.round(((numCombinations + negativeBoxes) / numCombinations) * 100);
-
-				if (score >= 92) {
-					scoreType = "Balanced";
-				} else if (score >= 84 && score <= 91) {
-					scoreType = "Occasionally Shaky";
-				} else if (score >= 76 && score <= 83) {
-					scoreType = "Frequently Shaky";
-				} else if (score < 76) {
-					scoreType = "Unbalanced";
-				}
 
 				// store: Age Range, Gender, Country, Highest Educational Level, Primary, Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income!!
 				// Used for Google Sheet: https://github.com/dwyl/learn-to-send-email-via-google-script-html-no-server!!
@@ -1668,9 +1752,10 @@
 				var d = new Date();
 				fullDate = writeMonth(d.getMonth()) + " " + d.getDate() + ", " + d.getFullYear();
 				lineWidth = 0.013;
-				var txtWidth = 6.5;
+				txtWidth = 6.5;
+				listIndent = 1.48;
 				/*For x and y coordinate variables for each page, only change the values when working on a section independent from the rest of the text. Doing this will make it easy to shift sections down as a whole when changing the original/starting x and/or y coordinate(s).*/
-				var xNew = 1;
+				xNew = 1;
 				// change the following four variables by the same amount when shifting all page elements up and down
 				// ----------------------
 				ySubtitle = 1.35;
@@ -1793,9 +1878,9 @@
 				// text area 1
 				txt = pdf.splitTextToSize("To assist with the assessment of your Life Balance and for comparison with your peers, the Life Balance Assessment collects and maintains non-attributed data across industries or job functions, years in profession, compensation levels, age and education level. At the beginning of the assessment, you provided the following information:", txtWidth);
 				pdf.text(txt, x2, y2);
-				y2 = imgBuffer(y2, 4);
 				
 				// demographics table
+				y2 = imgBuffer(y2, 4);
 				pdf.addImage(imgTableDemographics, 'PNG', x2, y2, 6.5, 3.176);
 				
 				pdf.setFontType('bold');
@@ -1825,7 +1910,7 @@
 				pdf.text(income, xTable, yTable+(7*lsTable));*/
 
 				// text area 2
-				y2 = y2 + 3.176;
+				y2 = y2 + 3.176; // height of the table - used as a buffer to find the next text line after the table
 				y2 = newline(y2, 2);
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,0,0); // black
@@ -1917,8 +2002,10 @@
 				newPage();
 				var x4 = xNew; // x page 4
 				var y4 = yNewPage; // y page 4
+				
 				txt = pdf.splitTextToSize("The following bar chart compares your Balance Assessment Score to the average values reported within your specified Age Range, Gender, Country, Highest Educational Level, Primary Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income.", txtWidth);
 				pdf.text(txt, x4, y4);
+				
 				// put graph here
 				txt = pdf.splitTextToSize("The remainder of this report further details the findings associated with your completion of the Life Balance Assessment. We summarize professed priorities and your willingness to sacrifice one priority area in favor of another (Section 3). We evaluate sources of tension based upon sacrifices made that conflict with professed priorities (Section 4). And, we identify potential sources for \u2018slack\u2019 in which you could consider a reallocation of time and resources consistent with professed priorities (Section 5). The report concludes with a summary of findings and recommendations to pursue enhanced Life Balance (Section 6). Lastly, we offer templates to assist further assist as you develop and assessment plans of action to enhance or sustain healthy Life Balance.", txtWidth);
 				pdf.text(txt, x4, 5); // adjust this based on graph placement!!
@@ -1926,19 +2013,333 @@
 				// PAGE 5
 				newPage();
 				newSection(3, "Assessment of Priorities");
-				var x5 = xNew;
-				var y5 = yNewSection;
+				var x5 = xNew; // x page 5
+				var y5 = yNewSection; // y page 5
+				
 				txt = pdf.splitTextToSize("Based upon your \u2018willingness\u2019 to sacrifice one priority area for another, the following list ranks your specified life priorities from greatest to lowest professed importance.", txtWidth);
 				pdf.text(txt, x5, y5);
-				y2 = listBuffer(y3, 2);
-				//numberedList(); priority area scores
+				
+				// priority areas professed rankings
+				y5 = listBuffer(y5, 2);
+				for (var i = 0; i < rankProfessed.length; i++) {
+					numberedPoint(i+1, rankProfessed[i].name, y5);
+					y5 = newline(y5, 1);
+				}
 
+				// priority areas demonstrated rankings
+				y5 = newline(y5, 1);
+				txt = pdf.splitTextToSize("Based upon actual sacrifices that you make in favor, or pursuit, of one priority area over another, the following list ranks your specified life priorities from greatest to lowest demonstrated importance.", txtWidth);
+				pdf.text(txt, x5, y5);
+				
+				y5 = listBuffer(y5, 3);
+				for (var i = 0; i < rankDemonstrated.length; i++) {
+					numberedPoint(i+1, rankDemonstrated[i].name, y5);
+					y5 = newline(y5, 1);
+				}
 
-				// remove lines later - show top and bottom border boundaries!!
-				/*pdf.setLineWidth(lineWidth);
-				pdf.setDrawColor(0,0,0); // black
-				pdf.line(1, 1, 7.5, 1); // (x1, y1, x2, y2)
-				pdf.line(1, 10, 7.5, 10); // (x1, y1, x2, y2)*/
+				// statement comparing user's professed and demonstrated rankings
+				var sameRankings = true; // set this as true by default, change when found to be false (remains true otherwise)
+				y5 = newline(y5, 1);
+				for (var i = 0; i < numAreas; i++) {
+					if (rankProfessed[i].name != rankDemonstrated[i].name) {
+						sameRankings = false;
+						txt = pdf.splitTextToSize("As you will notice, the ranked list of your professed priorities differs from the ranked list of your demonstrated priorities. The section that follows will elaborate on such differences and the associated tension that may exist.", txtWidth);
+						pdf.text(txt, x5, y5);
+						break;
+					} else if (rankProfessed[i].name == rankDemonstrated[i].name && i == numAreas - 1) { 
+						// will only be true if all other rankings are identical as well
+						txt = pdf.splitTextToSize("As you will notice, the ranked list of your professed priorities is identical to the ranked list of your demonstrated priorities. This is a good sign that is indicative of individuals with healthy Life Balance.", txtWidth);
+						pdf.text(txt, x5, y5);
+					}
+				}
+				y5 = newline(y5, 4); // both statements are 3 lines, so a constant newline buffer is appropriate
+
+				// unclear priorities (may need to generate a second page to fit them if the user provides a lot of PAs >.>)??
+				// test w/ 10 priorities!!!!!!!!!!!!!!!!
+
+				if (unclearPairs.length > 0) {
+					txt = pdf.splitTextToSize("In some cases, your priorities are not clear. The following bullets summarize instances where you are unwilling to sacrifice one area of your life in favor of another, and vice-versa.", txtWidth);
+					pdf.text(txt, x5, y5);
+					
+					y5 = listBuffer(y5, 2);
+					for (var i = 0; i < unclearPairs.length; i++) {
+						if (newline(y5, 1) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+							newPage(); // the bullet points could run over the page, so create a new one when the border is reached
+							x5 = xNew;
+							y5 = yNewPage;
+						}
+
+						bulletPoint("You are unwilling to sacrifice " + unclearPairs[i].areaA.name + " in favor of " + unclearPairs[i].areaB.name + ". In addition, you are unwilling to sacrifice " + unclearPairs[i].areaB.name + " in favor of " + unclearPairs[i].areaA.name + ".", y5);
+						y5 = newline(y5, 2); // the text is 2 lines instead of the typical 1 line per bullet point
+					}
+
+					y5 = newline(y5, 1);
+					if (newline(y5, 3) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x5 = xNew;
+						y5 = yNewPage;
+					}
+					txt = pdf.splitTextToSize("If you can manage both areas identified in the list above successfully without one impacting the other, \u2018Life Balance\u2019 can be sustained. However, in instances where the demands of one priority area must come at the expense of another, tension is inevitable. These and other potential sources of tension are described in the section that follows.", txtWidth);
+					pdf.text(txt, x5, y5);
+				}
+
+				// PAGE 6
+				/*from this point onward, the page numbering could be greater than the comments suggest because 
+				the user could have a lot of unclear priorities that run over onto an additional page or two*/
+				newPage();
+				newSection(4, "Sources of Tension");
+				var x6 = xNew; // x page 6
+				var y6 = yNewSection; // y page 6
+
+				txt = pdf.splitTextToSize("The most common source of tension in pursuit of \u2018Life Balance\u2019 is when \u2018demonstrated\u2019 priorities are not consistent with \u2018professed\u2019 priorities.", txtWidth);
+				pdf.text(txt, x6, y6);
+				y6 = newline(y6, 3);
+
+				if (sameRankings == true) {
+					txt = pdf.splitTextToSize("Based upon your response to survey questions, your \u2018professed\u2019 and \u2018demonstrated\u2019 priorities are in direct alignment. This assessment result is most often consistent with individuals that live an authentic life, consistent with their core values and professed priorities. However, it is possible that you have the capacity to push yourself further to pursue your passion and interests. Furthermore, it is important to consider how life circumstances or unexpected adversity might impact your priorities and associated Life Balance.", txtWidth);
+					pdf.text(txt, x6, y6);
+					y6 = newline(y6, 7);
+
+					pdf.setFontType('bold');
+					txt = pdf.splitTextToSize("ACTION", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					pdf.setFontType('normal');
+					txt = pdf.splitTextToSize("               \u2013 We encourage you to reflect upon the circumstances of your life that enable you to effectively prioritize that which is important to you. Establish routines and the intentional discipline to periodically reassess your priorities to maintain effective Life Balance. Consider the following questions. (See Attachment 5 for an associated worksheet template.)", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					// discrepancy pair table
+					y6 = imgBuffer(y6, 4);
+					pdf.addImage(imgTableDiscrepancyPair, 'PNG', x6, y6, 6.5, 1.225);
+					
+					pdf.setFontType('bold');
+					pdf.setTextColor(255,255,255); // white
+					xTable = x6 + 0.085;
+					yTable = y6 + 0.2727;
+					var lsTable = 0.39;
+					pdf.text("1", xTable, yTable);
+					pdf.text("2", xTable, yTable+(1*lsTable));
+					pdf.text("3", xTable, yTable+(2*lsTable));
+					xTable = 1.33;
+					pdf.setFontType('normal');
+					pdf.setTextColor(0,0,0); // black
+					pdf.text("What characteristics of current circumstances enable me to maintain effective balance?", xTable, yTable);
+					pdf.text("Do such circumstances offer an opportunity for me to further pursue a passion or interest?", xTable, yTable+(1*lsTable));
+					pdf.text("How might changes to future circumstances challenge my priorities?", xTable, yTable+(2*lsTable));
+
+					y6 = y6 + 1.225; // height of the table - used as a buffer to find the next text line after the table
+					y6 = newline(y6, 2);
+					pdf.setFontType('normal');
+					pdf.setTextColor(0,0,0); // black
+					txt = pdf.splitTextToSize("Even though your professed and demonstrated priorities are aligned, it is important to define what healthy \u2018Life Balance\u2019 means to you. In many cases, individuals will define goals such as spend \u2018more time with family\u2019 or \u2018less time at work.\u2019 Defining balance in terms of \u2018more\u2019 or \u2018less\u2019 is an unattainable goal because there will always exist the potential for \u2018more\u2019 or \u2018less.\u2019 At CEEK, we encourage individuals to define balance in terms of commitments you can make within the realistic constraints of your life. For example...", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					// bulleted list
+					y6 = listBuffer(y6, 6);
+					bulletPoint("Can I COMMIT...to have dinner with the family each night?", y6);
+					y6 = newline(y6, 1);
+					bulletPoint("Can I COMMIT...to exercise for a half hour every day?", y6);
+					y6 = newline(y6, 1);
+					bulletPoint("Can I COMMIT...to spend time on strategic, but not urgent, matters each week at work?", y6);
+					y6 = newline(y6, 1);
+					bulletPoint("Can I COMMIT...to put the cell phone and computer aside for two hours each day?", y6);
+					y6 = newline(y6, 1);
+					bulletPoint("Can I COMMIT...to spend a day each month focused on a child or significant other?", y6);
+					y6 = newline(y6, 1);
+					bulletPoint("Can I COMMIT...to attend a class or pursue a hobby or other interest?", y6);
+					y6 = newline(y6, 1);
+					bulletPoint("Can I COMMIT...to an annual vacation void of distraction?", y6);
+					y6 = newline(y6, 1);
+					bulletPoint("Can I COMMIT...to serve a higher calling on a weekly, monthly or yearly basis?", y6);
+					
+					y6 = newline(y6, 2);
+					txt = pdf.splitTextToSize("Because your professed and demonstrated priorities are consistent, it is likely that you have a set of established routines or activities that support the priority areas of your life. Regardless, we encourage you to refer to Attachment 1 of this report for an example template to put such goals, or commitments, in writing for the priority areas of your life.", txtWidth);
+					pdf.text(txt, x6, y6);
+				} else if (sameRankings == false) {
+					txt = pdf.splitTextToSize("Like most of us, the demands of life have revealed instances where your \u2018demonstrated\u2019 priorities are not consistent with your \u2018professed\u2019 priorities. You make sacrifices in areas of your life that are more important in favor of other areas that are deemed less important. In some cases, this may be conscious and necessary. In other cases, this may be without thoughtful consideration and unnecessary. The following list summarizes some of the instances in which you make sacrifices that are not consistent with your \u2018professed\u2019 priorities.", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					y6 = listBuffer(y6, 6);
+					// bulleted list order: always > often > sometimes
+					// always
+					for (var i = 0; i < tensionPairs.length; i++) {
+						if (y6 > 10) {
+							newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+							x6 = xNew;
+							y6 = yNewPage;
+						}
+
+						if (tensionPairs[i].demonstrated == "always") {
+							bulletPoint("You " + tensionPairs[i].demonstrated + " sacrifice " + tensionPairs[i].areaA.name + " in favor of " + tensionPairs[i].areaB.name + ".", y6);
+							y6 = newline(y6, 1);
+						}
+					}
+					// often
+					for (var i = 0; i < tensionPairs.length; i++) {
+						if (y6 > 10) {
+							newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+							x6 = xNew;
+							y6 = yNewPage;
+						}
+
+						if (tensionPairs[i].demonstrated == "often") {
+							bulletPoint("You " + tensionPairs[i].demonstrated + " sacrifice " + tensionPairs[i].areaA.name + " in favor of " + tensionPairs[i].areaB.name + ".", y6);
+							y6 = newline(y6, 1);
+						}
+					}
+					// sometimes
+					for (var i = 0; i < tensionPairs.length; i++) {
+						if (y6 > 10) {
+							newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+							x6 = xNew;
+							y6 = yNewPage;
+						}
+
+						if (tensionPairs[i].demonstrated == "sometimes") {
+							bulletPoint("You " + tensionPairs[i].demonstrated + " sacrifice " + tensionPairs[i].areaA.name + " in favor of " + tensionPairs[i].areaB.name + ".", y6);
+							y6 = newline(y6, 1);
+						}
+					}
+
+					y6 = newline(y6, 1);
+					if (newline (y6, 3) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					txt = pdf.splitTextToSize("It is likely that the cases where you \u2018Always\u2019 or \u2018Often\u2019 sacrifice an important area of your life for a less important area of your life, represent a source of significant tension in your life. Similarly, in cases where you \u2018Sometimes\u2019 sacrifice an important area of your life for a less important area of your life, represent a potential source of tension in your life.", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					y6 = newline(y6, 5);
+					if (newline (y6, 6) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+
+					txt = pdf.splitTextToSize("Simple cognitive awareness of such tensions is critical to the pursuit of healthy \u2018Life Balance.\u2019 To manage these tensions well, it is important to define what healthy \u2018Life Balance\u2019 means to you. In many cases, individuals will define goals such as spend \u2018more time with family\u2019 or \u2018less time at work.\u2019 Defining balance in terms of \u2018more\u2019 or \u2018less\u2019 is an unattainable goal because there will always exist the potential for \u2018more\u2019 or \u2018less.\u2019 At CEEK, we encourage individuals to define balance in terms of commitments you can make within the realistic constraints of your life. For example...", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					// bulleted list
+					y6 = listBuffer(y6, 7);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to have dinner with the family each night?", y6);
+					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to exercise for a half hour every day?", y6);
+					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to spend time on strategic, but not urgent, matters each week at work?", y6);
+					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to put the cell phone and computer aside for two hours each day?", y6);
+					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to spend a day each month focused on a child or significant other?", y6);
+					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to attend a class or pursue a hobby or other interest?", y6);
+					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to an annual vacation void of distraction?", y6);
+					y6 = newline(y6, 1);
+					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					bulletPoint("Can I COMMIT...to serve a higher calling on a weekly, monthly or yearly basis?", y6);
+					
+					y6 = newline(y6, 2);
+					if (newline(y6, 4) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					pdf.setFontType('bold');
+					txt = pdf.splitTextToSize("ACTION", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					pdf.setFontType('normal');
+					txt = pdf.splitTextToSize("               \u2013 For each of the sources of tension listed earlier in this section, we encourage you to define 1 \u2013 3 goals, stated as commitments, that you can make to reinforce your professed priorities. Refer to Attachment 1 of this report for an example template to define such goals, or commitments. For each commitment, we also recommend that you consider the following questions. (See Attachment 2 for an associated worksheet template.)", txtWidth);
+					pdf.text(txt, x6, y6);
+
+					// discrepancy pair table
+					y6 = imgBuffer(y6, 5);
+					if (y6 + 1.225 > 10) { // checks for overflow image - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					pdf.addImage(imgTableDiscrepancyPair, 'PNG', x6, y6, 6.5, 1.225);
+					
+					pdf.setFontType('bold');
+					pdf.setTextColor(255,255,255); // white
+					xTable = x6 + 0.085;
+					yTable = y6 + 0.2727;
+					var lsTable = 0.39;
+					pdf.text("1", xTable, yTable);
+					pdf.text("2", xTable, yTable+(1*lsTable));
+					pdf.text("3", xTable, yTable+(2*lsTable));
+					xTable = 1.33;
+					pdf.setFontType('normal');
+					pdf.setTextColor(0,0,0); // black
+					pdf.text("What, if anything, would prevent me from making and keeping this commitment?", xTable, yTable);
+					pdf.text("What, if anything, can I do to remove such obstacles?", xTable, yTable+(1*lsTable));
+					pdf.text("Who can I enroll, or what can I do, to hold myself accountable to such commitments?", xTable, yTable+(2*lsTable));
+
+					y6 = y6 + 1.225; // height of the table - used as a buffer to find the next text line after the table
+					y6 = newline(y6, 2);
+					if (newline(y6, 5) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
+						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
+						x6 = xNew;
+						y6 = yNewPage;
+					}
+					pdf.setFontType('normal');
+					pdf.setTextColor(0,0,0); // black
+					txt = pdf.splitTextToSize("Always remember, \u2018Life Balance\u2019 is a tension to be managed, not a problem to be solved. Work, family, health, relationships, and other unexpected circumstances may require periods of intense focus. Life will throw adversity your way. While important to challenge yourself to reinforce your priorities through stated commitments, they must be realistic and attainable. If the reality of your current life circumstances prevents you from making a commitment, revise the commitment.", txtWidth);
+					pdf.text(txt, x6, y6);
+				}
+
+				// PAGE 7
+				newPage();
+				newSection(5, "Sources of Slack");
+				var x7 = xNew; // x page 7
+				var y7 = yNewSection; // y page 7
+
+				txt = pdf.splitTextToSize("Just as the Life Balance Assessment can reveal sources of tension in your life, it can also reveal sources for \u2018slack.\u2019 At CEEK, we define \u2018slack\u2019 as potential for an individual or organization to create time and space to pursue that which is strategic, but not urgent. Relative to the Life Balance Assessment, we consider a potential source for \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but rarely do.", txtWidth);
+				pdf.text(txt, x7, y7);
+				y7 = newline(y7, 6);
+
+				// left off here - conditional logic for slack pairs
 				
 				// CEEK LBA Report - FirstName LastName Year-Month-Day
 				pdf.save("CEEK LBA Report " + fullName + " " + d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + ".pdf");
@@ -2000,6 +2401,13 @@
 				pdf.setTextColor(0,0,0);
 				pdf.setFontSize(bodyFontSize);
 				pdf.setFontType('normal');
+
+				// remove lines later - show top and bottom border boundaries!!
+				/*pdf.setLineWidth(lineWidth);
+				pdf.setDrawColor(0,0,0); // black
+				pdf.line(1, 1, 7.5, 1); // (x1, y1, x2, y2)
+				pdf.line(1, 10, 7.5, 10); // (x1, y1, x2, y2)
+				pdf.text("test", 1, 10);*/
 			}
 
 			function newSection(num, subtitle) {
@@ -2095,7 +2503,8 @@
 				pdf.setFontSize(18);
 				pdf.text("\u2022", 1.28, y+0.026);
 				pdf.setFontSize(bodyFontSize);
-				pdf.text(text, 1.48, y);
+				var txt = pdf.splitTextToSize(text, txtWidth-(listIndent-xNew)); // needed because the unclear, tension, and discrepancy pairs texts would otherwise spill over the page border
+				pdf.text(txt, listIndent, y);
 			}
 
 			// may not even need this function??
@@ -2107,17 +2516,23 @@
 					pdf.text("\u2022", 1.28, y+0.026);
 					// list text
 					pdf.setFontSize(bodyFontSize);
-					pdf.text(array[i], 1.48, y);
+					pdf.text(array[i], listIndent, y);
 					y = newline(y, 1);
 				}
 			}
 
+			function numberedPoint(num, text, y) {
+				pdf.text(num + ". " + text, listIndent, y);
+				y = newline(y, 1);
+			}
+
+			// may not even need this function??
 			function numberedList(array, y) {
 				for (var i = 0; i < array.length; i++) {
 					// number
 					pdf.text((i+1) + ".", 1.28, y);
 					// list text
-					pdf.text(array[i], 1.48, y);
+					pdf.text(array[i], listIndent, y);
 					y = newline(y, 1);
 				}
 			}
