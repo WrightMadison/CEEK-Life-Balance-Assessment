@@ -5,6 +5,11 @@
     '' used for variable values, element IDs, etc. (information that is not displayed to the user)
     "" used for string values, text, etc. (information that is displayed to the user)-->
 
+ <!-- Quick Search:
+ 	?? = potential change
+ 	!! = needs to be implemented
+ 	uncomment out later = conditionals that need to be uncommented out before release -->
+
 <DOCTYPE html>
 <html>
 	<head>
@@ -58,13 +63,13 @@
 			}
 
 			.btn-primary {
-				width: 88px; /*.btn-primary default border is 1px, so total .btn-primary width is actually 80px*/
+				width: 88px; /*.btn-primary default border is 1px, so total .btn-primary width is actually 90px*/
 				padding: 0;
 				line-height: center !important;
 				text-align: center !important;
 			}
 
-			#btnNext, #btnBack {
+			#btnNext, #btnBack, #btnReport {
 				/*CEEK blue sampled from logo*/
 				border-color: #00529b !important; 
 				background-color: #00529b !important;
@@ -237,7 +242,7 @@
 
 			.subQuestion {
 				margin-left: 160px;
-				width: 210px; /*.page width: 900px - .subQuestion margin-left: 200px - #lblQuestion margin-[right]: 150px = 550px width*/
+				width: 210px; /*.page width: 900px - .subQuestion margin-left: 200px - #lblQuestion margin-right: 150px = 550px width*/
 				/*change width to accomodate yes/no /sometimes, etc.?*/
 			}
 
@@ -249,12 +254,14 @@
 				display: none;
 			}
 
-			#yes1, #yes2, #yes3, #yes4, #yes5, #yes6, #yes7, #yes8, #yes9, #yes10 {
+			#yes0, #yes1, #yes2, #yes3, #yes4, #yes5, #yes6, #yes7, #yes8, #yes9 {
 				padding-left: 41px;
 			}
 
 			#btnReport {
-				margin-left: 220px;
+				width: 148px; /*.btn-primary default border is 1px, so total .btn-primary width is actually 150px*/
+				/*.page width: 900px - #btnReport width: 150px = 750px / 2 = 375px margin on each side*/
+				margin-left: 375px;
 			}
 
 			.created {
@@ -264,6 +271,7 @@
 
 		</style>
 
+		<!-- Boostrap does not work offline when testing -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css"/>
 
@@ -619,6 +627,7 @@
 					<label class="questionLabel">Occupational Category</label>
 					<div class='userInput'>
 						<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains" disabled='true'>
+							<option>Active Military Member</option>
 							<option>Architecture and Engineering</option>
 							<option>Arts, Design, Entertainment, Sports, and Media</option>
 							<option>Building and Grounds Cleaning and Maintenance</option>
@@ -733,188 +742,190 @@
 
 				<label id="lblQuestion">Are you willing to sacrifice PriorityArea1 in favor of...</label><br><br>
 
-				<div id='questionBlock1' style='display:none'>
-					<label id='lblQuestion1' class='subQuestion'>0. PriorityArea1?</label>
+				<div id='questionBlock0' style='display:none'>
+					<label id='lblQuestion0' class='subQuestion'>0. PriorityArea0?</label>
+					<div class = 'questionResponse'>
+						<form id='radgrpProfessed0' class='radgrpProfessed'>
+							<!-- Word responses converted to numeric values for calculating final percentage score -->
+							<label id='no0' class='radio-inline'><input type='radio' name='radProfessed0' value='0'/>No</label>
+							<label id='yes0' class='radio-inline'><input type='radio' name='radProfessed0' value='1'/>Yes</label>
+						</form>
+						<form id='radgrpDemonstrated0' class='radgrpDemonstrated'>
+							<label id='never0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0'/>Never</label>
+							<label id='rarely0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.25'/>Rarely</label>
+							<label id='sometimes0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.5'/>Sometimes</label>
+							<label id='often0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='0.75'/>Often</label>
+							<label id='never0' class='radio-inline'><input type='radio' name='radDemonstrated0' value='1'/>Always</label>
+						</form>
+					</div>
+				</div>
+
+				<div id='questionBlock1'>
+					<label id='lblQuestion1' class='subQuestion'>1. PriorityArea1?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed1' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no1' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes1' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no1' class='radio-inline'><input type='radio' name='radProfessed1' value='0'/>No</label>
+							<label id='yes1' class='radio-inline'><input type='radio' name='radProfessed1' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated1' class='radgrpDemonstrated'>
-							<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely1' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes1' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often1' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0'/>Never</label>
+							<label id='rarely1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.25'/>Rarely</label>
+							<label id='sometimes1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.5'/>Sometimes</label>
+							<label id='often1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='0.75'/>Often</label>
+							<label id='never1' class='radio-inline'><input type='radio' name='radDemonstrated1' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
 				<div id='questionBlock2'>
-					<label id='lblQuestion2' class='subQuestion'>1. PriorityArea2?</label>
+					<label id='lblQuestion2' class='subQuestion'>2. PriorityArea2?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed2' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no2' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes2' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no2' class='radio-inline'><input type='radio' name='radProfessed2' value='0'/>No</label>
+							<label id='yes2' class='radio-inline'><input type='radio' name='radProfessed2' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated2' class='radgrpDemonstrated'>
-							<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely2' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes2' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often2' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0'/>Never</label>
+							<label id='rarely2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.25'/>Rarely</label>
+							<label id='sometimes2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.5'/>Sometimes</label>
+							<label id='often2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='0.75'/>Often</label>
+							<label id='never2' class='radio-inline'><input type='radio' name='radDemonstrated2' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
 				<div id='questionBlock3'>
-					<label id='lblQuestion3' class='subQuestion'>2. PriorityArea3?</label>
+					<label id='lblQuestion3' class='subQuestion'>3. PriorityArea3?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed3' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no3' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes3' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no3' class='radio-inline'><input type='radio' name='radProfessed3' value='0'/>No</label>
+							<label id='yes3' class='radio-inline'><input type='radio' name='radProfessed3' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated3' class='radgrpDemonstrated'>
-							<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely3' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes3' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often3' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0'/>Never</label>
+							<label id='rarely3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.25'/>Rarely</label>
+							<label id='sometimes3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.5'/>Sometimes</label>
+							<label id='often3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='0.75'/>Often</label>
+							<label id='never3' class='radio-inline'><input type='radio' name='radDemonstrated3' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
-				<div id='questionBlock4'>
-					<label id='lblQuestion4' class='subQuestion'>3. PriorityArea4?</label>
+				<div id='questionBlock4' style='display:none'>
+					<label id='lblQuestion4' class='subQuestion'>4. PriorityArea4?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed4' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no4' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes4' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no4' class='radio-inline'><input type='radio' name='radProfessed4' value='0'/>No</label>
+							<label id='yes4' class='radio-inline'><input type='radio' name='radProfessed4' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated4' class='radgrpDemonstrated'>
-							<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely4' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes4' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often4' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0'/>Never</label>
+							<label id='rarely4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.25'/>Rarely</label>
+							<label id='sometimes4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.5'/>Sometimes</label>
+							<label id='often4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='0.75'/>Often</label>
+							<label id='never4' class='radio-inline'><input type='radio' name='radDemonstrated4' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
 				<div id='questionBlock5' style='display:none'>
-					<label id='lblQuestion5' class='subQuestion'>4. PriorityArea5?</label>
+					<label id='lblQuestion5' class='subQuestion'>5. PriorityArea5?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed5' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no5' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes5' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no5' class='radio-inline'><input type='radio' name='radProfessed5' value='0'/>No</label>
+							<label id='yes5' class='radio-inline'><input type='radio' name='radProfessed5' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated5' class='radgrpDemonstrated'>
-							<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely5' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes5' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often5' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0'/>Never</label>
+							<label id='rarely5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.25'/>Rarely</label>
+							<label id='sometimes5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.5'/>Sometimes</label>
+							<label id='often5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='0.75'/>Often</label>
+							<label id='never5' class='radio-inline'><input type='radio' name='radDemonstrated5' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
 				<div id='questionBlock6' style='display:none'>
-					<label id='lblQuestion6' class='subQuestion'>5. PriorityArea6?</label>
+					<label id='lblQuestion6' class='subQuestion'>6. PriorityArea6?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed6' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no6' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes6' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no6' class='radio-inline'><input type='radio' name='radProfessed6' value='0'/>No</label>
+							<label id='yes6' class='radio-inline'><input type='radio' name='radProfessed6' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated6' class='radgrpDemonstrated'>
-							<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely6' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes6' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often6' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0'/>Never</label>
+							<label id='rarely6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.25'/>Rarely</label>
+							<label id='sometimes6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.5'/>Sometimes</label>
+							<label id='often6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='0.75'/>Often</label>
+							<label id='never6' class='radio-inline'><input type='radio' name='radDemonstrated6' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
 				<div id='questionBlock7' style='display:none'>
-					<label id='lblQuestion7' class='subQuestion'>6. PriorityArea7?</label>
+					<label id='lblQuestion7' class='subQuestion'>7. PriorityArea7?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed7' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no7' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes7' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no7' class='radio-inline'><input type='radio' name='radProfessed7' value='0'/>No</label>
+							<label id='yes7' class='radio-inline'><input type='radio' name='radProfessed7' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated7' class='radgrpDemonstrated'>
-							<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely7' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes7' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often7' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0'/>Never</label>
+							<label id='rarely7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.25'/>Rarely</label>
+							<label id='sometimes7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.5'/>Sometimes</label>
+							<label id='often7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='0.75'/>Often</label>
+							<label id='never7' class='radio-inline'><input type='radio' name='radDemonstrated7' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
 				<div id='questionBlock8' style='display:none'>
-					<label id='lblQuestion8' class='subQuestion'>7. PriorityArea8?</label>
+					<label id='lblQuestion8' class='subQuestion'>8. PriorityArea8?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed8' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no8' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes8' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no8' class='radio-inline'><input type='radio' name='radProfessed8' value='0'/>No</label>
+							<label id='yes8' class='radio-inline'><input type='radio' name='radProfessed8' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated8' class='radgrpDemonstrated'>
-							<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely8' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes8' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often8' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0'/>Never</label>
+							<label id='rarely8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.25'/>Rarely</label>
+							<label id='sometimes8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.5'/>Sometimes</label>
+							<label id='often8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='0.75'/>Often</label>
+							<label id='never8' class='radio-inline'><input type='radio' name='radDemonstrated8' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 
 				<div id='questionBlock9' style='display:none'>
-					<label id='lblQuestion9' class='subQuestion'>8. PriorityArea9?</label>
+					<label id='lblQuestion9' class='subQuestion'>9. PriorityArea9?</label>
 					<div class = 'questionResponse'>
 						<form id='radgrpProfessed9' class='radgrpProfessed'>
 							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no9' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes9' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
+							<label id='no9' class='radio-inline'><input type='radio' name='radProfessed9' value='0'/>No</label>
+							<label id='yes9' class='radio-inline'><input type='radio' name='radProfessed9' value='1'/>Yes</label>
 						</form>
 						<form id='radgrpDemonstrated9' class='radgrpDemonstrated'>
-							<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely9' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes9' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often9' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
-						</form>
-					</div>
-				</div>
-
-				<div id='questionBlock10' style='display:none'>
-					<label id='lblQuestion10' class='subQuestion'>9. PriorityArea10?</label>
-					<div class = 'questionResponse'>
-						<form id='radgrpProfessed10' class='radgrpProfessed'>
-							<!-- Word responses converted to numeric values for calculating final percentage score -->
-							<label id='no10' class='radio-inline'><input type='radio' name='radProfessed' value='0'/>No</label>
-							<label id='yes10' class='radio-inline'><input type='radio' name='radProfessed' value='1' class='professedAlign'/>Yes</label>
-						</form>
-						<form id='radgrpDemonstrated10' class='radgrpDemonstrated'>
-							<label id='never10' class='radio-inline'><input type='radio' name='radDemonstrated' value='0'/>Never</label>
-							<label id='rarely10' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.25'/>Rarely</label>
-							<label id='sometimes10' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.5'/>Sometimes</label>
-							<label id='often10' class='radio-inline'><input type='radio' name='radDemonstrated' value='0.75'/>Often</label>
-							<label id='never10' class='radio-inline'><input type='radio' name='radDemonstrated' value='1'/>Always</label>
+							<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0'/>Never</label>
+							<label id='rarely9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.25'/>Rarely</label>
+							<label id='sometimes9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.5'/>Sometimes</label>
+							<label id='often9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='0.75'/>Often</label>
+							<label id='never9' class='radio-inline'><input type='radio' name='radDemonstrated9' value='1'/>Always</label>
 						</form>
 					</div>
 				</div>
 			</div>
 
-			<button id="btnReport" class = "btn btn-primary" type="submit" style="display:none">Generate Report</button>
+			<!-- may need to keep it here for submission purposes?? -->
+			<!-- add line return above this for extra room if possible!! -->
+			<button id="btnReport" class="btn btn-primary" type="submit" style="display:none">Generate Report</button>
 		</form>
 	</body>
 
@@ -956,18 +967,22 @@
 			var happiness;
 			var stress;
 			// when the next button is clicked in the pre-assessment, the array is populated with the priority areas in the list box
-			var priorityAreas;
-			var priorityAreasCap; // priority areas with the first letter of each word capitalized and the rest lowercase
-			var numAreas;
+			var priorityAreas; // array of priority areas
+			var numAreas; // length of the priority areas array
 			var numQuestions;
-			var questions;
+			var numCombinations;
 			var currentQuestion = 1;
+			var currentArea = 0;
+			// arrays for user responses
 			var professed;
 			var demonstrated;
-			// coordinates used for loading response into arrays
-			var a;
-			var b;
-			var part = "professed";
+			// arrays for PDF generation based on user responses
+			var professedImportance;
+			var demonstratedImportance;
+			var unclearPriorities;
+			var tensionPairs;
+			var slackPairs;
+			// variables for PDF generation
 			var fullName;
 			var fullDate;
 			var pageNum = 0; // initialized at zero because the newPage() function increments the page number by 1 at the beginning of the method
@@ -989,15 +1004,15 @@
 			Order important? Yes
 			Repetition allowed? Yes*/
 
-			// write code generator script? put access codes in Google sheet, code will check there to see if they are used or not
-			// this will be obselete once the Google sheet is created
+			// write code generator script? put access codes in Google sheet, code will check there to see if they are used or not!!
+			// this will be obselete once the Google sheet is created!!
 			var accessCodes = ["dcau2-5an4h-sp3t6-8cpzu-382nw", "eanz7-3mf82-kfn6a-g4nfz-xuef5"];
 
 			// the following three functions are intended to behave as classes
 			function priorityArea (name) {
 			    this.name = name;
-			    this.professed = 0;
-			    this.demonstrated = 0;
+			    this.professed = 0; // total professed score
+			    this.demonstrated = 0; // total demonstrated score
 			}
 
 			function unclearPair (areaA, areaB) {
@@ -1011,8 +1026,6 @@
 				this.areaB = areaB;
 				this.demonstrated = 0;
 			}
-
-			// left off here (created these functions/classes)
 
 			// Report Images
 			/*Image links will need to be changed if imgBB hosting services end;
@@ -1083,13 +1096,13 @@
 				document.getElementById("responseStress").innerHTML = document.getElementById("sliderStress").value;
 			});
 
-			$("#professedButtons").change(function() {
+			/*$("#professedButtons").change(function() {
 				professed[a][b] = $("input[name=radioProfessed]:checked", "#professedButtons").val();
 			});
 
 			$("#demonstratedButtons").change(function() {
 				demonstrated[a][b] = $("input[name=radioDemonstrated]:checked", "#demonstratedButtons").val();
-			});
+			});*/
 
 			// on change event for saving user's response
 			// load their answer back in using array
@@ -1108,20 +1121,7 @@
 						currentPage = "demographics";
 						document.getElementById("codeEntry").style.display = "none";
 						document.getElementById("demographics").style.display = "block";
-						// add alert for any access codes that are invalid "<insert codes that are invalid> are invalid access codes."
-
-						// not doing the compare to old score - opting to allow the user to take the assessment twice
-						
-						// write code that goes to new div/screen if radioButton is checked "Since you indicated that you have taken this assessment before, enter your past acess codes in the textbox below, separated by commas and including dashes. Your old scores will be found based on your access codes. If you do not have your old access codes or do not want to compare your new results to your past results, simply do not fill out the textbox"
-						
-						// make an option for comparing old results? providing old access code(s) will add page to end of PDF that lists the dates the tests were taken and the percentage scores that they had 
-						/* 7. Past Scores
-						numbered list (say the current score is 93%)
-						1. July 8, 2018 - 67%
-						2. August 4, 2018 - 84% (+17)
-						3. September 14, 2018 - 90% (+6)
-						4. October 24, 2018 - 85% (-5)
-						5. March 27, 2019 - 93% (+8)*/
+						// add alert for any access codes that are invalid "<insert codes that are invalid> are invalid access codes."!!
 
 					// write an alert that says "first time this access code is being used, second/final time, etc." so the user knows if they are retaking the assessment with the same code or not
 
@@ -1179,16 +1179,14 @@
 					} else {*/
 						// initializes the priorityAreas element as an array with as many elements as are in lstPriorityAreas
 						priorityAreas = new Array(document.getElementById("lstPriorityAreas").length);
-						// stores the properly capitalized priority areas for PDF generation
-						priorityAreasCap = new Array(document.getElementById("lstPriorityAreas").length);
 
+						// stores each item from the list box in the priorityAreas array
 						for (var i = 0; i < lstPriorityAreas.length; i++) {
-							// maybe not make each priority area lower case? need to convert back to uppercase for report
-							priorityAreasCap[i] = document.getElementById("lstPriorityAreas").options[i].value;
-							priorityAreas[i] = document.getElementById("lstPriorityAreas").options[i].value.toLowerCase();
+							priorityAreas[i] = new priorityArea(document.getElementById("lstPriorityAreas").options[i].value);
 						}
 						numAreas = document.getElementById("lstPriorityAreas").length;
 						numQuestions = 2 * (Math.pow(numAreas, 2) - numAreas);
+						numCombinations = numQuestions / 2;
 						questions = new Array(numQuestions);
 
 						// makes 2D array for professed responses (yes/no)
@@ -1211,174 +1209,240 @@
 						document.getElementById("splashScreen").style.display = "block";
 					//}
 				} else if (currentPage === "splashScreen") {
-					if (currentQuestion == 1) {
+					if (currentArea == 0) {
 						// hides the back button once the assessment has begun so that the user cannot change the priority areas
 						document.getElementById("btnBack").style.visibility = "hidden";
-						// prepares a question before showing the assessment page
-						//generateQuestion(professed); fix?
+						
+						// questionBlock0 is not displayed by default, questionBlock0-3 are since there is a minimum of 4 priority areas
+						switch (numAreas) {
+							case 10:
+								document.getElementById('questionBlock9').style.display = 'block';
+							case 9:
+								document.getElementById('questionBlock8').style.display = 'block';
+							case 8:
+								document.getElementById('questionBlock7').style.display = 'block';
+							case 7:
+								document.getElementById('questionBlock6').style.display = 'block';
+							case 6:
+								document.getElementById('questionBlock5').style.display = 'block';
+							case 5:
+								document.getElementById('questionBlock4').style.display = 'block';
+						}
 
 						// hides the splash screen and shows the next page, part 1 of the assessment
-						currentPage = "assessment";
+						currentPage = "professed";
 						document.getElementById("splashScreen").style.display = "none";
 						document.getElementById("assessment").style.display = "block";
+
+						// prepares first round of questions before showing the assessment page
+						generateQuestions();
 					// Part 2 of 2 - Demonstrated Priorities Splash Screen
-					} else if (currentQuestion == numQuestions/2) {
-						currentQuestion++;
+					} else if (currentArea == numAreas) {
+						currentArea = 0;
+
+						// hides the back button once part II has begun so that the user cannot go back and change responses
+						document.getElementById("btnBack").style.visibility = "hidden";
+
 						/*will \u2014 work or is HTML needed?*/
-						document.getElementById("assessmentSubtitle").innerHTML = "Part II \u2014 Demonstrated Priorities"
-						generateQuestion(demonstrated);
-						document.getElementById("demonstratedButtons").style.display = "block";
+						document.getElementById("assessmentSubtitle").innerHTML = "Part II \u2014 Demonstrated Priorities";
+						// shows the demonstrated buttons: the class returns all elements of that class and each has to be individually shown
+							[].forEach.call(document.querySelectorAll('.radgrpDemonstrated'), function (el) {
+							  el.style.display = 'block';
+							});
 
 						// hides the splash screen and shows the next page, part 2 of the assessment
-						currentPage = "assessment";
+						currentPage = "demonstrated";
 						document.getElementById("splashScreen").style.display = "none";
 						document.getElementById("assessment").style.display = "block";
+
+						// prepares next round of questions before showing the assessment page
+						generateQuestions();
 					}
-				} else if (currentPage === "assessment") {
-					// if a question in the array is not null, display question and response (do this for back button, and then for next)
-					// surround generateQuestion call with this logic
-					
+				} else if (currentPage === 'professed') {
+					// if a question in the array is not null, display question and response (do this for back button, and then for next)!!
+					// surround generateQuestion call with this logic!!
+
 					// Part 1 of 2 - Professed Priorities
-					if (currentQuestion >= 1 && currentQuestion <= numQuestions/2) {
-						// checks to make sure there is a response for the professed options
-						// if there is no response, the question number is not incremented and an alert is shown
-						if (!$("input[name='radioProfessed']:checked").val()) {
-							alert("Please select a response before proceeding.");
-						} else {
-							if ($("input[name='radioProfessed']:checked").val() == "No") {
-								professed[a][b] = 0;
-							} else if ($("input[name='radioProfessed']:checked").val() == "Yes") {
-								professed[a][b] = 1;
+					if (currentArea < numAreas) {
+						/*checks to make sure there is a response for the professed options
+						if there is no response, the question number is not incremented and an alert is shown*/
+						var radio;
+						for (var i = 0; i < numAreas; i++) {
+							radio = 'radProfessed' + i;
+							if (i != currentArea) {
+								/*" " has to be used for this conditional*/
+								// $('input[name=radProfessedX]:checked').val()
+								var test = "input[name=" + radio + "]:checked";
+								if (!$(test).val()) {
+									alert("Please answer all questions before proceeding.");
+									break;
+								} else {
+									professed[currentArea][i] = $(test).val();
+								}
 							}
-							
-							// once the user has proceeded at least one question into this section, the back button is available again
-							if (currentQuestion == 2) {
-							// untoggle comment when making back button functionality
-							//document.getElementById("btnBack").style.visibility = "visible";
-							} 
-
-							/*changes the btnNext text to 'Finish' on the last question of the section 
-							in order to indicate to the user that they have reached the end of this section*/
-							if (currentQuestion == (numQuestions/2)-1) { 
-							/*not possible for second question of part 1 to also be second to last question of part 1 
-							because there is a minimum of 4 priority areas*/
-							// make sure this reverts back to Next when programming the back button functionality
-								document.getElementById("btnNext").innerHTML = "Finish";
-							// shows the splash screen for the demonstrated section
+							// if the every question up through last question passes the value check, the currentArea is incremented by 1
+							if (i == numAreas - 1) {
+								currentArea++;
 							}
-
-							// Part 1 complete
-							if (currentQuestion == numQuestions/2) {
-								// updates the splash screen elements for Part 2 of 2 - Demonstrated Priorities
-								document.getElementById("btnNext").innerHTML = "Next";
-								// hides the back button so that the user cannot return to the professed section
-								document.getElementById("btnBack").style.visibility = "hidden";
-								// hides the professed buttons 
-								document.getElementById("professedButtons").style.display = "none";
-
-								// changes the part of the assessment for comparator purposes in other methods
-								part = "demonstrated";
-
-								//U+2014 = em dash
-								document.getElementById("splashSubtitle").innerHTML = "Part II \u2014 Demonstrated Priorities";
-								document.getElementById("splashPrompt").innerHTML = "This part of the assessment includes another " + (numQuestions/2) + " questions that require you to assess the frequency with which you sacrifice one priority area of your life for another. For each pairing of priority areas, you will be asked how often you \u201CDO\u201D sacrifice one area of your life in favor of the other. In response to these questions, we encourage you to think in terms of the choices you make on a recurring basis. In other words, how frequently do I neglect desirable activities associated with one priority area because of the demands or choices I make in support of another priority area.";
-
-								currentPage = "splashScreen";
-								document.getElementById("assessment").style.display = "none";
-								document.getElementById("splashScreen").style.display = "block";
-							// Part 1 not complete
-							} else {
-								currentQuestion++;
-								generateQuestion(professed);
+							/*once the last question of the priority area is reached, if that priority area is second to last or earlier then more questions are generated*/
+							if (i == numAreas - 1 && currentArea < numAreas) {
+								generateQuestions();
+								//document.getElementById('lblQuestion').innerHTML = "test";
 							}
 						}
+
+						// once the user has proceeded at least one question into this section, the back button is available again
+						// uncomment out later when making back button functionality!!
+						/*if (currentArea == 1) {
+							document.getElementById("btnBack").style.visibility = "visible";
+						}*/ 
+
+						/*changes the btnNext text to 'Finish' on the last question of the section 
+						in order to indicate to the user that they have reached the end of this section*/
+						if (currentArea == numAreas - 1) { // numAreas - 1 = index of last element
+						/*not possible for second question of part 1 to also be second to last question of part 1 
+						because there is a minimum of 4 priority areas*/
+						// make sure this reverts back to Next when programming the back button functionality!!
+							document.getElementById("btnNext").innerHTML = "Finish";
+						}
+
+						// Part 1 complete
+						// shows the splash screen for the demonstrated section
+						if (currentArea == numAreas) { // out of bounds of the array by 1, move to next section
+							// updates the splash screen elements for Part 2 of 2 - Demonstrated Priorities
+							document.getElementById("btnNext").innerHTML = "Next";
+							// hides the back button so that the user cannot return to the professed section
+							document.getElementById("btnBack").style.visibility = "hidden";
+
+							// hides the professed buttons: the class returns all elements of that class and each has to be individually hidden
+							[].forEach.call(document.querySelectorAll('.radgrpProfessed'), function (el) {
+							  el.style.display = 'none';
+							});
+
+							//U+2014 = em dash
+							document.getElementById("splashSubtitle").innerHTML = "Part II \u2014 Demonstrated Priorities";
+							document.getElementById("splashPrompt").innerHTML = "This part of the assessment includes another " + (numQuestions/2) + " questions that require you to assess the frequency with which you sacrifice one priority area of your life for another. For each pairing of priority areas, you will be asked how often you \u201CDO\u201D sacrifice one area of your life in favor of the other. In response to these questions, we encourage you to think in terms of the choices you make on a recurring basis. In other words, how frequently do I neglect desirable activities associated with one priority area because of the demands or choices I make in support of another priority area.";
+
+							currentPage = "splashScreen";
+							document.getElementById("assessment").style.display = "none";
+							document.getElementById("splashScreen").style.display = "block";
+						}
+					}
+				} else if (currentPage = 'demonstrated') {
+					// if a question in the array is not null, display question and response (do this for back button, and then for next)!!
+					// surround generateQuestion call with this logic!!
 
 					// Part 2 of 2 - Demonstrated Priorities
-					} else if (currentQuestion > numQuestions/2 && currentQuestion <= numQuestions) {
-						// checks to make sure there is a response for the professed options
-						// if there is no response, the question number is not incremented and an alert is shown
-						if (!$("input[name='radioDemonstrated']:checked").val()) {
-							alert("Please select a response before proceeding.");
-						} else {
-							if ($("input[name='radioDemonstrated']:checked").val() == "Never") {
-								demonstrated[a][b] = 0;
-							} else if ($("input[name='radioDemonstrated']:checked").val() == "Rarely") {
-								demonstrated[a][b] = 0.25;
-							} else if ($("input[name='radioDemonstrated']:checked").val() == "Sometimes") {
-								demonstrated[a][b] = 0.5;
-							} else if ($("input[name='radioDemonstrated']:checked").val() == "Often") {
-								demonstrated[a][b] = 0.75;
-							} else if ($("input[name='radioDemonstrated']:checked").val() == "Always") {
-								demonstrated[a][b] = 1;
+					if (currentArea < numAreas) {
+						/*checks to make sure there is a response for the demonstrated options
+						if there is no response, the question number is not incremented and an alert is shown*/
+						var radio;
+						for (var i = 0; i < numAreas; i++) {
+							radio = 'radDemonstrated' + i;
+							if (i != currentArea) {
+								/*" " has to be used for this conditional*/
+								var test = "input[name='" + radio + "']:checked";
+								if (!$(test).val()) {
+									alert("Please answer all questions before proceeding.");
+									break;
+								} else {
+									demonstrated[currentArea][i] = $(test).val();
+								}
 							}
-
-							// once the user has proceeded at least one question into this section, the back button is available again
-							if (currentQuestion == (numQuestions/2)+2) {
-								// untoggle comment when making back button functionality
-								//document.getElementById("btnBack").style.visibility = "visible";
-							} 
-
-							/*changes the btnNext text to 'Finish' on the last question of the section 
-							in order to indicate to the user that they have reached the end of this section*/
-							if (currentQuestion == numQuestions-1) {
-								/*not possible for second question of part 2 to also be second to last question of part 2
-								because there is a minimum of 4 priority areas*/
-								// make sure this reverts back to Next when programming the back button functionality
-								document.getElementById("btnNext").innerHTML = "Finish";
+							// if the every question up through last question passes the value check, the currentArea is incremented by 1
+							if (i == numAreas - 1) {
+								currentArea++;
 							}
-
-							// Part 2 complete (assessment complete)
-							if (currentQuestion == numQuestions) {
-								// U+2013 = en dash
-								document.getElementById("splashSubtitle").innerHTML = "View Results";
-								document.getElementById("splashPrompt").innerHTML = "Thank you for completing the Life Balance Assessment! Please click the \u2018Generate Report\u2019 button below to receive your personalized \u201CLife Balance Assessment Report.\u201D A copy of it will be downloaded to your computer and another will be e-mailed to you as a backup. If you desire additional support in your pursuit of healthy life balance, we encourage you read our book, \u201CDiscover Healthy Balance – a Leader\u2019s Guide to Navigate Chaos in Pursuit of PEACE\u201D and/or send an email to info@ceekllc.com to speak with a Life Balance coach and consultant.";
-								document.getElementById("demonstratedButtons").style.display = "none";
-								document.getElementById("btnBack").style.display = "none";
-								document.getElementById("btnNext").style.display = "none";
-								document.getElementById("btnReport").style.display = "block";
-
-								currentPage = "splashScreen";
-								document.getElementById("assessment").style.display = "none";
-								document.getElementById("splashScreen").style.display = "block";
-							// Part 2 not complete
-							} else {
-								currentQuestion++;
-								generateQuestion(demonstrated);
+							/*once the last question of the priority area is reached, if that priority area is second to last then more questions are generated*/
+							if (i == numAreas - 1 && currentArea < numAreas) {
+								generateQuestions();
 							}
 						}
-					} 
+
+						// once the user has proceeded at least one question into this section, the back button is available again
+						// uncomment out later when making back button functionality!!
+						/*if (currentArea == 1) {
+							document.getElementById("btnBack").style.visibility = "visible";
+						}*/ 
+
+						/*changes the btnNext text to 'Finish' on the last question of the section 
+						in order to indicate to the user that they have reached the end of this section*/
+						if (currentArea == numAreas - 1) { // numAreas - 1 = index of last element
+						/*not possible for second question of part 1 to also be second to last question of part 1 
+						because there is a minimum of 4 priority areas*/
+						// make sure this reverts back to Next when programming the back button functionality!!
+							document.getElementById("btnNext").innerHTML = "Finish";
+						}
+
+						// Part 2 complete
+						if (currentArea == numAreas) { // out of bounds of the array by 1, complete assessment
+							// U+2013 = en dash
+							document.getElementById("splashSubtitle").innerHTML = "View Results";
+							document.getElementById("splashPrompt").innerHTML = "Thank you for completing the Life Balance Assessment! Please click the \u2018Generate Report\u2019 button below to receive your personalized \u201CLife Balance Assessment Report.\u201D A copy of it will be downloaded to your computer and another will be e-mailed to you as a backup. If you desire additional support in your pursuit of healthy life balance, we encourage you to read our book, \u201CDiscover Healthy Balance \u2013 a Leader\u2019s Guide to Navigate Chaos in Pursuit of PEACE\u201D and/or send an email to info@ceekllc.com to speak with a Life Balance coach and consultant.";
+
+							// hides the demonstrated buttons: the class returns all elements of that class and each has to be individually hidden
+							[].forEach.call(document.querySelectorAll('.radgrpDemonstrated'), function (el) {
+							  el.style.display = 'none';
+							});
+							document.getElementById("btnBack").style.display = "none";
+							document.getElementById("btnNext").style.display = "none";
+							document.getElementById("btnReport").style.display = "block";
+
+							currentPage = "splashScreen";
+							document.getElementById("assessment").style.display = "none";
+							document.getElementById("splashScreen").style.display = "block";
+						}
+					}
 				}
 			});
 
+			// write storeResponses() function!! or put in btnNext??
+
 			/*figure this out lol?*/
-			function generateQuestion(array) {
-				// picks two unique, random priority areas
-				var areaA;
-				var areaB;
+			function generateQuestions() {
+				// adds the priority areas to the respective question blocks
+				/*as the user proceeds through the assessment, the question priority area
+				questionBlock is hidden (i.e. you cannot sacrifice a particular priority area for itself)*/
+				// need to concatenate question number with priority area!!
+				
+				// used for accessing questionBlocks dynamically
+				var lblName;
 
-				do {
-					// returns a number between 0 and numAreas-1
-					a = Math.floor(Math.random() * numAreas);
-					b = Math.floor(Math.random() * numAreas);
-
-					while (b == a) {
-						b = Math.floor(Math.random() * numAreas);
+				/*loads questions into their respective questionBlocks and hides 
+				questionBlocks that have the same priority area as the sacrificed one*/
+				for (var i = 0; i < numAreas; i++) {
+					if (i != currentArea) {
+						// gets respective lblQuestion ID and creates question
+						lblName = 'lblQuestion' + i;
+						document.getElementById(lblName).innerHTML = currentQuestion + '. ' + priorityAreas[i].name + '?';
+						// displays this question
+						lblName = 'questionBlock' + i;
+						document.getElementById(lblName).style.display = 'block';
+						// increments question counter for next call
+						currentQuestion++;
+					} else if (i == currentArea) {
+						/*hides currentArea questionBlock so that the user is not asked 
+						if they will sacrifice a particular priority area for itself*/
+						lblName = 'questionBlock' + currentArea;
+						document.getElementById(lblName).style.display = 'none';
 					}
-					areaA = priorityAreas[a];
-					areaB = priorityAreas[b];
-
-				} while (array[a][b]!= null);
-
-				if (part == "professed") {
-					document.getElementById("professedButtons").reset();
-					questions[currentQuestion] = currentQuestion + ". Are you willing to sacrifice " + areaA + " in favor of " + areaB + "?";
-
-				} else if (part == "demonstrated") {
-					document.getElementById("demonstratedButtons").reset();
-					questions[currentQuestion] = currentQuestion + ". How often do you sacrifice " + areaA + " in favor of " + areaB + "?";
+					// resets all radio buttons
+					if (currentPage == 'professed') {
+						lblName = 'radgrpProfessed' + i;
+						document.getElementById(lblName).reset();
+					} else if (currentPage == 'demonstrated') {
+						lblName = 'radgrpDemonstrated' + i;
+						document.getElementById(lblName).reset();
+					}
 				}
 
-				document.getElementById("assessmentPrompt").innerHTML = questions[currentQuestion];
+				// creates main question 
+				if (currentPage == "professed") {
+					document.getElementById('lblQuestion').innerHTML = "Are you willing to sacrifice " + priorityAreas[currentArea].name + " in favor of...";
+				} else if (currentPage == "demonstrated") {
+					document.getElementById('lblQuestion').innerHTML = "How often do you sacrifice " + priorityAreas[currentArea].name + " in favor of...";
+				}
+				// add something that loads previous questions if this section has already been answered!!
 			}
 
 			$("#btnBack").click(function() {
@@ -1447,7 +1511,6 @@
 				}
 
 				// every new priority area is looped through to check for duplicates
-				// something wrong with the loop
 				for(var m = 0; m < newPriorityAreas.length; m++) {
 					if (document.getElementById("lstPriorityAreas").length == 10) {
 						alert("Please provide no more than ten priority areas. Remove a priority area to add a different one.");
@@ -1469,6 +1532,9 @@
 							/*once the entire list has been iterated through
 							if the new priority area is not found to be a duplicate 
 							then is it added to the list*/
+						} else if (opt.value == "") {
+							// do nothing, this should catch blank priority areas
+							break;
 						} else if (n == document.getElementById("lstPriorityAreas").length - 1) {
 							document.getElementById("lstPriorityAreas").options.add(opt);
 							/*break statement has to be added because once the new element is added, the 
@@ -1504,10 +1570,11 @@
 			});
 
 			$("#btnReport").click(function() {
-				// calculates assesssment score
-				var numYellow = 0;
-				var numRed = 0;
+				// calculates assesssment score and more 
+				// keep all report calculations at the top!! (move others as needed)
+				// LEFT OFF HERE
 				var score;
+				var negativeBoxes = 0.00; // must intialize as zero in case there are no negative boxes
 				var scoreType;
 
 				var results = new Array(numAreas);
@@ -1515,24 +1582,74 @@
 					results[m] = new Array(numAreas);
 				}
 
-				for (var i = 0; i < numAreas; i++) {
-					for (var j = 0; j < numAreas; j++) {
-						if (i != j) {
-							results[i][j] = professed[i][j] - demonstrated[i][j];
+				// calculate results here
+				var tempProfessed = 0;
+				var tempDemonstrated = 0;
 
-							if (professed[i][j] == 0) {
-								if (results[i][j] == -0.5) {
-									numYellow++;
-								} else if (results[i][j] == -0.75) {
-									numRed++;
-								} else if (results[i][j] == -1) {
-									numRed++;
-								}
-							} 
+				for (var x = 0; x < numAreas; x++) {
+					for (var y = 0; y < numAreas; y++) {
+						if (x != y) {
+							// finds the difference of the professed and demonstrated values
+							results[x][y] = professed[x][y] - demonstrated[x][y];
+
+							if (results[x][y] < 0) { // if the results are negative, add to total negative score
+								negativeBoxes += results[x][y];
+							}
+
+							tempProfessed += professed[x][y];
+							tempDemonstrated += demonstrated[x][y];
 						}
 					}
+					priorityAreas[x].professed = tempProfessed;
+					priorityAreas[x].demonstrated = tempDemonstrated;
+
+					tempProfessed = 0;
+					tempDemonstrated = 0;
 				}
-				score = Math.round((((numQuestions/2)-((numYellow*0.5)+(numRed)))/(numQuestions/2))*100);
+
+				// left off here
+
+				// Section 3 of the PDF
+				// debug!!
+				/*Check if there was an instance that respondent put "No" (0) for willing to sacrifice A for B and B for A 
+				by checking (x,y) and (y,x) for both equaling 0*/
+				/*for (var x = 0; x < professed.length - 1; x++) {
+				// set to less than array length - 1 because all possible combinations are evaluated by the time the second to last column is reached
+					for (var y = x + 1; y < professed.length; y++) {
+						if (professed[x][y] == 0 && professed [y][x] == 0) {
+							var pair = new unclearPair(priorityAreas[x].name, priorityAreas[y].name);
+							unclearPrioritites.push(pair);
+						}
+					}
+				}*/
+
+				// Section 4 of the PDF
+				// debug!!
+
+				// Section 5 of the PDF
+				// debug!!
+
+				// for reference so i dont have to keep scrolling up lol
+				/*function priorityArea (name) {
+				    this.name = name;
+				    this.professed = 0; // total professed score
+				    this.demonstrated = 0; // total demonstrated score
+				}
+
+				function unclearPair (areaA, areaB) {
+					this.areaA = areaA;
+					this.areaB = areaB;
+				}
+
+				// used to create the slackPairs and tensionPairs arrays
+				function discrepancyPair (areaA, areaB, demonstrated) {
+					this.areaA = areaA;
+					this.areaB = areaB;
+					this.demonstrated = 0;
+				}*/
+				
+				// Balance Equivalency Factor: ((combinations + sum of negative results) / combinations)*100
+				score = Math.round(((numCombinations + negativeBoxes) / numCombinations) * 100);
 
 				if (score >= 92) {
 					scoreType = "Balanced";
@@ -1544,8 +1661,8 @@
 					scoreType = "Unbalanced";
 				}
 
-				// store: Age Range, Gender, Country, Highest Educational Level, Primary, Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income
-				// Used for Google Sheet: https://github.com/dwyl/learn-to-send-email-via-google-script-html-no-server
+				// store: Age Range, Gender, Country, Highest Educational Level, Primary, Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income!!
+				// Used for Google Sheet: https://github.com/dwyl/learn-to-send-email-via-google-script-html-no-server!!
 
 				fullName = firstName + " " + lastName;
 				var d = new Date();
@@ -1561,9 +1678,6 @@
 				var yNewSection = 1.8;
 				var yNewPage = 1.35;
 				// ----------------------
-				// Helvetica, Times, and Courier are the three jsPDF-supported fonts (without adding a new font)
-				var fontPrimary = 'Helvetica';
-				var fontSecondary = 'Times';
 				bodyFontSize = 11;
 
 				// use 0.1" grid on Word Document for mapping object locations
@@ -1582,7 +1696,8 @@
 				var lsC = 0.38; // line spacing cover
 				
 				// title
-				pdf.setFont(fontPrimary);
+				// Helvetica, Times, and Courier are the three jsPDF-supported fonts (without adding a new font)
+				pdf.setFont('Helvetica'); // the only font used throughout the pdf
 				pdf.setFontSize(28);
 				pdf.setFontType('bold');
 				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
@@ -1614,7 +1729,6 @@
 				pdf.line(3.63, 2.6, 3.63, 4.2); // (x1, y1, x2, y2)
 
 				// disclaimer at the bottom of the page
-				pdf.setFont(fontSecondary);
 				pdf.setFontSize(9);
 				pdf.setTextColor(0,0,0); // black
 				// U+00A9 = copyright symbol
@@ -1624,7 +1738,6 @@
 				// full name
 				xC = 4.21;
 				yC = 2.81; // for some reason the Y coordinate for the name is 0.23" lower than expected (lowered more to make it line up with title)
-				pdf.setFont(fontPrimary);
 				pdf.setFontSize(14);
 				pdf.setFontType('bold');
 				pdf.text(fullName, xC, yC);
@@ -1633,8 +1746,7 @@
 				pdf.text(fullDate, xC, yC+0.23);
 
 				// report provided by
-				pdf.setFont(fontSecondary);
-				pdf.setFontSize(12);
+				pdf.setFontSize(bodyFontSize);
 				pdf.text("This report is provided by CEEK LLC", xC, yC+0.49);
 
 				// CEEK website and social media
@@ -1648,15 +1760,13 @@
 
 				// hyperlinks and handle
 				xC = 5.1;
-				pdf.setFontSize(11); // why is this font size different??
+				pdf.setFontSize(bodyFontSize);
 				pdf.setTextColor(0,0,0); // black
 				// each section is 0.17" apart
 				pdf.text("info@ceekllc.com", xC, yC+0.77);
 				pdf.textWithLink("www.ceekllc.com", xC, yC+0.94, {url:'www.ceekllc.com'});
 				pdf.textWithLink("@ceekllc", xC, yC+1.11, {url:'https://twitter.com/ceekllc'});
 				pdf.textWithLink("www.linkedin.com/company/ceek-llc", xC, yC+1.28, {url:'www.linkedin.com/company/ceek-llc'});
-
-				pdf.setFont(fontPrimary); // only font used from this point forward
 
 				// PAGE 1
 				newPage();
@@ -1667,9 +1777,10 @@
 				/*U+2018 = left single quotation mark
 				  U+2019 = right single quotation mark
 				  U+201C = left double quotation mark
-				  U+201D = right double quotation mark*/
+				  U+201D = right double quotation mark
+				  U+2014 = em dash*/
 				// reuse this variable for putting text in the PDF
-				var txt = pdf.splitTextToSize("In life, everyone will face the stress and pressure associated with competing priorities under time and/or resource constraints. For decades, researchers and organizations have studied the relationship between work and life as one of the most significant examples of such competing priorities. The term \u2018Work/Life Balance\u2019 has come to represent a critical priority for individuals in pursuit of general peace and fulfillment AND for organizations in pursuit of employee engagement and productivity.\n\nAt CEEK, we refer to \u2018Life Balance\u2019 as opposed to \u2018Work/Life Balance.\u2019 To us, \u2018Work\u2019 is simply one of the many competing priorities most of us contend with in \u2018Life.\u2019 In addition to \u2018Work\u2019, many people balance the demands of \u2018Family,\u2019 \u2018Faith,\u2019 Hobbies,\u2019 \u2018Friends,\u2019 \u2018Health,\u2019 and/or other priorities that consume the daily, weekly, monthly, and yearly focus of your lives.\n\nUnfortunately, the demands on our time are often imposed and accepted without conscious deliberation or thought. For many of us, our \u2018work\u2019 often defines the constraints around which the rest of our life and associated dreams can or cannot be pursued.\n\nAt CEEK, we dismiss the notion that personal and professional success are mutually exclusive. Individuals and organizations that actively pursue \u2018Life Balance\u2019 will manage the tension of competing priorities well. In doing so, such individuals and organizations greatly increase the odds of achieving personal and professional success.\n\nAt CEEK, we define Healthy Life Balance as \u201Ca state where professed priorities are consistent with demonstrated behaviors.\u201D In contrast, we define Unhealthy Life Balance as a \u201Cstate where professed priorities are inconsistent with demonstrated behaviors.\u201D\n\nThe CEEK Life Balance Assessment is designed to help you intentionally profess the priorities of your life. We compare your professed priorities to your demonstrated behaviors, or how you live your life. In the areas where your priorities and behaviors are in conflict there exists a source of tension in your life. Given such findings, this report calculates a Life Balance Assessment score and offers tips and suggestions to intentionally pursue enhanced balance and fulfillment, as applicable.\n\nThe Life Balance Assessment and this associated report are tools to help build awareness as the first and most important step to pursue enhanced Life Balance. We encourage you to refer to and leverage this report as you read the book, Finding Healthy Balance: a leader\u2019s guide to navigate chaos in pursuit of PEACE. Coupled with this assessment, the book will guide you through a simple, yet powerful approach to manage the tension well in pursuit of healthy Life Balance.\n\nThe remainder of this report summarizes the findings from your Life Balance Assessment. For further guidance, workshops, training or coaching support in pursuit of Life Balance for you and/or your organization, you can contact CEEK via email at info@ceekllc.com.", txtWidth);
+				var txt = pdf.splitTextToSize("In life, everyone will face the stress and pressure associated with competing priorities under time and/or resource constraints. For decades, researchers and organizations have studied the relationship between work and life as one of the most significant examples of such competing priorities. The term \u2018Work/Life Balance\u2019 has come to represent a critical priority for individuals in pursuit of general peace and fulfillment AND for organizations in pursuit of employee engagement and productivity.\n\nAt CEEK, we refer to \u2018Life Balance\u2019 as opposed to \u2018Work/Life Balance.\u2019 To us, \u2018Work\u2019 is simply one of the many competing priorities most of us contend with in \u2018Life.\u2019 In addition to \u2018Work\u2019, many people balance the demands of \u2018Family,\u2019 \u2018Faith,\u2019 Hobbies,\u2019 \u2018Friends,\u2019 \u2018Health,\u2019 and/or other priorities that consume the daily, weekly, monthly, and yearly focus of your lives.\n\nUnfortunately, the demands on our time are often imposed and accepted without conscious deliberation or thought. For many of us, our \u2018work\u2019 often defines the constraints around which the rest of our life and associated dreams can or cannot be pursued.\n\nAt CEEK, we dismiss the notion that personal and professional success are mutually exclusive. Individuals and organizations that actively pursue \u2018Life Balance\u2019 will manage the tension of competing priorities well. In doing so, such individuals and organizations greatly increase the odds of achieving personal and professional success.\n\nAt CEEK, we define Healthy Life Balance as \u201Ca state where professed priorities are consistent with demonstrated behaviors.\u201D In contrast, we define Unhealthy Life Balance as a \u201Cstate where professed priorities are inconsistent with demonstrated behaviors.\u201D\n\nThe CEEK Life Balance Assessment is designed to help you intentionally profess the priorities of your life. We compare your professed priorities to your demonstrated behaviors, or how you live your life. In the areas where your priorities and behaviors are in conflict there exists a source of tension in your life. Given such findings, this report calculates a Life Balance Assessment score and offers tips and suggestions to intentionally pursue enhanced balance and fulfillment, as applicable.\n\nThe Life Balance Assessment and this associated report are tools to help build awareness as the first and most important step to pursue enhanced Life Balance. We encourage you to refer to and leverage this report as you read the book, \u201CDiscover Healthy Balance \u2014 a Leader\u2019s Guide to navigate Chaos in Pursuit of PEACE\u201D. Coupled with this assessment, the book will guide you through a simple, yet powerful approach to manage the tension well in pursuit of healthy Life Balance.\n\nThe remainder of this report summarizes the findings from your Life Balance Assessment. For further guidance, workshops, training or coaching support in pursuit of Life Balance for you and/or your organization, you can contact CEEK via email at info@ceekllc.com.", txtWidth);
 				// use these coordinates for the starting position of text
 				pdf.text(txt, x1, y1);
 
@@ -1732,8 +1843,11 @@
 				txt = pdf.splitTextToSize("Finally, the Life Balance Assessment is a flexible tool that allows individuals to identify as many as ten priority areas within their life. In this way, we customize the tool to your unique circumstances. In completing the assessment, you identified the following list as priority areas within your life:", txtWidth);
 				pdf.text(txt, x2, y2);
 				y2 = listBuffer(y2, 4);
-				bulletList(priorityAreasCap, y2);
-
+				for (var i = 0; i < priorityAreas.length; i++) {
+					bulletPoint(priorityAreas[i].name, y2);
+					y2 = newline(y2, 1);
+				}
+				
 				//PAGE 3
 				newPage();
 				var x3 = xNew; // x page 3
@@ -1758,7 +1872,7 @@
 				pdf.setTextColor(255,255,255); // white
 				yScale = yScale+0.075;
 				pdf.text("Balance Assessment Scale", 6, yScale, 'center');
-				pdf.setFontSize(11);
+				pdf.setFontSize(bodyFontSize);
 				pdf.setFontType('bolditalic');
 				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
 				yScale = yScale + 0.33;
@@ -1776,7 +1890,7 @@
 
 				// text area 2
 				y3 = newline(y3, 4);
-				pdf.setFontSize(11);
+				pdf.setFontSize(bodyFontSize);
 				pdf.setFontType('bold');
 				pdf.setTextColor(0,0,0); // black
 				txt = pdf.splitTextToSize("Based upon your identified priority areas and assessment results, you have a Life Balance Assessment Score of: " + score + "%. This score is consistent with a Life Balance Assessment rating of \u201C" + scoreType + "\u201D.", txtWidth);
@@ -1807,20 +1921,20 @@
 				pdf.text(txt, x4, y4);
 				// put graph here
 				txt = pdf.splitTextToSize("The remainder of this report further details the findings associated with your completion of the Life Balance Assessment. We summarize professed priorities and your willingness to sacrifice one priority area in favor of another (Section 3). We evaluate sources of tension based upon sacrifices made that conflict with professed priorities (Section 4). And, we identify potential sources for \u2018slack\u2019 in which you could consider a reallocation of time and resources consistent with professed priorities (Section 5). The report concludes with a summary of findings and recommendations to pursue enhanced Life Balance (Section 6). Lastly, we offer templates to assist further assist as you develop and assessment plans of action to enhance or sustain healthy Life Balance.", txtWidth);
-				pdf.text(txt, x4, 5); // adjust this based on graph placement
+				pdf.text(txt, x4, 5); // adjust this based on graph placement!!
 
 				// PAGE 5
 				newPage();
 				newSection(3, "Assessment of Priorities");
 				var x5 = xNew;
 				var y5 = yNewSection;
-				txt = pdf.splitTextToSize("Based upon your \u2018willingness\u2019 to sacrifice one priority area for another, the following list conveys your \u2018professed\u2019 priorities among the areas of your life that you specified.", txtWidth);
+				txt = pdf.splitTextToSize("Based upon your \u2018willingness\u2019 to sacrifice one priority area for another, the following list ranks your specified life priorities from greatest to lowest professed importance.", txtWidth);
 				pdf.text(txt, x5, y5);
 				y2 = listBuffer(y3, 2);
 				//numberedList(); priority area scores
 
 
-				// remove lines later - show top and bottom border boundaries
+				// remove lines later - show top and bottom border boundaries!!
 				/*pdf.setLineWidth(lineWidth);
 				pdf.setDrawColor(0,0,0); // black
 				pdf.line(1, 1, 7.5, 1); // (x1, y1, x2, y2)
@@ -1884,7 +1998,7 @@
 
 				// resets font formatting since the first text areas after all sections share this formatting
 				pdf.setTextColor(0,0,0);
-				pdf.setFontSize(11);
+				pdf.setFontSize(bodyFontSize);
 				pdf.setFontType('normal');
 			}
 
@@ -1904,7 +2018,7 @@
 
 				// resets font formatting since the first text areas after all sections share this formatting
 				pdf.setTextColor(0,0,0);
-				pdf.setFontSize(11);
+				pdf.setFontSize(bodyFontSize);
 				pdf.setFontType('normal');
 			}
 
@@ -1924,7 +2038,7 @@
 
 				// resets font formatting since the first text areas after all sections share this formatting
 				pdf.setTextColor(0,0,0);
-				pdf.setFontSize(11);
+				pdf.setFontSize(bodyFontSize);
 				pdf.setFontType('normal');
 			}
 
@@ -1980,10 +2094,11 @@
 				// U+2022 = bullet point
 				pdf.setFontSize(18);
 				pdf.text("\u2022", 1.28, y+0.026);
-				pdf.setFontSize(11);
+				pdf.setFontSize(bodyFontSize);
 				pdf.text(text, 1.48, y);
 			}
 
+			// may not even need this function??
 			function bulletList(array, y) {
 				for (var i = 0; i < array.length; i++) {
 					// U+2022 = bullet point
