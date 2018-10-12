@@ -231,8 +231,8 @@
 			</form>
 		</div>
 
-		<div id="basicInformation">
-			<h2 class="subtitle">Basic Information</h2>
+		<div id="demographics">
+			<h2 class="subtitle">Demographics</h2>
 
 			<label class="questionLabel">First Name</label>
 			<input id="txtFirstName" class="userInput" type="text" placeholder="First Name"/><br>
@@ -240,9 +240,9 @@
 			<label class="questionLabel">Last Name</label>
 			<input id="txtLastName" class="userInput" type="text" placeholder="Last Name"/><br>
 
-			<label class="questionLabel">Age</label>
+			<label class="questionLabel">Age Range</label>
 			<select id="selectAge" class="selectpicker" title="Choose one of the following"><br>
-				<option><15</option>
+				<option>14 and younger</option>
 				<option>15-19</option>
 				<option>20-24</option>
 				<option>25-29</option>
@@ -253,7 +253,7 @@
 				<option>50-54</option>
 				<option>55-59</option>
 				<option>60-64</option>
-				<option>65+</option>
+				<option>65 and older</option>
 			</select><br>
 
 			<label class="questionLabel">Gender</label>
@@ -546,12 +546,12 @@
 
 			<label class="questionLabel">Annual Household Income</label>
 			<select id="selectIncome" class="selectpicker" title="Choose one of the following">
-				<option><$50,000</option>
+				<option>$49,999 and below</option>
 				<option>$50,000-$99,999</option>
 				<option>$100,000-$199,999</option>
 				<option>$200,000-$499,999</option>
 				<option>$500,000-$999,999</option>
-				<option>>$1,000,000</option>
+				<option>$1,000,000 and above</option>
 			</select><br>
 			<br>
 
@@ -657,7 +657,7 @@
 
 
 		<script>
-			var currentPage = "basicInformation";
+			var currentPage = "demographics";
 			var firstName;
 			var lastName;
 			var age;
@@ -689,6 +689,7 @@
 			var fullName;
 			var fullDate;
 			var pageNum = 0; // initialized at zero because the newPage() function increments the page number by 1 at the beginning of the method
+			var bodyFontSize;
 			var lineWidth;
 			var ySubtitle;
 			var ySubtitleLine;
@@ -779,10 +780,11 @@
 			// load their answer back in using array
 
 			$("#btnNext").click(function() {
-				if (currentPage === "basicInformation") {
-					if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtZipCode.value || !txtEmail.value) {
+				if (currentPage === "demographics") {
+					// uncomment out later
+					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtZipCode.value || !txtEmail.value) {
 						alert("Please fill in all of the fields before proceeding.");
-					} else {
+					} else {*/
 						firstName = document.getElementById("txtFirstName").value.trim();
 						lastName = document.getElementById("txtLastName").value.trim();
 						age = document.getElementById("selectAge").value;
@@ -796,13 +798,14 @@
 						document.getElementById("btnBack").style.visibility = "visible";
 						
 						currentPage = "occupationalProfile";
-						document.getElementById("basicInformation").style.display = "none";
+						document.getElementById("demographics").style.display = "none";
 						document.getElementById("occupationalProfile").style.display = "block";
-					}
+					//}
 				} else if (currentPage === "occupationalProfile") {
-					if (!selectEducation.value || !selectPWS.value || occupation==null || years==null || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
+					// uncomment out later
+					/*if (!selectEducation.value || !selectPWS.value || occupation==null || years==null || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
 						alert("Please fill in all of the fields before proceeding.");
-					} else {
+					} else {*/
 						education = document.getElementById("selectEducation").value;
 						pws = document.getElementById("selectPWS").value;
 						income = document.getElementById("selectIncome").value;
@@ -815,11 +818,12 @@
 						currentPage = "preAssessment";
 						document.getElementById("occupationalProfile").style.display = "none";
 						document.getElementById("preAssessment").style.display = "block";
-					}
+					//}
 				} else if (currentPage === "preAssessment") {
-					if (document.getElementById("lstPriorityAreas").length < 4) {
+					// uncomment out later
+					/*if (document.getElementById("lstPriorityAreas").length < 4) {
 						alert("Please provide at least four priority areas.");
-					} else {
+					} else {*/
 						// initializes the priorityAreas element as an array with as many elements as are in lstPriorityAreas
 						priorityAreas = new Array(document.getElementById("lstPriorityAreas").length);
 						// stores the properly capitalized priority areas for PDF generation
@@ -852,7 +856,7 @@
 						currentPage = "splashScreen";
 						document.getElementById("preAssessment").style.display = "none";
 						document.getElementById("splashScreen").style.display = "block";
-					}
+					//}
 				} else if (currentPage === "splashScreen") {
 					if (currentQuestion == 1) {
 						// hides the back button once the assessment has begun so that the user cannot change the priority areas
@@ -1027,9 +1031,9 @@
 					document.getElementById("disclaimer").style.display = "block";
 					document.getElementById("btnBack").style.visibility = "hidden";
 
-					currentPage = "basicInformation";
+					currentPage = "demographics";
 					document.getElementById("occupationalProfile").style.display = "none";
-					document.getElementById("basicInformation").style.display = "block";
+					document.getElementById("demographics").style.display = "block";
 				} else if (currentPage === "preAssessment") {
 					currentPage = "occupationalProfile";
 					document.getElementById("preAssessment").style.display = "none";
@@ -1168,7 +1172,7 @@
 						}
 					}
 				}
-				score = Math.round((((numQuestions/2)-((numYellow*1)+(numRed*2)))/(numQuestions/2))*100);
+				score = Math.round((((numQuestions/2)-((numYellow*0.5)+(numRed)))/(numQuestions/2))*100);
 
 				if (score >= 90) {
 					scoreType = "Balanced";
@@ -1179,6 +1183,9 @@
 				} else if (score < 60) {
 					scoreType = "Unbalanced";
 				}
+
+				// store: Age Range, Gender, Country, Highest Educational Level, Primary, Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income
+				// Used for Google Sheet: https://github.com/dwyl/learn-to-send-email-via-google-script-html-no-server
 
 				fullName = firstName + " " + lastName;
 				var d = new Date();
@@ -1197,7 +1204,7 @@
 				// Helvetica, Times, and Courier are the three jsPDF-supported fonts (without adding a new font)
 				var fontPrimary = 'Helvetica';
 				var fontSecondary = 'Times';
-				var bodyFontSize = 11;
+				bodyFontSize = 11;
 
 				// use 0.1" grid on Word Document for mapping object locations
 				// when adding images to the pdf, make sure to get the size ratio of the images correct based on their pixel dimensions
@@ -1333,7 +1340,8 @@
 				pdf.text("Occupational Category", xTable, yTable+(5*lsTable));
 				pdf.text("Years in Current Occupation", xTable, yTable+(6*lsTable));
 				pdf.text("Annual Household Income", xTable, yTable+(7*lsTable));
-				xTable = 3.35;
+				// uncomment out later
+				/*xTable = 3.35;
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,0,0); // black
 				pdf.text(age, xTable, yTable);
@@ -1343,7 +1351,7 @@
 				pdf.text(pws, xTable, yTable+(4*lsTable));
 				pdf.text(occupation, xTable, yTable+(5*lsTable));
 				pdf.text(years, xTable, yTable+(6*lsTable));
-				pdf.text(income, xTable, yTable+(7*lsTable));
+				pdf.text(income, xTable, yTable+(7*lsTable));*/
 
 				// text area 2
 				y2 = y2 + 3.176;
@@ -1354,7 +1362,7 @@
 				pdf.text(txt, x2, y2);
 
 				// happiness and stress bullet points
-				y2 = bulletBuffer(y2, 5);
+				y2 = listBuffer(y2, 5);
 				bulletPoint("Happiness: " + lmhScale(happiness), y2);
 				y2 = newline(y2, 1);
 				bulletPoint("Stress: " + lmhScale(stress), y2);
@@ -1363,7 +1371,7 @@
 				y2 = newline(y2, 2);
 				txt = pdf.splitTextToSize("Finally, the Life Balance Assessment is a flexible tool that allows individuals to identify as many as ten priority areas within their life. In this way, we customize the tool to your unique circumstances. In completing the assessment, you identified the following list as priority areas within your life:", txtWidth);
 				pdf.text(txt, x2, y2);
-				y2 = bulletBuffer(y2, 4);
+				y2 = listBuffer(y2, 4);
 				bulletList(priorityAreasCap, y2);
 
 				//PAGE 3
@@ -1437,6 +1445,20 @@
 				var y4 = yNewPage; // y page 4
 				txt = pdf.splitTextToSize("The following bar chart compares your Balance Assessment Score to the average values reported within your specified Age Range, Gender, Country, Highest Educational Level, Primary Working Status, Occupational Category, Years in Current Occupation, and Annual Household Income.", txtWidth);
 				pdf.text(txt, x4, y4);
+				// put graph here
+				txt = pdf.splitTextToSize("The remainder of this report further details the findings associated with your completion of the Life Balance Assessment. We summarize professed priorities and your willingness to sacrifice one priority area in favor of another (Section 3). We evaluate sources of tension based upon sacrifices made that conflict with professed priorities (Section 4). And, we identify potential sources for \u2018slack\u2019 in which you could consider a reallocation of time and resources consistent with professed priorities (Section 5). The report concludes with a summary of findings and recommendations to pursue enhanced Life Balance (Section 6). Lastly, we offer templates to assist further assist as you develop and assessment plans of action to enhance or sustain healthy Life Balance.", txtWidth);
+				pdf.text(txt, x4, 5); // adjust this based on graph placement
+
+				// PAGE 5
+				newPage();
+				newSection(3, "Assessment of Priorities");
+				var x5 = xNew;
+				var y5 = yNewSection;
+				txt = pdf.splitTextToSize("Based upon your \u2018willingness\u2019 to sacrifice one priority area for another, the following list conveys your \u2018professed\u2019 priorities among the areas of your life that you specified.", txtWidth);
+				pdf.text(txt, x5, y5);
+				y2 = listBuffer(y3, 2);
+				//numberedList(); priority area scores
+
 
 				// remove lines later - show top and bottom border boundaries
 				/*pdf.setLineWidth(lineWidth);
@@ -1575,7 +1597,7 @@
 				return line1+(0.1757*numLines)+0.0645;
 			}
 
-			function bulletBuffer(line1, numLines) { // used before bullet point sections
+			function listBuffer(line1, numLines) { // used before bullet point and numbered list sections
 				// 0.1757 = line spacing - calculated spacing between Arial 11 pt font lines
 				// 0.08785 = 1.5 line spacing - half of calculated line spacing between Arial 11 pt font lines
 				/*takes the original y coordinate, jumps to the bottom of the line based on the number of 
@@ -1605,18 +1627,21 @@
 			function bulletList(array, y) {
 				for (var i = 0; i < array.length; i++) {
 					// U+2022 = bullet point
+					// makes the font bigger because the bullet character is too small
 					pdf.setFontSize(18);
 					pdf.text("\u2022", 1.28, y+0.026);
-					pdf.setFontSize(11);
+					// list text
+					pdf.setFontSize(bodyFontSize);
 					pdf.text(array[i], 1.48, y);
 					y = newline(y, 1);
 				}
 			}
 
-			// test later
 			function numberedList(array, y) {
 				for (var i = 0; i < array.length; i++) {
+					// number
 					pdf.text((i+1) + ".", 1.28, y);
+					// list text
 					pdf.text(array[i], 1.48, y);
 					y = newline(y, 1);
 				}
