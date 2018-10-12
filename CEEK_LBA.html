@@ -9,15 +9,19 @@
 <html>
 	<head>
 		<style>
+			#codeEntry, #demographics, #occupationalProfile, #preAssessment, #splashScreen, #assessment {
+				width: 950px;
+			}
+
 			#title {
 				position: relative;
 				overflow: hidden; 
-				padding-left: 15px;
+				padding-left: 190px;
 			}
 
 			#company, #tool {
 				position: relative;
-				float: left; 
+				float: left;
 			}
 
 			#company {
@@ -31,21 +35,27 @@
 				font-weight: bold;
 			}
 
-			.subtitle, label {
-				font-family: "Helvetica";
-				color: black;
+			label {
 				text-align: left;
-				margin-left: 30px;
 			}
 
 			.subtitle {
+				font-family: "Helvetica";
+				color: black;
 				font-weight: bold;
+				margin: auto;
+			    text-align: center;
+			    position: relative;
+			}
+
+			#codePrompt, #splashPrompt, #assessmentPrompt, #willingnessButtons, #actionsButtons, .questionLabel, #preAssessmentPrompt {
+				font-size: 18px;
 			}
 
 			.questionLabel, #lstPriorityAreas {
 				display: inline-block;
-				width: 250px;
-				margin-left: 45px;
+				width: 400px;
+				margin-left: 150px;
 			}
 
 			.userInput, select, .slidercontainer, .slider {
@@ -55,7 +65,7 @@
 			p {
 				font-family: "Helvetica";
 				padding-left: 30px;
-				width: 600px;
+				width: 950px;
 				word-wrap: break-word;
 			}
 
@@ -65,6 +75,19 @@
 
 			#yesRepeat {
 				padding-left: 50px;
+			}
+
+			#noRepeat, #yesRepeat {
+				font-size: 20px;
+			}
+
+			#checkMailList {
+				width: 13px;
+				height: 13px;
+				vertical-align: bottom;
+				position: relative;
+				top: -1px;
+				*overflow: hidden;
 			}
 
 			.slider {
@@ -77,7 +100,6 @@
 				opacity: 0.5;
 				-webkit-transition: .2s;
 				transition: opacity .2s;
-
 			}
 
 			.slider:hover {
@@ -116,15 +138,6 @@
 				margin-left: 175px;
 			}
 
-			#checkMailList {
-				width: 13px;
-				height: 13px;
-				vertical-align: bottom;
-				position: relative;
-				top: -1px;
-				*overflow: hidden;
-			}
-
 			#labelMailList {
 				display: block;
 				text-indent: -15px;
@@ -149,7 +162,7 @@
 			}
 
 			#btnNext {
-				margin-left: 375px;
+				margin-left: 750px;
 			}
 
 			#btnRemove, #btnAdd {
@@ -180,10 +193,6 @@
 
 			#txtPriorityAreas {
 				margin-left: 110px;
-			}
-
-			#splashPrompt, #assessmentPrompt, #willingnessButtons, #actionsButtons {
-				font-size: 20px;
 			}
 
 			#no {
@@ -227,9 +236,9 @@
 	<body>
 		<form id="gform" method="POST">
 			<div id="codeEntry">
-				<h2 class="subtitle">Access Code Entry</h2>
+				<h2 class="subtitle">Access Code Entry</h2><br>
 
-				<p>Please enter your 20-digit assessment access code below. Proper capitalization of characters and dashes are required for the access code to work.</p><br>
+				<p id="codePrompt">Please enter your 20-digit assessment access code below. Proper capitalization of characters and dashes are required for the access code to work.</p><br>
 				
 				<fieldset>
 					<label class="questionLabel">Survey Access Code</label>
@@ -246,7 +255,7 @@
 			</div>
 
 			<div id="demographics" style="display:none">
-				<h2 class="subtitle">Demographics</h2>
+				<h2 class="subtitle">Demographics</h2><br>
 
 				<!--This is a div because this response is not stored in the Google sheet-->
 				<div>
@@ -514,7 +523,7 @@
 			</div>
 
 			<div id="occupationalProfile" style="display:none">
-				<h2 class="subtitle">Occuptional Profile</h2>
+				<h2 class="subtitle">Occuptional Profile</h2><br>
 
 				<fieldset>
 					<label class="questionLabel">Highest Educational Level</label>
@@ -617,9 +626,9 @@
 			</div>
 
 			<div id="preAssessment" style="display:none">
-				<h2 class="subtitle">Priority Areas</h2>
+				<h2 class="subtitle">Priority Areas</h2><br>
 
-				<p>This assessment calculates your life balance score based on your professed versus demonstrated priorities in life. Some suggested priority areas are already provided, which you can choose to delete or keep, in addition adding some of your own. Please be honest with your responses in order to receive the most accurate assessment of your life balance and best advice for your situation.</p><br>
+				<p id=preAssessmentPrompt>The Life Balance Assessment is tailored to that which you deem to be important. The list below suggests potential priority areas in your life. We encourage you to add or remove from this list to specify those areas of your life that you believe are most significant to you. You must select no fewer than four and no more than ten priority areas. Based upon the priority areas that you select, you will be asked a series of questions to help clarify their significance through your professed versus demonstrated actions relative to each of these areas.</p><br>
 
 				<!--Made into a div so that one break can uniformly be put below both the list box and text area-->
 				<div id="priorityAreaSelection">
@@ -632,8 +641,7 @@
 						<option>Hobbies</option>
 					</select>
 					
-					<textarea id="txtPriorityAreas" placeholder="Add desired priority areas by typing in this box. To add more than one at once, separate them with commas or by pressing 'Enter'.
-					Please limit yourself to ten priority areas total, but provide at least four."></textarea>
+					<textarea id="txtPriorityAreas" placeholder="Add desired priority areas by typing in this box. To add more than one at once, separate them with commas or by pressing 'Enter'."></textarea>
 				</div><br>
 
 				<button id="btnRemove">Remove</button>
@@ -645,13 +653,13 @@
 			</div>
 
 			<div id="splashScreen" style="display:none">
-				<h2 id="splashSubtitle" class="subtitle">Part 1 of 2: Willingness</h2>
+				<h2 id="splashSubtitle" class="subtitle">Part 1 of 2: Willingness</h2><br>
 
-				<p id="splashPrompt">Since you provided X priority areas, this assessment consists of Y questions. Part 1 will prompt you with Z questions regarding which priority areas that you are WILLING to sacrifice in favor of another. Once you click 'Next' you will be unable to modify your priority areas.</p>
+				<p id="splashPrompt">This part of the assessment includes X questions that require you to make distinct, value-based decisions between the identified priority areas of your life. For each pairing of priority areas, you will be asked if you are “WILLING” to sacrifice one area of your life in favor of another. In response to these questions, we encourage you to think in terms of the extreme. In other words, if I had to choose one at the risk of completely losing the other, which would it be?  (Note – once you click ‘Next’ you will be unable to modify your priority areas.</p>
 			</div>
 
 			<div id="assessment" style="display:none">
-				<h2 id="assessmentSubtitle" class="subtitle">Part 1 of 2: Willingness</h2>
+				<h2 id="assessmentSubtitle" class="subtitle">Part 1 of 2: Willingness</h2><br>
 
 				<p id="assessmentPrompt">Question goes here</p>
 
@@ -681,7 +689,7 @@
 		<button id="btnNext" class="btn btn-primary">Next</button><br>
 		<br>
 
-		<p id="disclaimer" style="display:none">DISCLAIMER: Your name is NOT stored, it is only put in the PDF report is e-mailed to you that contains your results, which only you can view. Demographic and geographic information is collected for analysis of average assessment scores by age group, gender, occupation, and region. None of your assessment answers are stored, only your anonymous final score is. CEEK ensures that your personal information will not be shared with any organizations for any reason.</p>
+		<p id="disclaimer" style="display:none">DISCLAIMER: CEEK collects basic demographic data solely for statistical comparison purposes. We use your name and e-mail address ONLY for customization of the report results that will be sent to you and for inclusion in our mailing list, if you elect to participate. We will NOT provide your name, e-mail address, nor any personally identifiable information to any individuals or organizations. Furthermore, we will not maintain your name, e-mail, nor any personally identifiable information in our assessment database. Rather, we only maintain anonymous assessment scores associated with various generic demographic categories.</p>
 
 		<!--Created by-->
 		<p class='created'>Coded by Madison Wright</p>
@@ -879,8 +887,6 @@
 						//zipCode = document.getElementById("txtZipCode").value.trim();
 						email = document.getElementById("txtEmail").value.trim();
 						emailSubscribe = document.getElementById("checkMailList").value;
-
-						document.getElementById("disclaimer").style.display = "none";
 						
 						currentPage = "occupationalProfile";
 						document.getElementById("demographics").style.display = "none";
@@ -935,7 +941,7 @@
 						}
 
 						// Part 1 of 2: Willingness Splash Screen
-						document.getElementById("splashPrompt").innerHTML = "Since you provided " + numAreas + " priority areas, this assessment will consist of " + numQuestions + " questions. Part 1 will prompt you with " + (numQuestions/2) + " questions regarding which priority areas that you are WILLING to sacrifice in favor of another. Once you click 'Next' you will be unable to modify your priority areas.";
+						document.getElementById("splashPrompt").innerHTML = "This part of the assessment includes " + (numQuestions/2) + " questions that require you to make distinct, value-based decisions between the identified priority areas of your life. For each pairing of priority areas, you will be asked if you are \u201CWILLING\u201D to sacrifice one area of your life in favor of another. In response to these questions, we encourage you to think in terms of the extreme. In other words, if I had to choose one at the risk of completely losing the other, which would it be? Once you click \u2018Next\u2019 you will be unable to modify your priority areas.";
 
 						currentPage = "splashScreen";
 						document.getElementById("preAssessment").style.display = "none";
@@ -1010,7 +1016,7 @@
 								part = "actions";
 
 								document.getElementById("splashSubtitle").innerHTML = "Part 2 of 2: Actions";
-								document.getElementById("splashPrompt").innerHTML = "Since you provided " + numAreas + " priority areas, this assessment consists of " + numQuestions + " questions. Part 2 will prompt you with " + (numQuestions/2) + " questions regarding the frequency that you DO sacrifice a particular priority area in favor of another.";
+								document.getElementById("splashPrompt").innerHTML = "This part of the assessment includes another " + (numQuestions/2) + " questions that require you to assess the frequency with which you sacrifice one priority area of your life for another. For each pairing of priority areas, you will be asked how often you \u201CDO\u201D sacrifice one area of your life in favor of the other. In response to these questions, we encourage you to think in terms of the choices you make on a recurring basis. In other words, how frequently do I neglect desirable activities associated with one priority area because of the demands or choices I make in support of another priority area.";
 
 								currentPage = "splashScreen";
 								document.getElementById("assessment").style.display = "none";
@@ -1058,10 +1064,9 @@
 
 							// Part 2 complete (assessment complete)
 							if (currentQuestion == numQuestions) {
-								// generate PDF here
-								// easier to email results or generate PDF on the page?
+								// U+2013 = en dash
 								document.getElementById("splashSubtitle").innerHTML = "View Results";
-								document.getElementById("splashPrompt").innerHTML = "You have completed the CEEK Life Balance Assessment! Please click the 'Generate Report' button below to save a PDF of your results to your computer. The PDF may take a few seconds to generate, so please only click the button once and wait a moment. Please check your 'Downloads' folder for the file. A copy will be e-mailed to you as well as a backup.";
+								document.getElementById("splashPrompt").innerHTML = "Thank you for completing the Life Balance Assessment! Please click the \u2018Generate Report\u2019 button below to receive your personalized \u201CLife Balance Assessment Report.\u201D A copy of it will be downloaded to your computer and another will be e-mailed to you as a backup. If you desire more information to help pursue healthy life balance, we encourage you to visit our website at www.ceekllc.com and/or to read our book, \u201CDiscover Healthy Balance \u2013 a Leader\u2019s Guide to Navigate Chaos in Pursuit of PEACE.\u201D";
 								document.getElementById("actionsButtons").style.display = "none";
 								document.getElementById("btnBack").style.display = "none";
 								document.getElementById("btnNext").style.display = "none";
@@ -1119,12 +1124,12 @@
 					document.getElementById("demographics").style.display = "none";
 					document.getElementById("codeEntry").style.display = "block";
 				} else if (currentPage === "occupationalProfile") {
-					document.getElementById("disclaimer").style.display = "block";
-					
 					currentPage = "demographics";
 					document.getElementById("occupationalProfile").style.display = "none";
 					document.getElementById("demographics").style.display = "block";
 				} else if (currentPage === "preAssessment") {
+					document.getElementById("disclaimer").style.display = "block";
+
 					currentPage = "occupationalProfile";
 					document.getElementById("preAssessment").style.display = "none";
 					document.getElementById("occupationalProfile").style.display = "block";
