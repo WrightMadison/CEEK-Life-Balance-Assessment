@@ -8,7 +8,6 @@
  <!-- Quick Search:
  	?? = potential change
  	!! = needs to be implemented
- 	uncomment out later = conditionals that need to be uncommented out before release 
  	left off here = find the most recently edited code while development is still underway -->
  
 <!DOCTYPE html>
@@ -810,8 +809,7 @@
 					</div>
 				</fieldset>
 
-				<!--Remove below at the end of the free trial period!!-->
-				<!-- <fieldset>
+				<fieldset>
 					<label class="questionLabel">E-mail</label>
 					<div class='userInput'>
 						<input id="txtEmail" class="form-control" type="text" placeholder="Valid E-mail Address" name='E-mail'/>
@@ -819,10 +817,8 @@
 				</fieldset><br>
 
 				<fieldset>
-					<label id="labelMailList"><input id='checkMailList' type="checkbox" class="filled-in form-check-input" checked="checked"/>Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
-				</fieldset><br> -->
-				<!--Remove above at the end of the free trial period!!-->
-				<br>
+					<label id="labelMailList"><input id='checkMailList' type="checkbox" class="filled-in form-check-input" checked="checked" value="Yes" name='Mail-List'/>Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
+				</fieldset><br>
 			</div>
 
 			<div id="occupationalProfile" class='page' style="display:none">
@@ -1016,9 +1012,7 @@
 			var age;
 			var gender;
 			var country;
-			// remove this variable when the paid assessment is released!!
-			//var email;
-			//var emailSubscribe;
+			var email;
 			var education;
 			var pws;
 			var occupation;
@@ -1095,6 +1089,9 @@
 			// Report Images
 			/*Image links will need to be changed if imgBB hosting services end;
 			hosting images through CEEK LLC's domain would be ideal*/
+
+			/*cross origin: https://webglfundamentals.org/webgl/lessons/webgl-cors-permission.html */
+
 			var imgCover = new Image;
 			imgCover.crossOrigin = '';
 			imgCover.src = 'https://image.ibb.co/dNqoDU/Report_Cover.png';
@@ -1188,19 +1185,18 @@
 					accessCode = document.getElementById("txtCode").value.trim(); // gets ride of whitespace
 					// write code for checking if access code is in Google sheet already, if it is write alert that says "Invalid access code" or "this access code has already been used"
 					
-					// uncomment out later
-					/*if (accessCode != tableP[203].Income_Category) {
+					if (accessCode != tableP[203].Income_Category) {
 						alert("Invalid access code.");
 					} else if (!$("input[name='Repeat-Taker']:checked").val()) {
 						alert("Please indicate if you have taken this assessment before.");
-					} else {*/
+					} else {
 						document.getElementById("disclaimer").style.display = "none";
 						document.getElementById('btnNext').innerHTML = "Next";
 
 						currentPage = "demographics";
 						document.getElementById("codeEntry").style.display = "none";
 						document.getElementById("demographics").style.display = "block";
-					//}
+					}
 					
 					//if (accessCodes.includes(accessCode) && $("input[name='Repeat-Taker']:checked").val()) {
 						// add code here for when both are filled out properly
@@ -1219,32 +1215,27 @@
 					}*/
 					
 				} else if (currentPage === "demographics") {
-					// uncomment out later
-					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectGender.value || !selectCountry.value) {
+					if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectGender.value || !selectCountry.value || !txtEmail.value) {
 						alert("Please fill in all of the fields before proceeding.");
-					} else {*/
+					} else {
 						firstName = document.getElementById("txtFirstName").value.trim();
 						lastName = document.getElementById("txtLastName").value.trim();
 						age = document.getElementById("selectAge").value;
 						gender = document.getElementById("selectGender").value;
 						country = document.getElementById("selectCountry").value;
-						/*if (document.getElementById("checkMailList").checked == false) {
-							document.getElementById("txtEmail").value = "Do not subscribe";
-						} else {
-							email = document.getElementById("txtEmail").value.trim();
-						}*/
+						email = document.getElementById("txtEmail").value.trim();
+						
 						document.getElementById('btnBack').style.visibility = 'visible';
 						
 						currentPage = "occupationalProfile";
 						document.getElementById("demographics").style.display = "none";
 						document.getElementById("occupationalProfile").style.display = "block";
-					//}
+					}
 				} else if (currentPage === "occupationalProfile") {
 					//PWS and occupation are null checked because of how they are only enabled when "Full-Time" or "Part-Time" is selected
-					// uncomment out later
-					/*if (!selectEducation.value || !selectPWS.value || occupation==null || years==null || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
+					if (!selectEducation.value || !selectPWS.value || occupation==null || years==null || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
 						alert("Please fill in all of the fields before proceeding.");
-					} else {*/
+					} else {
 						education = document.getElementById("selectEducation").value;
 						pws = document.getElementById("selectPWS").value;
 						income = document.getElementById("selectIncome").value;
@@ -1254,12 +1245,11 @@
 						currentPage = "preAssessment";
 						document.getElementById("occupationalProfile").style.display = "none";
 						document.getElementById("preAssessment").style.display = "block";
-					//}
+					}
 				} else if (currentPage === "preAssessment") {
-					// uncomment out later
-					/*if (document.getElementById("lstPriorityAreas").length < 4) {
+					if (document.getElementById("lstPriorityAreas").length < 4) {
 						alert("Please provide at least four priority areas.");
-					} else {*/
+					} else {
 						// initializes the priorityAreas element as an array with as many elements as are in lstPriorityAreas
 						priorityAreas = new Array(document.getElementById("lstPriorityAreas").length);
 
@@ -1290,7 +1280,7 @@
 						currentPage = "splashScreen";
 						document.getElementById("preAssessment").style.display = "none";
 						document.getElementById("splashScreen").style.display = "block";
-					//}
+					}
 				} else if (currentPage === "splashScreen") {
 					if (currentArea == 0) {
 						// hides the back button once the assessment has begun so that the user cannot change the priority areas
@@ -1986,8 +1976,7 @@
 				pdf.text("Occupational Category", xTable, yTable+(5*lsTable));
 				pdf.text("Years in Current Occupation", xTable, yTable+(6*lsTable));
 				pdf.text("Annual Household Income", xTable, yTable+(7*lsTable));
-				// uncomment out later
-				/*xTable = 3.35;
+				xTable = 3.35;
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,0,0); // black
 				pdf.text(age, xTable, yTable);
@@ -1997,7 +1986,7 @@
 				pdf.text(pws, xTable, yTable+(4*lsTable));
 				pdf.text(occupation, xTable, yTable+(5*lsTable));
 				pdf.text(years, xTable, yTable+(6*lsTable));
-				pdf.text(income, xTable, yTable+(7*lsTable));*/
+				pdf.text(income, xTable, yTable+(7*lsTable));
 
 				// text area 2
 				y2 = y2 + 3.176; // height of the table - used as a buffer to find the next text line after the table
