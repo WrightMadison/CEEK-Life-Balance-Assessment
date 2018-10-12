@@ -1,0 +1,997 @@
+<!--Written by Madison Wright
+	Contact: wrightmadison@gmail.com-->
+
+	<DOCTYPE html>
+		<html>
+		<head>
+
+			<style>
+			#title {
+				position: relative;
+				overflow: hidden; 
+				padding-left: 15px;
+			}
+
+			#company, #tool {
+				position: relative;
+				float: left; 
+			}
+
+			#tool {
+				font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+				color: black;
+				text-align: left;
+				font-weight: bold;
+			}
+
+			.subtitle, label {
+				font-family: "Helvetica";
+				color: black;
+				text-align: left;
+				margin-left: 30px;
+			}
+
+			.subtitle {
+				font-weight: bold;
+			}
+
+			.questionLabel, #lstPriorityAreas {
+				display: inline-block;
+				width: 250px;
+				margin-left: 45px;
+			}
+
+			.userInput, select, .slidercontainer, .slider {
+				width: 220px;
+			}
+
+			p {
+				font-family: "Helvetica";
+				padding-left: 30px;
+				width: 600px;
+				word-wrap: break-word;
+			}
+
+			.slider {
+				-webkit-appearance: none;
+				width: 100%;
+				height: 15px;
+				border-radius: 5px; 
+				background: #383938;
+				outline: none;
+				opacity: 0.5;
+				-webkit-transition: .2s;
+				transition: opacity .2s;
+
+			}
+
+			.slider:hover {
+				opacity: .75;
+			}
+
+			.slider::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				appearance: none;
+				width: 25px;
+				height: 25px;
+				border-radius: 50%; 
+				background: #00529b;
+				cursor: pointer;
+			}
+
+			.sliderBox { 
+				display: table;
+			}
+
+			.slidecontainer { 
+				display: table-cell; 
+				vertical-align: middle; 
+			}
+
+			.smilePic {
+				width: 20px;
+				height: 20px;
+			}
+
+			.slideResponse {
+				margin-left: 105px;
+			}
+
+			#happySmile, #stressedFrown {
+				margin-left: 175px;
+			}
+
+			#checkMailList {
+				width: 13px;
+				height: 13px;
+				vertical-align: bottom;
+				position: relative;
+				top: -1px;
+				*overflow: hidden;
+			}
+
+			#labelMailList {
+				display: block;
+				text-indent: -15px;
+				margin-left: 45px;
+				width: 500px;
+			}
+
+			button, .btn-primary {
+				text-align: center;
+				vertical-align: middle;
+			}
+
+			#btnBack, #btnNext {
+				display: inline;
+				width: 80px;
+				height: 30px;
+			}
+
+			#btnBack {
+				margin-left: 30px;
+				visibility: hidden;
+			}
+
+			#btnNext {
+				margin-left: 375px;
+			}
+
+			#btnRemove, #btnAdd {
+				width: 70px;
+				height: 25px;
+			}
+
+			#btnRemove {
+				margin-left: 110px;
+			}
+
+			#btnAdd {
+				margin-left: 230px;
+			}
+
+			#priorityAreaSelection {
+				position: relative;
+				overflow: hidden; 
+			}
+
+			#lstPriorityAreas, #txtPriorityAreas {
+				width: 200px;
+				height: 175px;
+				resize: none;
+				position: relative;
+				float: left; 
+			}
+
+			#txtPriorityAreas {
+				margin-left: 110px;
+			}
+
+			#no {
+				padding-left: 190px;
+			}
+
+			#yes {
+				padding-left: 100px;
+			}
+
+			#never {
+				padding-left: 50px;
+			}
+
+			#rarely, #sometimes, #often, #always {
+				padding-left: 40px;
+			}
+
+			#btnReport {
+				margin-left: 220px;
+			}
+
+		</style>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css"/>
+
+		<title>CEEK Life Balance Assessment</title>
+
+	</head>
+	<body>
+		<div id="title">
+			<img src="http://www.ceekllc.com/wp-content/uploads/2013/09/CeekLogo.png" id="company">
+			<h1 id="tool">&nbsp;Life Balance Assessment</h1>
+		</div>
+
+		<div id="basicInformation">
+			<h2 class="subtitle">Basic Information</h2>
+
+			<label class="questionLabel">First Name</label>
+			<input id="txtFirstName" class="userInput" type="text" placeholder="First Name"/><br>
+
+			<label class="questionLabel">Last Name</label>
+			<input id="txtLastName" class="userInput" type="text" placeholder="Last Name"/><br>
+
+			<label class="questionLabel">Age</label>
+			<select id="selectAge" class="selectpicker" title="Choose one of the following"><br>
+				<option><15</option>
+				<option>15-19</option>
+				<option>20-24</option>
+				<option>25-29</option>
+				<option>30-34</option>
+				<option>35-39</option>
+				<option>40-44</option>
+				<option>45-49</option>
+				<option>50-54</option>
+				<option>55-59</option>
+				<option>60-64</option>
+				<option>65+</option>
+			</select><br>
+
+			<label class="questionLabel">Gender</label>
+			<select id="selectGender" class="selectpicker" title="Choose one of the following"><br>
+				<option>Male</option>
+				<option>Female</option>
+				<option>Other</option>
+			</select><br>
+
+			<label class="questionLabel">Country</label>
+			<select id="selectCountry" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains">
+				<option>United States of America</option>
+				<option>Afghanistan</option>
+				<option>Albania</option>
+				<option>Algeria</option>
+				<option>Andorra</option>
+				<option>Angola</option>
+				<option>Antigua and Barbuda</option>
+				<option>Argentina</option>
+				<option>Armenia</option>
+				<option>Aruba</option>
+				<option>Australia</option>
+				<option>Austria</option>
+				<option>Azerbaijan</option>
+				<option>Bahamas, The</option>
+				<option>Bahrain</option>
+				<option>Bangladesh</option>
+				<option>Barbados</option>
+				<option>Belarus</option>
+				<option>Belgium</option>
+				<option>Belize</option>
+				<option>Benin</option>
+				<option>Bhutan</option>
+				<option>Bolivia</option>
+				<option>Bosnia and Herzegovina</option>
+				<option>Botswana</option>
+				<option>Brazil</option>
+				<option>Brunei</option>
+				<option>Bulgaria</option>
+				<option>Burkina Faso</option>
+				<option>Burma</option>
+				<option>Burundi</option>
+				<option>Cambodia</option>
+				<option>Cameroon</option>
+				<option>Canada</option>
+				<option>Cabo Verde</option>
+				<option>Central African Republic</option>
+				<option>Chad</option>
+				<option>Chile</option>
+				<option>China</option>
+				<option>Colombia</option>
+				<option>Comoros</option>
+				<option>Congo, Democratic Republic of the</option>
+				<option>Congo, Republic of the</option>
+				<option>Costa Rica</option>
+				<option>Cote d'Ivoire</option>
+				<option>Croatia</option>
+				<option>Cuba</option>
+				<option>Curacao</option>
+				<option>Cyprus</option>
+				<option>Czechia</option>
+				<option>Denmark</option>
+				<option>Djibouti</option>
+				<option>Dominica</option>
+				<option>Dominican Republic</option>
+				<option>Ecuador</option>
+				<option>Egypt</option>
+				<option>El Salvador</option>
+				<option>Equatorial Guinea</option>
+				<option>Eritrea</option>
+				<option>Estonia</option>
+				<option>Ethiopia</option>
+				<option>Fiji</option>
+				<option>Finland</option>
+				<option>France</option>
+				<option>Gabon</option>
+				<option>Gambia, The</option>
+				<option>Georgia</option>
+				<option>Germany</option>
+				<option>Ghana</option>
+				<option>Greece</option>
+				<option>Grenada</option>
+				<option>Guatemala</option>
+				<option>Guinea</option>
+				<option>Guinea-Bissau</option>
+				<option>Guyana</option>
+				<option>Haiti</option>
+				<option>Holy See</option>
+				<option>Honduras</option>
+				<option>Hong Kong</option>
+				<option>Hungary</option>
+				<option>Iceland</option>
+				<option>India</option>
+				<option>Indonesia</option>
+				<option>Iran</option>
+				<option>Iraq</option>
+				<option>Ireland</option>
+				<option>Israel</option>
+				<option>Italy</option>
+				<option>Jamaica</option>
+				<option>Japan</option>
+				<option>Jordan</option>
+				<option>Kazakhstan</option>
+				<option>Kenya</option>
+				<option>Kiribati</option>
+				<option>Korea, North</option>
+				<option>Korea, South</option>
+				<option>Kosovo</option>
+				<option>Kuwait</option>
+				<option>Kyrgyzstan</option>
+				<option>Laos</option>
+				<option>Latvia</option>
+				<option>Lebanon</option>
+				<option>Lesotho</option>
+				<option>Liberia</option>
+				<option>Libya</option>
+				<option>Liechtenstein</option>
+				<option>Lithuania</option>
+				<option>Luxembourg</option>
+				<option>Macau</option>
+				<option>Macedonia</option>
+				<option>Madagascar</option>
+				<option>Malawi</option>
+				<option>Malaysia</option>
+				<option>Maldives</option>
+				<option>Mali</option>
+				<option>Malta</option>
+				<option>Marshall Islands</option>
+				<option>Mauritania</option>
+				<option>Mauritius</option>
+				<option>Mexico</option>
+				<option>Micronesia</option>
+				<option>Moldova</option>
+				<option>Monaco</option>
+				<option>Mongolia</option>
+				<option>Montenegro</option>
+				<option>Morocco</option>
+				<option>Mozambique</option>
+				<option>Namibia</option>
+				<option>Nauru</option>
+				<option>Nepal</option>
+				<option>Netherlands</option>
+				<option>New Zealand</option>
+				<option>Nicaragua</option>
+				<option>Niger</option>
+				<option>Nigeria</option>
+				<option>North Korea</option>
+				<option>Norway</option>
+				<option>Oman</option>
+				<option>Pakistan</option>
+				<option>Palau</option>
+				<option>Palestinian Territories</option>
+				<option>Panama</option>
+				<option>Papua New Guinea</option>
+				<option>Paraguay</option>
+				<option>Peru</option>
+				<option>Philippines</option>
+				<option>Poland</option>
+				<option>Portugal</option>
+				<option>Qatar</option>
+				<option>Romania</option>
+				<option>Russia</option>
+				<option>Rwanda</option>
+				<option>Saint Kitts and Nevis</option>
+				<option>Saint Lucia</option>
+				<option>Saint Vincent and the Grenadines</option>
+				<option>Samoa</option>
+				<option>San Marino</option>
+				<option>Sao Tome and Principe</option>
+				<option>Saudi Arabia</option>
+				<option>Senegal</option>
+				<option>Serbia</option>
+				<option>Seychelles</option>
+				<option>Sierra Leone</option>
+				<option>Singapore</option>
+				<option>Sint Maarten</option>
+				<option>Slovakia</option>
+				<option>Slovenia</option>
+				<option>Solomon Islands</option>
+				<option>Somalia</option>
+				<option>South Africa</option>
+				<option>South Korea</option>
+				<option>South Sudan</option>
+				<option>Spain</option>
+				<option>Sri Lanka</option>
+				<option>Sudan</option>
+				<option>Suriname</option>
+				<option>Swaziland</option>
+				<option>Sweden</option>
+				<option>Switzerland</option>
+				<option>Syria</option>
+				<option>Taiwan</option>
+				<option>Tajikistan</option>
+				<option>Tanzania</option>
+				<option>Thailand</option>
+				<option>Timor-Leste (East Timor) </option>
+				<option>Togo</option>
+				<option>Tonga</option>
+				<option>Trinidad and Tobago</option>
+				<option>Tunisia</option>
+				<option>Turkey</option>
+				<option>Turkmenistan</option>
+				<option>Tuvalu</option>
+				<option>Uganda</option>
+				<option>Ukraine</option>
+				<option>United Arab Emirates</option>
+				<option>United Kingdom</option>
+				<option>Uruguay</option>
+				<option>Uzbekistan</option>
+				<option>Vanuatu</option>
+				<option>Venezuela</option>
+				<option>Vietnam</option>
+				<option>Yemen</option>
+				<option>Zambia</option>
+				<option>Zimbabwe</option>
+			</select><br>
+
+			<label class="questionLabel">Zip Code</label>
+			<input id="txtZipCode" class="userInput" type="text" placeholder="Zip Code"/><br>
+
+			<label class="questionLabel">E-mail</label>
+			<input id="txtEmail" class="userInput" type="text" placeholder="E-mail required to receive results"/><br>
+			<br>
+
+			<form>
+				<div>
+					<label id="labelMailList"><input type="checkbox" id="checkMailList" checked="true">Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
+				</div>
+			</form>
+		</div>
+
+
+		<div id="occupationalProfile" style="display:none">
+			<h2 class="subtitle">Occuptional Profile</h2>
+
+			<label class="questionLabel">Highest Educational Level</label>
+			<select id="selectEducation" data-live-search="true" data-live-search-style="contains" class="selectpicker" title="In progress or completed">
+				<option>None</option>
+				<option>High School</option>
+				<option>Associate's Degree</option>
+				<option>Bachelor's Degree</option>
+				<option>Master's Degree</option>
+				<option>Doctorate Degree</option>
+			</select><br>
+
+			<label class="questionLabel">Primary Working Status</label>
+			<select id="selectPWS" class="selectpicker" title="Choose one of the following"><br>
+				<option>Full-Time</option>
+				<option>Part-Time</option>
+				<option>Student</option>
+				<option>Stay at Home Parent</option>
+				<option>Unemployed</option>
+			</select><br>
+
+			<label class="questionLabel">Occupational Category</label>
+			<select id="selectOccupation" class="selectpicker" title="Choose one of the following" data-live-search="true" data-live-search-style="contains">
+				<option>Architecture and Engineering</option>
+				<option>Arts, Design, Entertainment, Sports, and Media</option>
+				<option>Building and Grounds Cleaning and Maintenance</option>
+				<option>Business and Financial Operations</option>
+				<option>Community and Social Services</option>
+				<option>Computers and Mathematics</option>
+				<option>Construction and Extraction</option>
+				<option>Education, Training, and Library</option>
+				<option>Farming, Fishing, and Forestry</option>
+				<option>Food Preparation and Serving Related</option>
+				<option>Healthcare Practitioners and Technical</option>
+				<option>Healthcare Support</option>
+				<option>Installation, Maintenancee, and Repairs</option>
+				<option>Legal</option>
+				<option>Life, Physical, and Social Sciences</option>
+				<option>Management</option>
+				<option>Office and Administrative Support</option>
+				<option>Personal Care and Service</option>
+				<option>Production</option>
+				<option>Protective Services</option>
+				<option>Sales and Related Occupations</option>
+				<option>Transportation and Material Moving</option>
+			</select><br>
+
+			<label class="questionLabel">Years in Current Occupation</label>
+			<select id="selectYears" class="selectpicker" title="Choose one of the following">
+				<option>0-4</option>
+				<option>5-9</option>
+				<option>10-14</option>
+				<option>15-19</option>
+				<option>20-24</option>
+				<option>>25</option>
+			</select><br>
+
+			<label class="questionLabel">Annual Household Income</label>
+			<select id="selectIncome" class="selectpicker" title="Choose one of the following">
+				<option><$50,000</option>
+				<option>$50,000-$99,999</option>
+				<option>$100,000-$199,999</option>
+				<option>$200,000-$499,999</option>
+				<option>$500,000-$999,999</option>
+				<option>>$1,000,000</option>
+			</select><br>
+			<br>
+
+			<div class="sliderBox">
+				<label class="questionLabel">On a scale of 1 to 10, how happy are you on a daily basis?</label>
+				<div class="slidecontainer">
+					<img src="https://cdn.pixabay.com/photo/2017/01/31/19/22/comic-characters-2026645_960_720.png" class="smilePic" id = happyFrown>
+					<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="happySmile">
+					<input type="range" class="slider" id="sliderHappy" min="1" max="10" step="1" value="1">
+					<label class="slideResponse" id="responseHappy">0</label>
+				</div>
+			</div><br>
+
+			<div class="sliderBox">
+				<label class="questionLabel">On a scale of 1 to 10, what is your level of stress on a typical day?</label>
+				<div class="slidecontainer">
+					<img src="http://www.publicdomainpictures.net/pictures/50000/velka/smiley-silhouette.jpg" class="smilePic" id="stressedSmile">
+					<img src="https://cdn.pixabay.com/photo/2017/01/31/19/22/comic-characters-2026645_960_720.png" class="smilePic" id = stressedFrown>
+					<input type="range" class="slider" id="sliderStress" min="1" max="10" step="1" value="1">
+					<label class="slideResponse" id="responseStress">0</label>
+				</div>
+			</div><br>
+
+		</div>
+
+		<div id="preAssessment" style="display:none">
+			<h2 class="subtitle">Priority Areas</h2>
+
+			<p>This assessment calculates your life balance score based on your professed versus demonstrated priorities in life. Some suggested priority areas are already provided, which you can choose to delete or keep, in addition adding some of your own. Please be honest with your responses in order to receive the most accurate assessment of your life balance and best advice for your situation.</p><br>
+
+			<!-- Made into a div so that one break can uniformly be put below both the list box and text area -->
+			<div id="priorityAreaSelection"> 
+				<select multiple id="lstPriorityAreas" class="form-control">
+					<option>Career</option>
+					<option>Faith</option>
+					<option>Family</option>
+					<option>Friends</option>
+					<option>Health</option>
+					<option>Hobbies</option>
+				</select>
+
+				<textarea id="txtPriorityAreas" placeholder="Add desired priority areas by typing in this box. To add more than one at once, separate them with commas or by pressing 'Enter'.
+				Please limit yourself to ten priority areas total, but provide at least four."></textarea>
+			</div>
+			<br>
+
+			<button id="btnRemove">Remove</button>
+
+			<button id="btnAdd">Add</button><br>
+			<br>
+
+			<p>To select and remove multiple priority areas at once, hold down 'Shift' and click on them individually, or click and drag your cursor across the ones that you wish to delete, and then click 'Remove'.</p><br>
+		</div>
+
+		<div id="splashScreen" style="display:none">
+			<h2 id="splashSubtitle" class="subtitle">Part 1 of 2: Willingness</h2>
+
+			<p id="splashPrompt">Since you provided X priority areas, this assessment consists of Y questions. Part 1 will prompt you with Z questions regarding which priority areas that you are WILLING to sacrifice in favor of another. Once you click 'Next' you will be unable to modify your priority areas.</p><br>
+		</div>
+
+		<div id="assessment" style="display:none">
+			<h2 id="assessmentSubtitle" class="subtitle">Part 1 of 2: Willingness</h2>
+
+			<p id="assessmentPrompt">Question goes here</p><br>
+
+			<form id="willingnessButtons">
+				<label id="no" class="radio-inline"><input type="radio" name="radioWillingness" value="No">No</label>
+				<label id="yes" class="radio-inline"><input type="radio" name="radioWillingness" value="Yes">Yes</label>
+			</form>
+
+			<form id="actionsButtons" style="display:none">
+				<label id="never" class="radio-inline"><input type="radio" name="radioActions">Never</label>
+				<label id="rarely" class="radio-inline"><input type="radio" name="radioActions">Rarely</label>
+				<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions">Sometimes</label>
+				<label id="often" class="radio-inline"><input type="radio" name="radioActions">Often</label>
+				<label id="always" class="radio-inline"><input type="radio" name="radioActions">Always</label>
+			</form>
+			<br>
+		</div>
+
+		<footer>
+			<button id="btnBack" class="btn btn-primary">Back</button>
+
+			<button id="btnNext" class="btn btn-primary">Next</button>
+
+			<button id="btnReport" class = "btn btn-primary" style="display:none">Generate Report</button>
+
+			<br>
+			<br>
+
+			<p id="disclaimer">DISCLAIMER: Your name is NOT stored, it is only put in the PDF report is e-mailed to you that contains your results, which only you can view. Demographic and geographic information is collected for analysis of average assessment scores by age group, gender, occupation, and region. None of your assessment answers are stored, only your anonymous final score is. CEEK ensures that your personal information will not be shared with any organizations for any reason.</p><br>
+
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+			<!--For PDF generation-->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
+
+
+			<script>
+				var currentPage = "basicInformation";
+				var firstName;
+				var lastName;
+				var age;
+				var gender;
+				var country;
+				var zipCode;
+				var email;
+				var emailSubscribe;
+				var education;
+				var pws;
+				var occupation;
+				var years;
+				var income;
+				var happiness;
+				var stress;
+				// when the next button is clicked in the pre-assessment, the array is populated with the priority areas in the list box
+				var priorityAreas;
+				var numAreas;
+				var numQuestions;
+				var questions;
+				var currentQuestion = 1;
+				var willingness;
+				var actions;
+				var a;
+				var b;
+				var areaA;
+				var areaB;
+				var part = "willingness";
+
+
+				$(document).ready(function() {
+				// make occupation select enabled only if full-time or part-time is selected
+				//document.getElementById("selectOccupation").disabled = true;
+			});
+
+			/*$("#selectPWS").change(function() {
+				if (document.getElementById("selectPWS").value == "Full-Time" || document.getElementById("selectPWS").value == "Part-Time") {
+					document.getElementById("selectOccupation").disabled = false;
+				} else {
+					document.getElementById("selectOccupation").disabled = true;
+				}
+			});*/
+
+
+			$("#sliderHappy").change(function() {
+				document.getElementById("responseHappy").innerHTML = document.getElementById("sliderHappy").value;
+			});
+
+			$("#sliderStress").change(function() {
+				document.getElementById("responseStress").innerHTML = document.getElementById("sliderStress").value;
+			});
+
+			$("#willingnessButtons").change(function() {
+				willingness[a][b] = $("input[name=radioWillingness]:checked", "#willingnessButtons").val();
+			});
+
+			$("#actionsButtons").change(function() {
+				actions[a][b] = $("input[name=radioActions]:checked", "#actionsButtons").val();
+			});
+
+			// on change event for saving user's response
+			// load their answer back in using array
+
+			$("#btnNext").click(function() {
+				if (currentPage === "basicInformation") {
+					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtZipCode.value || !txtEmail.value) {
+						alert("Please fill in all of the fields before proceeding.");
+					} else {*/
+						firstName = document.getElementById("txtFirstName").value;
+						lastName = document.getElementById("txtLastName").value;
+						age = document.getElementById("selectAge").value;
+						gender = document.getElementById("selectGender").value;
+						country = document.getElementById("selectCountry").value;
+						zipCode = document.getElementById("txtZipCode").value;
+						email = document.getElementById("txtEmail").value;
+						emailSubscribe = document.getElementById("checkMailList").value;
+
+						document.getElementById("disclaimer").style.display = "none";
+						document.getElementById("btnBack").style.visibility = "visible";
+						
+						currentPage = "occupationalProfile";
+						document.getElementById("basicInformation").style.display = "none";
+						document.getElementById("occupationalProfile").style.display = "block";
+					//}
+				} else if (currentPage === "occupationalProfile") {
+					/*if (!selectEducation.value || !selectPWS.value || !selectOccupation.value || !selectYears.value || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
+						alert("Please fill in all of the fields before proceeding.");
+					} else {*/
+						education = document.getElementById("selectEducation").value;
+						pws = document.getElementById("selectPWS").value;
+						occupation = document.getElementById("selectOccupation").value;
+						years = document.getElementById("selectYears").value;
+						income = document.getElementById("selectIncome").value;
+						happiness = document.getElementById("sliderHappy").value;
+						stress = document.getElementById("sliderStress").value;
+
+						document.getElementById("disclaimer").style.display = "none";
+						document.getElementById("btnBack").style.visibility = "visible";
+
+						currentPage = "preAssessment";
+						document.getElementById("occupationalProfile").style.display = "none";
+						document.getElementById("preAssessment").style.display = "block";
+					//}
+				} else if (currentPage === "preAssessment") {
+					/*if (document.getElementById("lstPriorityAreas").length < 4) {
+						alert("Please provide at least four priority areas.");
+					} else {*/
+						// initializes the priorityAreas element as an array with as many elements as are in lstPriorityAreas
+						priorityAreas = new Array(document.getElementById("lstPriorityAreas").length);
+
+						for (var i = 0; i < lstPriorityAreas.length; i++) {
+							priorityAreas[i] = document.getElementById("lstPriorityAreas").options[i].value.toLowerCase();
+						}
+						numAreas = document.getElementById("lstPriorityAreas").length;
+						numQuestions = 2 * (Math.pow(numAreas, 2) - numAreas);
+						questions = new Array(numQuestions);
+
+						// makes 2D array for willingness responses (yes/no)
+						willingness = new Array(numAreas);
+						for (var j = 0; j < numAreas; j++) {
+							willingness[j] = new Array(10);
+						}
+
+						// makes 2D array for actions responses (never/rarely/sometimes/often/always)
+						actions = new Array(numAreas);
+						for (var k = 0; k < numAreas; k++) {
+							actions[k] = new Array(10);
+						}
+
+						// Part 1 of 2: Willingness Splash Screen
+						document.getElementById("splashPrompt").innerHTML = "Since you provided " + numAreas + " priority areas, this assessment will consist of " + numQuestions + " questions. Part 1 will prompt you with " + (numQuestions/2) + " questions regarding which priority areas that you are WILLING to sacrifice in favor of another. Once you click 'Next' you will be unable to modify your priority areas.";
+
+						currentPage = "splashScreen";
+						document.getElementById("preAssessment").style.display = "none";
+						document.getElementById("splashScreen").style.display = "block";
+					//}
+				} else if (currentPage === "splashScreen") {
+					if (currentQuestion == 1) {
+						// hides the back button once the assessment has begun so that the user cannot change the priority areas
+						document.getElementById("btnBack").style.visibility = "hidden";
+						// prepares a question before showing the assessment page
+						generateQuestion(willingness);
+
+						// hides the splash screen and shows the next page, part 1 of the assessment
+						currentPage = "assessment";
+						document.getElementById("splashScreen").style.display = "none";
+						document.getElementById("assessment").style.display = "block";
+					// Part 2 of 2: Actions Splash Screen
+					} else if (currentQuestion == numQuestions/2) {
+						currentQuestion++;
+						document.getElementById("assessmentSubtitle").innerHTML = "Part 2 of 2: Actions"
+						generateQuestion(actions);
+						document.getElementById("actionsButtons").style.display = "block";
+
+						// hides the splash screen and shows the next page, part 2 of the assessment
+						currentPage = "assessment";
+						document.getElementById("splashScreen").style.display = "none";
+						document.getElementById("assessment").style.display = "block";
+					}
+				} else if (currentPage === "assessment") {
+					// if a question in the array is not null, display question and response (do this for back button, and then for next)
+					// surround generateQuestion call with this logic
+					
+					// Part 1 of 2: Willingness
+					if (currentQuestion >= 1 && currentQuestion <= numQuestions/2) {
+						if (currentQuestion == 2) {
+						// once the user has proceeded at least one question in, the back button is available again
+						// untoggle comment when making back button functionality
+						//document.getElementById("btnBack").style.visibility = "visible";
+						} else if (currentQuestion == (numQuestions/2)-1) {
+						// changes the btnNext text to 'Finish' on the last question in order to indicate to the user that they have reached the end of this section
+						// make sure this reverts back to Next when programming the back button functionality
+							document.getElementById("btnNext").innerHTML = "Finish";
+						}
+
+						// checks to make sure there is a response for the willingness options
+						// if there is no response, the question number is not incremented and an alert is shown
+						if (!$("input[name='radioWillingness']:checked").val()) {
+							alert("Please select a response before proceeding.");
+						} else {
+							// shows the splash screen for the actions section
+							if (currentQuestion == numQuestions/2) {
+								// updates the splash screen elements for Part 2 of 2: Actions
+								document.getElementById("btnNext").innerHTML = "Next";
+								// hides the back button so that the user cannot return to the willingness section
+								document.getElementById("btnBack").style.visibility = "hidden";
+								// hides the willingness buttons 
+								document.getElementById("willingnessButtons").style.display = "none";
+
+								// changes the part of the assessment for comparator purposes in other methods
+								part = "actions";
+
+								document.getElementById("splashSubtitle").innerHTML = "Part 2 of 2: Actions";
+								document.getElementById("splashPrompt").innerHTML = "Since you provided " + numAreas + " priority areas, this assessment consists of " + numQuestions + " questions. Part 2 will prompt you with " + (numQuestions/2) + " questions regarding the frequency that you DO sacrifice a particular priority area in favor of another.";
+
+								currentPage = "splashScreen";
+								document.getElementById("assessment").style.display = "none";
+								document.getElementById("splashScreen").style.display = "block";
+							} else {
+								currentQuestion++;
+								generateQuestion(willingness);
+							}
+						}
+
+					// Part 2 of 2: Actions
+					} else if (currentQuestion > numQuestions/2 && currentQuestion <= numQuestions) {
+						if (currentQuestion == (numQuestions/2)+2) {
+						// once the user has proceeded to the second question of the actions section, the back button becomes available again
+						// untoggle comment when making back button functionality
+						//document.getElementById("btnBack").style.visibility = "visible";
+						} else if (currentQuestion == numQuestions-1) {
+						// changes the btnNext text to 'Finish' on the last question in order to indicate to the user that they have reached the end of this section
+						// make sure this reverts back to Next when programming the back button functionality
+							document.getElementById("btnNext").innerHTML = "Finish";
+						}
+
+						if (!$("input[name='radioWillingness']:checked").val()) {
+							alert("Please select a response before proceeding.");
+						} else {
+							// assessment complete
+							if (currentQuestion == numQuestions) {
+								// generate PDF here
+								// easier to email results or generate PDF on the page?
+								document.getElementById("splashSubtitle").innerHTML = "View Results";
+								document.getElementById("splashPrompt").innerHTML = "You have completed the CEEK Life Balance Assessment! Please click the 'Generate Report' button below to have your results e-mailed to you in the form of a PDF.";
+								document.getElementById("actionsButtons").style.display = "none";
+								document.getElementById("btnBack").style.display = "none";
+								document.getElementById("btnNext").style.display = "none";
+								document.getElementById("btnReport").style.display = "block";
+
+								currentPage = "splashScreen";
+								document.getElementById("assessment").style.display = "none";
+								document.getElementById("splashScreen").style.display = "block";
+							} else {
+								currentQuestion++;
+								generateQuestion(actions);
+							}
+						}
+					} 
+				}
+			});
+
+			function generateQuestion(array) {
+				// picks two unique, random priority areas
+				do {
+					// returns a number between 0 and numAreas-1
+					a = Math.floor(Math.random() * numAreas);
+					b = Math.floor(Math.random() * numAreas);
+
+					while (b == a) {
+						b = Math.floor(Math.random() * numAreas);
+					}
+					areaA = priorityAreas[a];
+					areaB = priorityAreas[b];
+
+				} while (array[a][b]!= null);
+
+				if (part == "willingness") {
+					document.getElementById("willingnessButtons").reset();
+					questions[currentQuestion] = currentQuestion + ". Are you willing to sacrifice " + areaA + " in favor of " + areaB + "?";
+
+				} else if (part == "actions") {
+					document.getElementById("actionsButtons").reset();
+					questions[currentQuestion] = currentQuestion + ". Do you sacrifice " + areaA + " in favor of " + areaB + "?";
+				}
+
+				document.getElementById("assessmentPrompt").innerHTML = questions[currentQuestion];
+			}
+
+			$("#btnBack").click(function() {
+				if (currentPage === "occupationalProfile") {
+					document.getElementById("disclaimer").style.display = "block";
+					document.getElementById("btnBack").style.visibility = "hidden";
+
+					currentPage = "basicInformation";
+					document.getElementById("occupationalProfile").style.display = "none";
+					document.getElementById("basicInformation").style.display = "block";
+				} else if (currentPage === "preAssessment") {
+					currentPage = "occupationalProfile";
+					document.getElementById("preAssessment").style.display = "none";
+					document.getElementById("occupationalProfile").style.display = "block";
+				} else if (currentPage === "splashScreen"){
+					// the only time the back button is available on the splash screen is for part 1
+					// clearing the array this way may cause an error
+					priorityAreas == null;
+
+					// update elements on page
+					document.getElementById("btnBack").style.visibility = "visible";
+
+					// switch pages
+					currentPage = "preAssessment";
+					document.getElementById("splashScreen").style.display = "none";
+					document.getElementById("preAssessment").style.display = "block";
+				}
+			});
+
+			$("#btnRemove").click(function() {
+				$("#lstPriorityAreas option:selected").remove();
+			});
+
+			$("#btnAdd").click(function() { // at least four areas, limit of ten
+				var rawPriorityAreas = document.getElementById("txtPriorityAreas").value;
+				// split the new priority areas at newlines and commas
+				var newPriorityAreas = rawPriorityAreas.split(/[\n,]+/);
+
+				for (var i = 0; i < newPriorityAreas.length; i++) {
+					// removes leading and trailing white space from the priority area
+					newPriorityAreas[i] = newPriorityAreas[i].trim();
+					// separates individual words of priority area by spaces
+					var words = newPriorityAreas[i].split(" ");
+					// holds capitalized and trimmed words
+					
+					var finishedPriorityArea = "";
+
+					for (var j = 0; j < words.length; j++) {
+						words[j] = words[j].toLowerCase(); // keep or leave?
+						words[j] = words[j].charAt(0).toUpperCase() + words[j].slice(1);
+						
+						// adds spaces between words that are concatenated into one priority area
+						if (j == words.length - 1) {
+							finishedPriorityArea = finishedPriorityArea + words[j];
+						} else {
+							words[j] += " ";
+							finishedPriorityArea = finishedPriorityArea + words[j];
+						}
+					}
+					newPriorityAreas[i] = finishedPriorityArea;
+				}
+
+				// every new priority area is looped through to check for duplicates
+				// something wrong with the loop
+				for(var m = 0; m < newPriorityAreas.length; m++) {
+					if (document.getElementById("lstPriorityAreas").length == 10) {
+						alert("Please provide no more than ten priority areas. Remove a priority area to add a different one.");
+							/*need to break out of the loop so the alert does not repeat if there are more 
+							priority areas after the limit has already been reached*/
+							break;
+						} else {
+							var opt = document.createElement("option");
+							opt.text = newPriorityAreas[m];
+							opt.value = newPriorityAreas[m];
+						}
+
+						for(var n = 0; n < document.getElementById("lstPriorityAreas").length; n++) {
+						/*checks to see if the element is already in the list
+						if it is, an alert is sent and the duplicate is not added*/
+							if (opt.value == document.getElementById("lstPriorityAreas").options[n].value) {
+								alert(opt.value + " is already on the priority area list.");
+								break;
+						/*once the entire list has been iterated through
+						if the new priority area is not found to be a duplicate 
+							then is it added to the list*/
+					} else if (n == document.getElementById("lstPriorityAreas").length - 1) {
+						document.getElementById("lstPriorityAreas").options.add(opt);
+							/*break statement has to be added because once the new element is added, the 
+							length of the list increases so then it will run through the if and send the 
+							alert after adding the new item to the list*/
+							break;
+						}
+					}
+				}
+				document.getElementById("txtPriorityAreas").value = "";
+			});
+
+			$("#btnReport").click(function() {
+				
+			});
+
+		</script>
+	</footer>
+</body>
+</html>
