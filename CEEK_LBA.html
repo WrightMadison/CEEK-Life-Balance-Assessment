@@ -12,7 +12,7 @@
  	left off here = find the most recently edited code while development is still underway -->
  
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
 	<head>
 		<style>
 			.page {
@@ -522,14 +522,13 @@
 			<div id="codeEntry" class='page'>
 				<h2 class="subtitle">Access Code Entry</h2><br>
 
-				<p id="codePrompt">The CEEK Life Balance Assessment is currently in free trial mode and is open to anyone who wishes to take it. Starting on October 10, 2018 it will require an access code that can be purchased at <a href='https://www.ceekllc.com'>ceekllc.com</a> or users who purchase the book "Navigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities" will receive a free access code inside the book.</p>
-				<!-- <p id="codePrompt">Please enter your 20-digit assessment access code below. Proper capitalization of characters and dashes are required for the access code to work.</p><br> -->
+				<p id="codePrompt">Please enter your 12-digit assessment access code below. Proper capitalization of characters and dashes are required for the access code to work.</p><br>
 				
-				<fieldset style='display:none'>
+				<fieldset>
 					<label class="accessLabel">Survey Access Code</label>
 					<div class='userInput'> <!-- The recommended way to set the width of text and select input elements stated in the bootstrap documentation is to wrap the input in a parent element, and set the column width there. -->
 					<!-- 'userInput' is used for all input areas of this assessment-->
-						<input id="txtCode" class="form-control" type="text" placeholder="Access Code" name='Access-Code' value='freetrial'>
+						<input id="txtCode" class="form-control" type="text" placeholder="Access Code" name='Access-Code'>
 					</div>
 				</fieldset><br>
 
@@ -812,7 +811,7 @@
 				</fieldset>
 
 				<!--Remove below at the end of the free trial period!!-->
-				<fieldset>
+				<!-- <fieldset>
 					<label class="questionLabel">E-mail</label>
 					<div class='userInput'>
 						<input id="txtEmail" class="form-control" type="text" placeholder="Valid E-mail Address" name='E-mail'/>
@@ -821,8 +820,9 @@
 
 				<fieldset>
 					<label id="labelMailList"><input id='checkMailList' type="checkbox" class="filled-in form-check-input" checked="checked"/>Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
-				</fieldset><br>
+				</fieldset><br> -->
 				<!--Remove above at the end of the free trial period!!-->
+				<br>
 			</div>
 
 			<div id="occupationalProfile" class='page' style="display:none">
@@ -1017,8 +1017,8 @@
 			var gender;
 			var country;
 			// remove this variable when the paid assessment is released!!
-			var email;
-			var emailSubscribe;
+			//var email;
+			//var emailSubscribe;
 			var education;
 			var pws;
 			var occupation;
@@ -1072,10 +1072,6 @@
 			r: 12
 			Order important? Yes
 			Repetition allowed? Yes*/
-
-			// write code generator script? put access codes in Google sheet, code will check there to see if they are used or not!!
-			// this will be obselete once the Google sheet is created!!
-			var accessCodes = ["dcau2-5an4h-sp3t6-8cpzu-382nw", "eanz7-3mf82-kfn6a-g4nfz-xuef5"];
 
 			// the following three functions are intended to behave as classes
 			function priorityArea (name) {
@@ -1193,7 +1189,9 @@
 					// write code for checking if access code is in Google sheet already, if it is write alert that says "Invalid access code" or "this access code has already been used"
 					
 					// uncomment out later
-					/*if (!$("input[name='Repeat-Taker']:checked").val()) {
+					/*if (accessCode != tableP[203].Income_Category) {
+						alert("Invalid access code.");
+					} else if (!$("input[name='Repeat-Taker']:checked").val()) {
 						alert("Please indicate if you have taken this assessment before.");
 					} else {*/
 						document.getElementById("disclaimer").style.display = "none";
@@ -1222,7 +1220,7 @@
 					
 				} else if (currentPage === "demographics") {
 					// uncomment out later
-					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectGender.value || !selectCountry.value || !txtEmail.value) {
+					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectGender.value || !selectCountry.value) {
 						alert("Please fill in all of the fields before proceeding.");
 					} else {*/
 						firstName = document.getElementById("txtFirstName").value.trim();
@@ -1230,9 +1228,11 @@
 						age = document.getElementById("selectAge").value;
 						gender = document.getElementById("selectGender").value;
 						country = document.getElementById("selectCountry").value;
-						if (document.getElementById("checkMailList").checked == false) {
+						/*if (document.getElementById("checkMailList").checked == false) {
 							document.getElementById("txtEmail").value = "Do not subscribe";
-						}
+						} else {
+							email = document.getElementById("txtEmail").value.trim();
+						}*/
 						document.getElementById('btnBack').style.visibility = 'visible';
 						
 						currentPage = "occupationalProfile";
@@ -2834,7 +2834,7 @@
 
 				// PAGE 8
 				newPage();
-				newSection(6, "Summary");
+				newSection(6, "Summary and Next Steps");
 				var x8 = xNew; // x page 8
 				var y8 = yNewSection; // y page 8
 
@@ -2850,13 +2850,13 @@
 				pdf.text(txt, x8, y8);
 
 				y8 = listBuffer(y8, 4);
-				numberedPoint(1, "Complete the relevant portions of \u2018Plan of Action\u2019 templates.", y8);
+				numberedPoint(1, "Complete the relevant portions of the attached templates.", y8);
 				y8 = newline(y8, 1);
 				numberedPoint(2, "Update your calendar with any new commitments.", y8);
 				y8 = newline(y8, 1);
-				numberedPoint(3, "Reassess your Life Balance in three to six months.", y8);
+				numberedPoint(3, "Reassess your life balance in three to six months. As our gift to you, we authorize you to take the assessment a second time at no cost. Simply purchase the balance assessment a second time at https://www.ceekllc.com/product-page/ceek-balance-assessment. Upon checking out, enter the Promo Code, CEEKbalance (case sensitive).", y8);
 
-				y8 = newline(y8, 2);
+				y8 = newline(y8, 5);
 				// U+00AE = registered symbol
 				txt = pdf.splitTextToSize("To further assist in your pursuit of healthy Life Balance, we also encourage you to leverage this report as you read the book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D. And, if you desire to do more, or if you are a leader in your organization that seeks to promote a culture of healthy balance, we encourage you to consider participation in one or more of our \u2018CEEK a Better Way\u00AE\u2019 workshops.", txtWidth);
 				pdf.text(txt, x8, y8);
@@ -2865,13 +2865,13 @@
 				txt = pdf.splitTextToSize("Send an email to info@ceekllc.com to inquire about upcoming webinars or to discuss how we can deliver a healthy Life Balance workshop or speaking engagement within your organization that will promote enhanced accountability and productivity while pursuing healthy Life Balance and personal fulfillment.", txtWidth);
 				pdf.text(txt, x8, y8);
 
-				y8 = newline(y8, 7);
+				/*y8 = newline(y8, 7);
 				pdf.setFontSize(10);
 				pdf.text("* Please retain this report and use the following access to reassess your life balance at a future date:", 4.25, y8, 'center'); // used for perfect centering - X coordinate is center of string
 				y8 = newline(y8, 1);
 				pdf.text(accessCode, 4.25, y8, 'center'); // used for perfect centering - X coordinate is center of string
 
-				pdf.setFontSize(bodyFontSize);
+				pdf.setFontSize(bodyFontSize);*/
 				
 				pageMode = "attachments"; // used to change the page numbering
 
@@ -3400,8 +3400,10 @@
 			}
 
 			function numberedPoint(num, text, y) {
-				pdf.text(num + ". " + text, listIndent, y);
-				y = newline(y, 1);
+				pdf.text(num + ".", 1.28, y);
+				var txt = pdf.splitTextToSize(text, txtWidth-(listIndent-xNew)); // needed because of the numbered list in Section 6
+				pdf.text(txt, listIndent, y);
+				y = newline(y, 1); // remove this newline and fix elsewhere as needed!!
 			}
 
 			// may not even need this function??
