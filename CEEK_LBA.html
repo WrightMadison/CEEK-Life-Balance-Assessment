@@ -811,17 +811,18 @@
 					</div>
 				</fieldset>
 
-				<!--Not stored with the assessment results-->
+				<!--Remove below at the end of the free trial period!!-->
 				<fieldset>
 					<label class="questionLabel">E-mail</label>
 					<div class='userInput'>
-						<input id="txtEmail" class="form-control" type="text" placeholder="Valid E-mail Address"/>
+						<input id="txtEmail" class="form-control" type="text" placeholder="Valid E-mail Address" name='E-mail'/>
 					</div>
 				</fieldset><br>
 
 				<fieldset>
 					<label id="labelMailList"><input id='checkMailList' type="checkbox" class="filled-in form-check-input" checked="checked"/>Add me to CEEK's mailing list with information regarding free webinars and upcoming events.</label>
 				</fieldset><br>
+				<!--Remove above at the end of the free trial period!!-->
 			</div>
 
 			<div id="occupationalProfile" class='page' style="display:none">
@@ -1015,6 +1016,7 @@
 			var age;
 			var gender;
 			var country;
+			// remove this variable when the paid assessment is released!!
 			var email;
 			var emailSubscribe;
 			var education;
@@ -1188,17 +1190,22 @@
 				if (currentPage === "codeEntry") {
 					// if the access code has already been used, alert("This access code has already been used.");
 					accessCode = document.getElementById("txtCode").value.trim(); // gets ride of whitespace
-					// write code for checkng if access code is in Google sheet already, if it is write alert that says "Invalid access code" or "this access code has already been used"
+					// write code for checking if access code is in Google sheet already, if it is write alert that says "Invalid access code" or "this access code has already been used"
+					
 					// uncomment out later
-
-					//if (accessCodes.includes(accessCode) && $("input[name='Repeat-Taker']:checked").val()) {
+					/*if (!$("input[name='Repeat-Taker']:checked").val()) {
+						alert("Please indicate if you have taken this assessment before.");
+					} else {*/
 						document.getElementById("disclaimer").style.display = "none";
 						document.getElementById('btnNext').innerHTML = "Next";
 
 						currentPage = "demographics";
 						document.getElementById("codeEntry").style.display = "none";
 						document.getElementById("demographics").style.display = "block";
-						// add alert for any access codes that are invalid "<insert codes that are invalid> are invalid access codes."!!
+					//}
+					
+					//if (accessCodes.includes(accessCode) && $("input[name='Repeat-Taker']:checked").val()) {
+						// add code here for when both are filled out properly
 
 					// write an alert that says "first time this access code is being used, second/final time, etc." so the user knows if they are retaking the assessment with the same code or not
 
@@ -1215,10 +1222,7 @@
 					
 				} else if (currentPage === "demographics") {
 					// uncomment out later
-					// remove zip code value checker?? if zip code is removed
-					// took out !txtZipCode.value
-					// put in "Did not answer" if zip code is undefined?
-					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectCountry.value || !txtEmail.value) {
+					/*if (!txtFirstName.value || !txtLastName.value || !selectAge.value || !selectGender.value || !selectCountry.value || !txtEmail.value) {
 						alert("Please fill in all of the fields before proceeding.");
 					} else {*/
 						firstName = document.getElementById("txtFirstName").value.trim();
@@ -1226,9 +1230,9 @@
 						age = document.getElementById("selectAge").value;
 						gender = document.getElementById("selectGender").value;
 						country = document.getElementById("selectCountry").value;
-						//zipCode = document.getElementById("txtZipCode").value.trim();
-						email = document.getElementById("txtEmail").value.trim();
-						emailSubscribe = document.getElementById("checkMailList").value;
+						if (document.getElementById("checkMailList").checked == false) {
+							document.getElementById("txtEmail").value = "Do not subscribe";
+						}
 						document.getElementById('btnBack').style.visibility = 'visible';
 						
 						currentPage = "occupationalProfile";
@@ -1236,6 +1240,7 @@
 						document.getElementById("occupationalProfile").style.display = "block";
 					//}
 				} else if (currentPage === "occupationalProfile") {
+					//PWS and occupation are null checked because of how they are only enabled when "Full-Time" or "Part-Time" is selected
 					// uncomment out later
 					/*if (!selectEducation.value || !selectPWS.value || occupation==null || years==null || !selectIncome.value || responseHappy.innerHTML == 0 || responseStress.innerHTML == 0) {
 						alert("Please fill in all of the fields before proceeding.");
