@@ -13,9 +13,14 @@
 				width: 900px;
 			}
 
+			body, .btn-primary, .form-control, .selectpicker, .bootstrap-select .dropdown-menu {
+				/*sets the default body text size*/
+			    font-size: 16px !important;
+			}
+
 			#title {
 				overflow: hidden; /*keeps the title on its own line*/
-				margin-left: 170px; /*used to center the title on the page*/
+				margin-left: 150px; /*used to center the title on the page*/
 			}
 
 			#company, #tool {
@@ -23,12 +28,12 @@
 			}
 
 			#company {
-				padding-top: 1.75px; /*aligns the CEEK logo with the title text*/
+				padding-top: 4px; /*aligns the CEEK logo with the title text*/
 			}
 
 			#tool {
-				font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-				color: black;
+				font-family: 'Helvetica';
+				color: #00529b; /*CEEK blue sampled from logo*/
 				text-align: left;
 				font-weight: bold;
 			}
@@ -37,7 +42,6 @@
 				display: inline-block;
 				width: 350px;
 				margin-left: 150px; /*page width: 900px - (.accessLabel width: 350px + .userInput width: 250px) = 300px margin / 2 = 150px margin on each side*/
-				font-size: 16px;
 			}
 
 			.userInput {
@@ -54,19 +58,10 @@
 			}
 
 			.btn-primary {
-				display: inline;
-				width: 78px; /*.btn-primary default border is 1px, so total .btn-primary width is actually 80px*/
-				height: 30px;
-				font-size: 16px !important;
-				text-align:center !important;
-			}
-
-			.form-control, .selectpicker {
-				font-size: 16px !important;
-			}
-
-			.bootstrap-select .dropdown-menu {
-				font-size: 16px;
+				width: 88px; /*.btn-primary default border is 1px, so total .btn-primary width is actually 80px*/
+				padding: 0;
+				line-height: center !important;
+				text-align: center !important;
 			}
 
 			#btnNext, #btnBack {
@@ -82,16 +77,11 @@
 			}
 
 			.subtitle {
-				font-family: "Helvetica";
+				font-family: 'Helvetica';
 				color: black;
-				font-weight: bold;
 				margin: auto;
 			    text-align: center;
 			    position: relative;
-			}
-
-			#codePrompt, #splashPrompt, #assessmentPrompt, #willingnessButtons, #actionsButtons, .questionLabel, #preAssessmentPrompt, #noRepeat, #yesRepeat, .sliderLabel,.sliderResponse, #disclaimer, .userInput, #labelMailList {
-				font-size: 16px;
 			}
 
 			.sliderLabel, .sliderResponse {
@@ -134,7 +124,6 @@
 
 			.sliderLabel {
 				width: 480px;
-				/*page width: 900px - (.questionLabel width: 250px + .userInput width: 250px + space for response value: 20px) = 480px width*/
 				/*match .questionLabel margin-left*/
 				margin-left: 200px;
 			}
@@ -146,13 +135,13 @@
 				border-radius: 5px; 
 				background: #383938; /*CEEK gray sampled from logo*/
 				outline: none;
-				opacity: 0.5;
+				opacity: 0.6;
 				-webkit-transition: .2s;
 				transition: opacity .2s;
 			}
 
 			.slider:hover {
-				opacity: .75;
+				opacity: .9;
 			}
 
 			.slider::-webkit-slider-thumb {
@@ -196,23 +185,23 @@
 			}
 
 			#btnNext {
-				/*page width: 900px - (.btn-primary width: 80px * 2 (#btnBack, #btnNext) = 740px margin = 740px #btnNext margin-left*/
-				margin-left: 740px; 
+				/*page width: 900px - (.btn-primary width: 90px * 2 (#btnBack, #btnNext) = 720px margin = 740px #btnNext margin-left*/
+				margin-left: 720px; 
 			}
 
 			#btnRemove {
-				/*#lstPriorityAreas width: 205px - #btnRemove width: 80px = 125px / 2 = 62.5px margins on each side to center button*/
-				/*#lstPriorityAreas margin-left: 160px + 62.5 margin to center button = 222.5px #btnRemove margin-left (round down to 222 px for an integer)*/
-				margin-left: 222px;
+				/*#lstPriorityAreas width: 205px - #btnRemove width: 90px = 115px / 2 = 57.5px margins on each side to center button*/
+				/*#lstPriorityAreas margin-left: 160px + 57.5 margin to center button = 217.5px #btnRemove margin-left (rounded down to 217px for an integer)*/
+				margin-left: 217px;
 			}
 
 			#btnAdd {
-				/*302px from left side of page to right side of #btnRemove*/
+				/*307px from left side of page to right side of #btnRemove*/
 				/*#lstPriorityAreas margin-left: 160px + #lstPriorityAreas width: 205px = 365px*/
-				/*365 - 302 = 63px to right side of #lstPriorityAreas*/
-				/*#txtPriorityAreas width: 205px - #btnAdd width: 80px = 125px / 2 = 62.5px margins on each side to center button*/
-				/*63px to from #btnRemove to right side of #lstPriorityAreas + #txtPriorityAreas margin-left: 150px + 62.5 margin to center button = 275.5px #btnRemove margin-left (round down to 275 px for an integer)*/
-				margin-left: 275px;
+				/*365 - 307 = 58px to right side of #lstPriorityAreas*/
+				/*#lstPriorityAreas width: 205px - #btnRemove width: 90px = 115px / 2 = 57.5px margins on each side to center button*/
+				/*#btnRemove to right side of #lstPriorityAreas: 58px + #txtPriorityAreas margin-left: 150px + 57.5 margin to center button = 265.5px #btnRemove margin-left (round down to 270 px for an integer)*/
+				margin-left: 265px;
 			}
 
 			#priorityAreaSelection {
@@ -237,7 +226,27 @@
 				margin-left: 150px;
 			}
 
-			#no {
+			#lblQuestion, .subQuestion {
+				font-weight: normal;
+			}
+
+			#lblQuestion {
+				margin-left: 150px;
+				width: 600px; /*.page width: 900px - (#lblQuestion margin-left: 150px * 2) = 600px width*/
+			}
+
+			.subQuestion {
+				margin-left: 200px;
+				width: 600px; /*.page width: 900px - .subQuestion margin-left: 200px - #lblQuestion margin-[right]: 150px = 550px width*/
+				/*change width to accomodate yes/no /sometimes, etc.?*/
+			}
+
+			.subQuestion, .questionResponse {
+				float: left;
+				overflow: hidden;
+			}
+
+			/*#no {
 				padding-left: 190px;
 			}
 
@@ -251,7 +260,7 @@
 
 			#rarely, #sometimes, #often, #always {
 				padding-left: 25px;
-			}
+			}*/
 
 			#btnReport {
 				margin-left: 220px;
@@ -281,7 +290,7 @@
 			<div id="codeEntry" class='page'>
 				<h2 class="subtitle">Access Code Entry</h2><br>
 
-				<p id="codePrompt">Please enter your 20-digit assessment access code below. Proper capitalization of characters and dashes are required for the access code to work.</p><br>
+				<p id="codePrompt">Please enter your 20-digit assessment access code below. Proper capitalization of characters and dashes are required for the access code to work. The numbers 0 and 1, the lowercase letters o, i, j, l, and the uppercase letters O and I are never used since they can be mistaken for other characters.</p><br>
 				
 				<fieldset class='field'>
 					<label class="accessLabel">Survey Access Code</label>
@@ -576,7 +585,7 @@
 					<label class="questionLabel">E-mail</label>
 					<div class='userInput'>
 						<input id="txtEmail" class="form-control" type="text" placeholder="Required to receive results"/>
-					<div class='userInput'>
+					</div>
 				</fieldset><br>
 
 				<fieldset>
@@ -729,21 +738,50 @@
 			<div id="assessment" class='page' style="display:none">
 				<h2 id="assessmentSubtitle" class="subtitle">Part 1 of 2: Willingness</h2><br>
 
-				<p id="assessmentPrompt">Question goes here</p>
+				<label id="lblQuestion">1. Are you willing to sacrifice PriorityArea1 in favor of...</label>
 
-				<form id="willingnessButtons">
-					<!--are the button ids needed? values are-->
-					<!-- values changed to numbers for adding later (may cause errors for now?) -->
-					<label id="no" class="radio-inline"><input type="radio" name="radioWillingness" value="0"/>No</label>
-					<label id="yes" class="radio-inline"><input type="radio" name="radioWillingness" value="1"/>Yes</label>
-				</form>
 
-				<form id="actionsButtons" style="display:none">
-					<label id="never" class="radio-inline"><input type="radio" name="radioActions" value="0"/>Never</label>
-					<label id="rarely" class="radio-inline"><input type="radio" name="radioActions" value="0.25"/>Rarely</label>
-					<label id="sometimes" class="radio-inline"><input type="radio" name="radioActions" value="0.5"/>Sometimes</label>
-					<label id="often" class="radio-inline"><input type="radio" name="radioActions" value="0.75"/>Often</label>
-					<label id="always" class="radio-inline"><input type="radio" name="radioActions" value="1"/>Always</label>
+				<!-- <fieldset>
+					<label class="accessLabel">Have you taken this assessment before?</label>
+					<div class='userInput'>
+						<form id="repeatButtons">
+							<label id="noRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="No"/>No</label>
+							<label id="yesRepeat" class="radio-inline"><input type="radio" name="radioRepeat" value="Yes"/>Yes</label>
+						</form>
+					</div>
+				</fieldset> -->
+
+				<div class="questionBlock">
+					<label id="lblQuestion1" class="subQuestion">PriorityArea1?</label>
+					<div class='questionResponse'>
+						<form id="willingnessButtons1" class='assessmentInput'>
+							<!--are the button ids needed? values are-->
+							<!-- values changed to numbers for adding later (may cause errors for now?) -->
+							<label id="radNo1" class="radio-inline"><input type="radio" name="radioWillingness" value="0"/>No</label>
+							<label id="radYes1" class="radio-inline"><input type="radio" name="radioWillingness" value="1"/>Yes</label>
+						</form>
+					</div>
+				</div>
+
+				<div class="questionBlock">
+					<label id="lblQuestion2" class="subQuestion">PriorityArea2?</label>
+					<div class='questionResponse'>
+						<form id="willingnessButtons2" class='assessmentInput'>
+							<!--are the button ids needed? values are-->
+							<!-- values changed to numbers for adding later (may cause errors for now?) -->
+							<label id="radNo2" class="radio-inline"><input type="radio" name="radioWillingness" value="0"/>No</label>
+							<label id="radYes2" class="radio-inline"><input type="radio" name="radioWillingness" value="1"/>Yes</label>
+						</form>
+					</div>
+				</div>
+
+
+				<form id="actionsButtons1" class='assessmentInput' style="display:none">
+					<label id="radNever1" class="radio-inline"><input type="radio" name="radioActions" value="0"/>Never</label>
+					<label id="radRarely1" class="radio-inline"><input type="radio" name="radioActions" value="0.25"/>Rarely</label>
+					<label id="radSometimes1" class="radio-inline"><input type="radio" name="radioActions" value="0.5"/>Sometimes</label>
+					<label id="radOften1" class="radio-inline"><input type="radio" name="radioActions" value="0.75"/>Often</label>
+					<label id="radAlways1" class="radio-inline"><input type="radio" name="radioActions" value="1"/>Always</label>
 				</form>
 			</div>
 
@@ -813,17 +851,18 @@
 			 	unit: 'in',
 		   		format: [8.5, 11]
 			});
-			// according to permutations and combinations, with 20-digit access codes and 55 possible digits to choose from  (8 numbers, 23 lowercase letters, 24 upercase letters) over 6.42E34 codes are possible
-			// characters not used due to looking similar to other character(s): 0, "O" & 1, "I", "l" & "i", "j" --> (10 numbers - 2), (26 lowercase letters - 3), (26 uppercase letters - 2)
+			// according to permutations and combinations, with 20-digit access codes and 54 possible digits to choose from  (8 numbers, 22 lowercase letters, 24 upercase letters) over 4.45E34 codes are possible
+			// characters not used due to looking similar to other character(s): 0, "O" , "o" & 1, "I", "l" & "i", "j" --> (10 numbers - 2), (26 lowercase letters - 4), (26 uppercase letters - 2)
 
 			/*https://www.mathsisfun.com/combinatorics/combinations-permutations-calculator.html
-			n: 55
+			n: 54
 			r: 20
 			Order important? Yes
 			Repetition allowed? Yes*/
 
 			// write code generator script? put access codes in Google sheet, code will check there to see if they are used or not
-			var accessCodes = ["djau1-5an4h-sj3l6-8cpzu-382nw", "eanz7-3mf82-kfn6a-g4nfj-xuef5"];
+			// this will be obselete once the Google sheet is created
+			var accessCodes = ["dcau2-5an4h-sp3t6-8cpzu-382nw", "eanz7-3mf82-kfn6a-g4nfz-xuef5"];
 
 			// Report Images
 			/*Image links will need to be changed if imgBB hosting services end;
@@ -1026,7 +1065,7 @@
 						// hides the back button once the assessment has begun so that the user cannot change the priority areas
 						document.getElementById("btnBack").style.visibility = "hidden";
 						// prepares a question before showing the assessment page
-						generateQuestion(willingness);
+						//generateQuestion(willingness); fix?
 
 						// hides the splash screen and shows the next page, part 1 of the assessment
 						currentPage = "assessment";
@@ -1159,6 +1198,7 @@
 				}
 			});
 
+			/*figure this out lol*/
 			function generateQuestion(array) {
 				// picks two unique, random priority areas
 				var areaA;
