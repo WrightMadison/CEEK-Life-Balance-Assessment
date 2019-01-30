@@ -230,7 +230,7 @@
 				height: 205px;
 				resize: none;
 				position: relative;
-				float: left; 
+				float: left;
 			}
 
 			#lstPriorityAreas {
@@ -298,7 +298,7 @@
 
 			<!--Made into a div so that one break can uniformly be put below both the list box and text area-->
 			<div id="priorityAreaSelection">
-				<textarea id="txtPriorityAreas" class='form-control' placeholder="Add desired priority areas by typing in this box, and then clicking 'Add'. To add more than one at once, separate them with commas or by pressing 'Enter'. There is a 25 character limit per priority area."></textarea>
+				<textarea id="txtPriorityAreas" class='form-control' placeholder="Add desired priority areas by typing in this box, and then clicking 'Add'. To add more than one at once, separate them with commas or by pressing 'Enter'. There is a 15 character limit."></textarea>
 
 				<select multiple id="lstPriorityAreas" class="form-control"></select>
 			</div><br>
@@ -1185,7 +1185,9 @@
 					accessCode = document.getElementById("txtCode").value.trim(); // gets ride of whitespace
 					// write code for checking if access code is in Google sheet already, if it is write alert that says "Invalid access code" or "this access code has already been used"
 					
-					if (accessCode != tableP[203].Income_Category) {
+					if (accessCode == "") {
+						alert("Please enter a valid access code.");
+					} else if (accessCode != tableP[203].Income_Category) {
 						alert("Invalid access code.");
 					} else if (!$("input[name='Repeat-Taker']:checked").val()) {
 						alert("Please indicate if you have taken this assessment before.");
@@ -1316,7 +1318,7 @@
 						// hides the back button once part II has begun so that the user cannot go back and change responses
 						document.getElementById("btnBack").style.visibility = "hidden";
 
-						/*will \u2014 work or is HTML needed?*/
+						/*will \u2014 work or is HTML needed??*/
 						document.getElementById("assessmentSubtitle").innerHTML = "Part II \u2014 Demonstrated Priorities";
 						// shows the demonstrated buttons: the class returns all elements of that class and each has to be individually shown
 							[].forEach.call(document.querySelectorAll('.radgrpDemonstrated'), function (el) {
@@ -1508,7 +1510,7 @@
 				if (currentPage == "professed") {
 					document.getElementById('lblQuestion').innerHTML = "Are you willing to sacrifice " + priorityAreas[currentArea].name + " in favor of...";
 				} else if (currentPage == "demonstrated") {
-					document.getElementById('lblQuestion').innerHTML = "How often do you sacrifice " + priorityAreas[currentArea].name + " in favor of...";
+					document.getElementById('lblQuestion').innerHTML = "What is the frequency that you sacrifice " + priorityAreas[currentArea].name + " in favor of...";
 				}
 				// add something that loads previous questions if this section has already been answered!!
 			}
@@ -1546,7 +1548,7 @@
 					currentPage = "preAssessment";
 					document.getElementById("splashScreen").style.display = "none";
 					document.getElementById("preAssessment").style.display = "block";
-				} else if (currentPage === "professed") { // left off here
+				} else if (currentPage === "professed") {
 					generateQuestions();
 					for (var y = 0; y < numQuestions; y++) {
 						lblName = 'radgrpProfessed' + y;
@@ -1866,8 +1868,8 @@
 				pdf.setFontSize(28);
 				pdf.setFontType('bold');
 				pdf.setTextColor(0,82,155); // CEEK blue sampled from logo (hex: #00529b)
-				// CEEK LIFE
-				pdf.text("CEEK LIFE", xC, yC);
+				// CEEK Life
+				pdf.text("CEEK Life", xC, yC);
 				// Balance
 				pdf.text("B", xC, yC+lsC);
 				pdf.setFontSize(26);
@@ -1897,7 +1899,7 @@
 				pdf.setFontSize(9);
 				pdf.setTextColor(0,0,0); // black
 				// U+00A9 = copyright symbol
-				var copyright = pdf.splitTextToSize("Copyright \u00A9 2018 by CEEK LLC. All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law. For permission requests, write to the publisher, addressed \"Attention: Permissions Coordinator.\"", 7.3);
+				var copyright = pdf.splitTextToSize("Copyright \u00A9 2018 by CEEK LLC. All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of CEEK LLC, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law. For permission requests, write to info@ceekllc.com, addressed \u201CAttention: Permissions Coordinator.\u201D", 7.3);
 				pdf.text(copyright, 0.6, 9.59);
 
 				// full name
@@ -1925,7 +1927,7 @@
 
 				// hyperlinks and handle
 				xC = 5.1;
-				pdf.setFontSize(bodyFontSize);
+				pdf.setFontSize(bodyFontSize); // may not need this line!!
 				pdf.setTextColor(0,0,0); // black
 				// each section is 0.17" apart
 				pdf.text("info@ceekllc.com", xC, yC+0.77);
@@ -1943,9 +1945,10 @@
 				  U+2019 = right single quotation mark
 				  U+201C = left double quotation mark
 				  U+201D = right double quotation mark
+				  U+2013 = en dash
 				  U+2014 = em dash*/
 				// reuse this variable for putting text in the PDF
-				var txt = pdf.splitTextToSize("In life, everyone will face the stress and pressure associated with competing priorities under time and/or resource constraints. For decades, researchers and organizations have studied the relationship between work and life as one of the most significant examples of such competing priorities. The term \u2018Work/Life Balance\u2019 has come to represent a critical priority for individuals in pursuit of general peace and fulfillment AND for organizations in pursuit of employee engagement and productivity.\n\nAt CEEK, we refer to \u2018Life Balance\u2019 as opposed to \u2018Work/Life Balance.\u2019 To us, \u2018Work\u2019 is simply one of the many competing priorities most of us contend with in \u2018Life.\u2019 In addition to \u2018Work\u2019, many people balance the demands of \u2018Family,\u2019 \u2018Faith,\u2019 Hobbies,\u2019 \u2018Friends,\u2019 \u2018Health,\u2019 and/or other priorities that consume the daily, weekly, monthly, and yearly focus of your lives.\n\nUnfortunately, the demands on our time are often imposed and accepted without conscious deliberation or thought. For many of us, our \u2018work\u2019 often defines the constraints around which the rest of our life and associated dreams can or cannot be pursued.\n\nAt CEEK, we dismiss the notion that personal and professional success are mutually exclusive. Individuals and organizations that actively pursue \u2018Life Balance\u2019 will manage the tension of competing priorities well. In doing so, such individuals and organizations greatly increase the odds of achieving personal and professional success.\n\nAt CEEK, we define Healthy Life Balance as \u201Ca state where professed priorities are consistent with demonstrated behaviors.\u201D In contrast, we define Unhealthy Life Balance as a \u201Cstate where professed priorities are inconsistent with demonstrated behaviors.\u201D\n\nThe CEEK Life Balance Assessment is designed to help you intentionally profess the priorities of your life. We compare your professed priorities to your demonstrated behaviors, or how you live your life. In the areas where your priorities and behaviors are in conflict there exists a source of tension in your life. Given such findings, this report calculates a Life Balance Assessment score and offers tips and suggestions to intentionally pursue enhanced balance and fulfillment, as applicable.\n\nThe Life Balance Assessment and this associated report are tools to help build awareness as the first and most important step to pursue enhanced Life Balance. We encourage you to refer to and leverage this report as you read the book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D. Coupled with this assessment, the book will guide you through a simple, yet powerful approach to manage the tension well in pursuit of healthy Life Balance.\n\nThe remainder of this report summarizes the findings from your Life Balance Assessment. For further guidance, workshops, training or coaching support in pursuit of Life Balance for you and/or your organization, you can contact CEEK via email at info@ceekllc.com.", txtWidth);
+				var txt = pdf.splitTextToSize("In life, everyone will face the stress and pressure associated with competing priorities under time and/or resource constraints. For decades, researchers and organizations have studied the relationship between work and life as one of the most significant examples of such competing priorities. The term \u2018work/life balance\u2019 has come to represent a critical priority for individuals in pursuit of general peace and fulfillment AND for organizations in pursuit of employee engagement and productivity.\n\nAt CEEK, we refer to \u2018life balance\u2019 as opposed to \u2018work/life balance\u2019. To us, work is merely one of the many competing priorities that most of us must juggle in life. Most people also must balance the demands of family, faith, hobbies, friends, health, and other priorities and concerns that consume the daily, weekly, monthly, and yearly focus of their lives. Yet for many of us, our work lives and responsibilities often define, indeed limit, our ability to pursue these other, personal areas of our lives, which also can provide us with satisfaction and a sense of fulfillment.\n\nAt CEEK, we dismiss the notion that personal success and professional success are mutually exclusive. In fact, individuals and organizations that actively pursue and promote life balance by effectively managing the tension of competing priorities will greatly increase the odds of achieving personal and professional success.\n\nAt CEEK, we define \u2018healthy life balance\u2019 as \u201Ca state in which professed priorities are \u2018consistent with\u2019 demonstrated behaviors.\u201D In contrast, we define \u2018unhealthy life balance\u2019 as \u201Ca state in which professed priorities are \u2018inconsistent with\u2019 demonstrated behaviors.\u201D\n\nThe CEEK Life Balance Assessment is designed to help you intentionally profess the priorities of your life. As part of this assessment, we compare your professed priorities to your demonstrated behaviors, which is to say how you live your life. Areas in which your priorities and behaviors are in conflict create a potential source of tension in your life. These findings are then used to calculate your Life Balance Assessment Score and to suggest ways that you can intentionally pursue enhanced balance and fulfillment.\n\nThe Life Balance Assessment and this associated report are tools to help you build awareness as the first, most important step in pursuing enhanced life balance. We encourage you to refer to and leverage this report as you read \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities.\u201D Coupled with this assessment, the book will guide you through a simple, yet powerful approach to pursue healthy life balance.\n\nThe remainder of this report summarizes the findings from your Life Balance Assessment. For additional guidance, workshops, training or coaching support in pursuit of life balance for yourself and/or your organization, we invite you to contact us via email at info@ceekllc.com.", txtWidth);
 				// use these coordinates for the starting position of text
 				pdf.text(txt, x1, y1);
 
@@ -1956,7 +1959,7 @@
 				var y2 = yNewSection; // y page 2
 				
 				// text area 1
-				txt = pdf.splitTextToSize("To assist with the assessment of your Life Balance and for comparison with your peers, the Life Balance Assessment collects and maintains non-attributed data across industries or job functions, years in profession, compensation levels, age and education level. At the beginning of the assessment, you provided the following information:", txtWidth);
+				txt = pdf.splitTextToSize("As part of assessing your life balance and for comparison with your peers, the Life Balance Assessment collects and maintains nonattributed data across age, gender, country, education level, working status, industries or job functions, years in profession, and compensation level. On completing the Life Balance Assessment, you provided the following information:", txtWidth);
 				pdf.text(txt, x2, y2);
 				
 				// demographics table
@@ -1993,7 +1996,7 @@
 				y2 = newline(y2, 2);
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,0,0); // black
-				txt = pdf.splitTextToSize("In addition, each user of the tool is asked to evaluate their level of \u2018Happiness\u2019 and \u2018Stress\u2019 on a 1-10 scale. We use this data to correlate our Life Balance Assessment score with general levels of happiness and stress, demonstrating how proactive efforts to improve Life Balance can enhance happiness and reduce stress. In response to these questions, you indicated the following:", txtWidth);
+				txt = pdf.splitTextToSize("In addition, we ask users of the tool to evaluate their levels of happiness and stress on a ten-point scale. We use this data to correlate individual Life Balance Assessment Scores with general levels of happiness and stress in order to demonstrate how your proactive efforts to improve your life balance can enhance your happiness and reduce stress. In response to these questions, you indicated the following:", txtWidth);
 				pdf.text(txt, x2, y2);
 
 				// happiness and stress bullet points
@@ -2004,9 +2007,9 @@
 				
 				// text area 3
 				y2 = newline(y2, 2);
-				txt = pdf.splitTextToSize("Finally, the Life Balance Assessment is a flexible tool that allows individuals to identify as many as ten priority areas within their life. In this way, we customize the tool to your unique circumstances. In completing the assessment, you identified the following list as priority areas within your life:", txtWidth);
+				txt = pdf.splitTextToSize("Finally, the Life Balance Assessment is a flexible tool that allows individuals to identify as many as ten priority areas within their lives. In completing the assessment, you identified the following personal priority areas:", txtWidth);
 				pdf.text(txt, x2, y2);
-				y2 = listBuffer(y2, 4);
+				y2 = listBuffer(y2, 3);
 				for (var i = 0; i < priorityAreas.length; i++) {
 					bulletPoint(priorityAreas[i].name, y2);
 					y2 = newline(y2, 1);
@@ -2019,10 +2022,10 @@
 				
 				// text area 1
 				// shape is 3" wide and 0.3" buffer on left and buttom - 3.2" for text
-				txt = pdf.splitTextToSize("Based upon these inputs, you were asked a series of questions to evaluate your willingness to sacrifice one priority area in favor of another. Similarly, you were asked to evaluate the frequency in which you do sacrifice one priority area in favor of another. Via the response to these questions, the Life Balance Assessment identifies sources of tension among competing priorities. Based upon the magnitude and frequency of such tensions, we calculate a Life", 3.2);
+				txt = pdf.splitTextToSize("Based on these inputs, you were asked a series of questions regarding your willingness to sacrifice one priority area in favor of another. Similarly, you were asked to evaluate how often you sacrifice one priority area in favor of another. Using your responses to these questions, the Life Balance Assessment identifies sources of tension among competing priorities. Based on the magnitude and frequency of such tensions, we calculate a Life", 3.2);
 				pdf.text(txt, x3, y3);
 				y3 = newline(y3, 10);
-				txt = pdf.splitTextToSize("Balance Assessment Score as a percentage from 0 to 100%. As defined in the adjacent text box, the Life Balance Assessment Score correlates to a general rating regarding your degree of \u2018Life Balance.\u2019", txtWidth);
+				txt = pdf.splitTextToSize("Balance Assessment Score as a percentage. As defined in the sidebar to the right, the Life Balance Assessment Score correlates to a general rating regarding your degree of \u2018life balance.\u2019", txtWidth);
 				pdf.text(txt, x3, y3);
 
 				// balance assessment scale
@@ -2049,31 +2052,31 @@
 				pdf.text("76% to 81%:", xScale, yScale);
 				pdf.text("\u201CFrequently Shaky\u201D", xScale+1.26, yScale);
 				yScale = halfSpacing(yScale, 1);
-				pdf.text("Less Than 76%:", xScale, yScale);
+				pdf.text("75% or Lower:", xScale, yScale);
 				pdf.text("\u201CUnbalanced\u201D", xScale+1.26, yScale);
 
 				// text area 2
-				y3 = newline(y3, 4);
+				y3 = newline(y3, 3);
 				pdf.setFontSize(bodyFontSize);
 				pdf.setFontType('bold');
 				pdf.setTextColor(0,0,0); // black
-				txt = pdf.splitTextToSize("Based upon your identified priority areas and assessment results, you have a Life Balance Assessment Score of: " + score + "%. This score is consistent with a Life Balance Assessment rating of \u201C" + scoreType + "\u201D.", txtWidth);
+				txt = pdf.splitTextToSize("Based on your identified priority areas and assessment results, your Life Balance Assessment Score is " + score + "%. This score is consistent with a Life Balance Assessment Rating of \u201C" + scoreType + ".\u201D", txtWidth);
 				pdf.text(txt, x3, y3);
 
 				//text area 3
 				y3 = newline (y3, 4);
 				pdf.setFontType('normal');
 				if (scoreType == "Balanced") {
-					txt = pdf.splitTextToSize("Your results are indicative of someone living a \u201CBalanced\u201D life. Such a rating is typically consistent with individuals that have a clear set of values and a compelling purpose or mission in their life. These values and a driving purpose bring clarity to your priorities. Your behaviors are consistent with your professed priorities. It is likely that you sustain a set of routines or recurring activities that reinforce the priority areas of your life. Furthermore, you are able to appreciate such routines and activities. In other words, you are commonly present to them without undue influence of the anxiety or stress associated with other commitments.\n\nIndividuals living a \u201CBalanced\u201D life are typically whole. You live an authentic life with enhanced clarity of who you are, what you desire, and how you live your life. We find that \u201CBalanced\u201D individuals are more likely to be fulfilled and at peace. Recognizing that we all face adversity in our lives, it is important for you to understand the source of your healthy balance. Just like any good business, you should develop contingency strategies to assess how you will best handle adversity if and when it occurs.", txtWidth);
+					txt = pdf.splitTextToSize("Your results are indicative of a person who is living a \u2018balanced\u2019 life. Such a rating is typically consistent with individuals who have a clear set of values and a compelling purpose or mission in their lives. These values and a driving purpose bring clarity to your priorities. Your demonstrated behaviors are typically consistent with your professed priorities. It is likely that you sustain a set of routines or recurring activities that reinforce the priority areas of your life. Furthermore, you are able to appreciate such routines and activities. In other words, you are typically present to these routines and activities, and not unduly influenced by the anxiety or stress associated with other commitments.\n\nIndividuals living a balanced life are typically whole. You live an authentic life with enhanced clarity of who you are, what you desire, and how you live your life. We find that balanced individuals are more likely to be fulfilled and at peace. Recognizing that we all face adversity in our lives, it is important for you to understand the source of your healthy balance. We highly recommend that you develop contingency strategies that will allow you to best handle adversity if and when it occurs.", txtWidth);
 					pdf.text(txt, x3, y3);
 				} else if (scoreType == "Occasionally Shaky") {
-					txt = pdf.splitTextToSize("Your results are indicative of someone living an \u201COccasionally Shaky\u201D life. Your professed priorities are generally consistent with demonstrated behaviors. You rating is reflective of individuals that live a relatively balanced life that is periodically dirupted. These disruptions may be the result of external circumstances that warrant a temporary reshuffling of your priorities. However, it is important to remember that you are in control of your priorities and associated Life Balance.\n\nWhile you may have a clear set of priorities and the values or purpose that feed those priorities, your behaviors are not always consistent with your professed priorities. It is likely that you have some routines or recurring activities that help reinforce the priority areas of your life. However, you may not be consistent in the follow through on such commitments, occasionally allowing other less important demands to infringe upon such activities. It is also possible that other life stresses may occasionally detract from your presence to activities that are consistent with your professed priorities.\n\nThough individuals living an \u201COccasionally Shaky\u201D life may feel overwhelmed at times, you are generally fulfilled and content with the circumstances of your life. Most commony, you have good self-awareness and are intentional in most of the commitments and choices that you make. Because you occasionally lack healthy balance, it important to assess how well equipped you are to handle adversity that may apply pressure to the priorities in your life. Just like any good business, you should develop contingency strategies to assess how you will best handle adversity if and when it occurs.", txtWidth);
+					txt = pdf.splitTextToSize("Your results are indicative of a person who is living an \u2018occasionally shaky\u2019 life. Your demonstrated behaviors are generally consistent with your professed priorities. Your rating is reflective of individuals who live a relatively balanced life that is occasionally disrupted. These disruptions may be the result of external circumstances that warrant a temporary reshuffling of your priorities. It is important, however, to remember that you are in control of your priorities and associated life balance.\n\nWhile you may have a clear set of priorities and the values or purpose that feed those priorities, your behaviors are not always consistent with your professed priorities. It is likely that you have some routines or recurring activities that help reinforce the priority areas of your life. However, you may not be consistent in the follow through on such commitments, occasionally allowing competing, more immediate demands to infringe on such activities. In addition, other life stresses may occasionally detract from your presence to activities that are consistent with your professed priorities.\n\nThough individuals living an occasionally shaky life may feel overwhelmed at times, you are generally fulfilled and content with the circumstances of your life. You generally have good self-awareness and are intentional in most of the commitments and choices that you make. Because you occasionally lack healthy balance, it important to assess how well-equipped you are to handle adversity that applies pressure to the priorities in your life. We highly recommend that you develop contingency strategies that will allow you to best handle adversity if and when it occurs.", txtWidth);
 					pdf.text(txt, x3, y3);
 				} else if (scoreType == "Frequently Shaky") {
-					txt = pdf.splitTextToSize("Your results are indicative of someone living a \u201CFrequently Shaky\u201D life. Your professed priorities are inconsistent with demonstrated behaviors. Your rating is reflective of individuals whose priorities are commonly dirupted. These disruptions may be the result of external circumstances that warrant a temporary reshuffling of your priorities. Alternatively, you may be in the midst of some adversity or life circumstance that warrants focus in one priority area of your life at the expense of others. Regardless of the circumstances, it is important to remember that you are in control of your priorities and associated Life Balance.\n\nIt is possible that you do not have a clear set of priorities at this stage of your life. If you have not done so already, you may want to revisit your core values and/or what may be a compelling purpose or mission that should influence or drive your priorities.\n\nIf you have an identified set of routines or recurring activities that help reinforce the priority areas of your life, it is likely that you are not able to effectively sustain such commitments. Individuals characterized as \u201CFrequently Shaky\u201D often allow less important demands to infringe upon routines or activities that reinforce professed priorities. It is also common that other life stresses may frequently detract from your presence to any activities that may be consistent with your professed priorities.\n\nIndividuals living a \u201CFrequently Shaky\u201D life can feel overwhelmed. Though you may have a sense of self and/or aspire to a compelling purpose, you are unable to consistently live the life you desire. Often, individuals in this category are unfulfilled in their profession and/or struggle to find sustained peace in their lives. Because you frequently lack healthy balance, you may not be equipped to handle adversity that may further apply pressure to the priorities in your life. It is important to clarify your priorities at this stage of your life and to set a foundation of supporting routines and activities that are sustained in a manner consistent with those priorities.", txtWidth);
+					txt = pdf.splitTextToSize("Your results are indicative of a person who is living a \u2018frequently shaky\u2019 life. Your demonstrated behaviors are often inconsistent with your professed priorities. Your rating is reflective of individuals whose priorities are often disrupted. These disruptions may be the result of external circumstances that warrant a temporary reshuffling of your priorities. Alternatively, you may be in the midst of some adversity or life circumstance that currently warrants focus in one priority area of your life at the expense of others. Regardless of the circumstances, it is important to remember that you are in control of your priorities and associated life balance.\n\nIt is possible that you do not have a clear set of priorities at this stage of your life. If you have not done so already, you may want to revisit your core values and a compelling purpose or mission that should influence or drive your priorities.\n\nIf you have an identified set of routines or recurring activities that help reinforce the priority areas of your life, it is likely that you are unable to effectively sustain such commitments. Individuals characterized as frequently shaky often allow less important demands to infringe on routines or activities that reinforce their professed priorities. It is also common that other life stresses may frequently detract from your presence to any activities that are consistent with your professed priorities.\n\nIndividuals living a frequently shaky life can feel overwhelmed. Though you may have a sense of self and/or aspire to a compelling purpose, you are unable to consistently live the life you desire. Often, individuals in this category are unfulfilled in their profession and/or struggle to find sustained peace in their lives. Because you frequently lack healthy balance, you may not be equipped to handle adversity that may further apply pressure to the priorities in your life. It is important that you clarify your priorities at this stage of your life and set a foundation of supporting routines and activities that are sustained in a manner consistent with those priorities.", txtWidth);
 					pdf.text(txt, x3, y3);
 				} else if (scoreType == "Unbalanced") {
-					txt = pdf.splitTextToSize("Your results are indicative of someone living an \u201CUnbalanced\u201D life. Your professed priorities are are often inconsistent with demonstrated behaviors. Your rating is reflective of individuals whose priorities are not well known or are otherwise consistently dirupted. These disruptions may be the result of external circumstances that warrant a reshuffling of your priorities. Alternatively, you may be in the midst of some adversity or life circumstance that warrants extended focus in one priority area of your life at the expense of the others. Regardless of the circumstances, it is important to begin the process to restore some semblance of healthy Life Balance.\n\nIt is likely that you do not have a clear set of priorities at this stage of your life. If you have not done so already, you may want to revisit your core values and/or what may be a compelling purpose or mission that should influence or drive your priorities.\n\nIt is common that individuals leading an \u201CUnbalanced\u201D life either have not defined or are unable to sustain a set of routines or recurring activities that help reinforce the priority areas of their life. Individuals characterized as \u201CUnbalanced\u201D commonly allow less important demands to infringe upon routines or activities that reinforce professed priorities. It is also common that other life stresses frequently detract from your presence to any activities that may be consistent with your professed priorities.\n\nIndividuals living an \u201CUnbalanced\u201D life often feel overwhelmed and are unable to consistently live the life they desire. Many individuals in this category are unfulfilled in their profession and/or are unable to attain sustained peace in their lives. Because you lack healthy balance, you may not be equipped to handle additional adversity that may further apply pressure to the priorities in your life. It is important to clarify your priorities at this stage of your life and to take modest steps that will set a foundation for restoring some balance in your life.", txtWidth);
+					txt = pdf.splitTextToSize("Your results are indicative of a person who is living an \u2018unbalanced\u2019 life. Your demonstrated behaviors are often inconsistent with your professed priorities. Your rating is reflective of individuals whose priorities are not well known or are otherwise consistently disrupted. These disruptions may be the result of external circumstances that warrant a reshuffling of your priorities. Alternatively, you may be in the midst of some adversity or life circumstance that warrants extended focus in one priority area of your life at the expense of the others.\n\nRegardless of the circumstances, it is important that you begin the process to restore some semblance of healthy balance to your life.\n\nIt is likely that you do not have a clear set of priorities at this stage of your life. If you have not done so already, you may want to revisit your core values and a compelling purpose or mission that should influence or drive your priorities.\n\nIt is common that individuals leading an unbalanced life either have not defined or are unable to sustain a set of routines or recurring activities that help reinforce the priority areas of their life. Individuals characterized as unbalanced commonly allow less important demands to infringe on routines or activities that reinforce their professed priorities. It is also common that other life stresses frequently detract from your presence to any activities that are consistent with your professed priorities.\n\nIndividuals living an unbalanced life often feel overwhelmed and are unable to consistently live the life they desire. Many such individuals are unfulfilled in their profession and/or are unable to attain sustained peace in their lives. Because you lack healthy balance, you may not be equipped to handle additional adversity that may further apply pressure to the priorities in your life. It is important that you clarify your priorities at this stage of your life and take modest steps that will set a foundation for restoring some balance in your life.", txtWidth);
 					pdf.text(txt, x3, y3);
 				}
 
@@ -2243,7 +2246,7 @@
 
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,0,0); // black
-				txt = pdf.splitTextToSize("The remainder of this report further details the findings associated with your completion of the Life Balance Assessment. We summarize professed priorities and your willingness to sacrifice one priority area in favor of another (Section 3). We evaluate sources of tension based upon sacrifices made that conflict with professed priorities (Section 4). And, we identify potential sources for \u2018slack\u2019 in which you could consider a reallocation of time and resources consistent with professed priorities (Section 5). The report concludes with a summary of findings and recommendations to pursue enhanced Life Balance (Section 6). Lastly, we offer templates to assist further assist as you develop and assessment plans of action to enhance or sustain healthy Life Balance.", txtWidth);
+				txt = pdf.splitTextToSize("The remainder of this report further details the findings of our review of your Life Balance Assessment. Your professed priorities and your willingness to sacrifice one priority area in favor of another are detailed in the next section. Sources of tension based on sacrifices you make that conflict with your professed priorities are discussed in section 4. We identify potential sources of \u201Cslack\u201D that allow you to reallocate your time and resources consistent with your professed priorities in section 5. Section 6 provides a summary of findings and recommendations to help you intentionally pursue enhanced life balance. Finally, you will also find templates to further assist you in developing a plan of action to enhance or sustain healthy life balance.", txtWidth);
 				pdf.text(txt, x4, 8.595);
 
 				// PAGE 5
@@ -2252,7 +2255,7 @@
 				var x5 = xNew; // x page 5
 				var y5 = yNewSection; // y page 5
 				
-				txt = pdf.splitTextToSize("Based upon your \u2018willingness\u2019 to sacrifice one priority area for another, the following list ranks your specified life priorities from greatest to lowest professed importance.", txtWidth);
+				txt = pdf.splitTextToSize("Based on your reported willingness to sacrifice one priority area for another, the following list ranks your specified life priorities from greatest to least professed importance.", txtWidth);
 				pdf.text(txt, x5, y5);
 				
 				// priority areas professed rankings
@@ -2264,7 +2267,7 @@
 
 				// priority areas demonstrated rankings
 				y5 = newline(y5, 1);
-				txt = pdf.splitTextToSize("Based upon actual sacrifices that you make in favor, or pursuit, of one priority area over another, the following list ranks your specified life priorities from greatest to lowest demonstrated importance.", txtWidth);
+				txt = pdf.splitTextToSize("Based on actual sacrifices that you make in favor, or pursuit, of one priority area over another, the following list ranks your specified life priorities from greatest to least demonstrated importance.", txtWidth);
 				pdf.text(txt, x5, y5);
 				
 				y5 = listBuffer(y5, 3);
@@ -2279,20 +2282,20 @@
 				for (var i = 0; i < numAreas; i++) {
 					if (rankProfessed[i].name != rankDemonstrated[i].name) {
 						sameRankings = false;
-						txt = pdf.splitTextToSize("As you will notice, the ranked list of your professed priorities differs from the ranked list of your demonstrated priorities. The section that follows will elaborate on such differences and the associated tension that may exist.", txtWidth);
+						txt = pdf.splitTextToSize("As you will notice, the ranked list of your \u2018professed priorities\u2019 differs from the ranked list of your \u2018demonstrated priorities.\u2019 The section that follows will elaborate on these differences and the associated tension that they may create.", txtWidth);
 						pdf.text(txt, x5, y5);
 						y5 = newline(y5, 4);
 						break;
 					} else if (rankProfessed[i].name == rankDemonstrated[i].name && i == numAreas - 1) { 
 						// will only be true if all other rankings are identical as well
-						txt = pdf.splitTextToSize("As you will notice, the ranked list of your professed priorities is identical to the ranked list of your demonstrated priorities. This is a good sign that is commonly indicative of individuals with healthy Life Balance. However, you may still experience sources of tension as detailed in the section that follows.", txtWidth);
+						txt = pdf.splitTextToSize("As you will notice, the ranked list of your \u2018professed priorities\u2019 is identical to the ranked list of your \u2018demonstrated priorities.\u2019 This is a good sign that is commonly indicative of individuals with healthy life balance. However, you may still experience sources of tension.", txtWidth);
 						pdf.text(txt, x5, y5);
-						y5 = newline(y5, 5);
+						y5 = newline(y5, 4);
 					}
 				}
 				
 				if (unclearPairs.length > 0) {
-					txt = pdf.splitTextToSize("In some cases, your priorities are not clear. The following bullets summarize instances where you are unwilling to sacrifice one area of your life in favor of another, and vice-versa.", txtWidth);
+					txt = pdf.splitTextToSize("In some cases, your priorities are not clear. The following summarizes instances when you are unwilling to sacrifice one area of your life in favor of another.", txtWidth);
 					pdf.text(txt, x5, y5);
 					
 					y5 = listBuffer(y5, 2);
@@ -2303,7 +2306,7 @@
 							y5 = yNewPage;
 						}
 
-						bulletPoint("You are unwilling to sacrifice " + unclearPairs[i].areaA.name + " in favor of " + unclearPairs[i].areaB.name + ". In addition, you are unwilling to sacrifice " + unclearPairs[i].areaB.name + " in favor of " + unclearPairs[i].areaA.name + ".", y5);
+						bulletPoint("You are unwilling to sacrifice " + unclearPairs[i].areaA.name + " in favor of " + unclearPairs[i].areaB.name + ". And you are unwilling to sacrifice " + unclearPairs[i].areaB.name + " in favor of " + unclearPairs[i].areaA.name + ".", y5);
 						y5 = newline(y5, 2); // the text is 2 lines instead of the typical 1 line per bullet point
 					}
 
@@ -2313,7 +2316,7 @@
 						x5 = xNew;
 						y5 = yNewPage;
 					}
-					txt = pdf.splitTextToSize("If you can manage both areas identified in the list above successfully without one impacting the other, \u2018Life Balance\u2019 can be sustained. However, in instances where the demands of one priority area must come at the expense of another, tension is inevitable. These and other potential sources of tension are described in the section that follows.", txtWidth);
+					txt = pdf.splitTextToSize("If you can manage both areas identified above successfully, without one impacting the other, life balance can be sustained. However, in instances when the demands of one priority area must be addressed at the expense of another, tension is inevitable. These and other potential sources of tension are described in the following section.", txtWidth);
 					pdf.text(txt, x5, y5);
 				}
 
@@ -2325,17 +2328,17 @@
 				var x6 = xNew; // x page 6
 				var y6 = yNewSection; // y page 6
 
-				txt = pdf.splitTextToSize("The most common source of tension in pursuit of \u2018Life Balance\u2019 is when \u2018demonstrated\u2019 priorities are not consistent with \u2018professed\u2019 priorities.", txtWidth);
+				txt = pdf.splitTextToSize("The most common source of tension that frustrates the pursuit of life balance is when \u2018demonstrated priorities\u2019 are inconsistent with \u2018professed priorities.\u2019", txtWidth);
 				pdf.text(txt, x6, y6);
 				y6 = newline(y6, 3);
 
 				if (sameRankings == true) {
-					txt = pdf.splitTextToSize("Based upon your response to survey questions, your \u2018professed\u2019 and \u2018demonstrated\u2019 priorities are in direct alignment. This assessment result is most often consistent with individuals that live an authentic life, consistent with their core values and professed priorities.", txtWidth);
+					txt = pdf.splitTextToSize("Based on your response to survey questions, your \u2018professed priorities\u2019 and \u2018demonstrated priorities\u2019 are in direct alignment. This assessment result is most often consistent with individuals who live an authentic life, consistent with their core values and professed priorities.", txtWidth);
 					pdf.text(txt, x6, y6);
 					y6 = newline(y6, 4);
 
 					if (tensionPairs.length > 0) {
-						txt = pdf.splitTextToSize("However, as listed below, it appears that you still make some sacrifices in areas of your life that are more important in favor of other areas that are deemed less important.", txtWidth);
+						txt = pdf.splitTextToSize("However, as listed below, it appears that you still make some sacrifices in areas of your life that you deem more important in favor of other areas that you deem less important.", txtWidth);
 						pdf.text(txt, x6, y6);
 
 						y6 = listBuffer(y6, 2);
@@ -2387,7 +2390,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					txt = pdf.splitTextToSize("It is possible that you have the capacity to push yourself further to pursue your passion and interests. Furthermore, it is important to consider how life circumstances or unexpected adversity might impact your priorities and associated Life Balance.", txtWidth);
+					txt = pdf.splitTextToSize("It is possible that you have the capacity to push yourself further to pursue your passion and interests. Furthermore, it is important to consider how life circumstances or unexpected adversity might impact your priorities and associated life balance.", txtWidth);
 					pdf.text(txt, x6, y6);
 
 					y6 = newline(y6, 4);
@@ -2401,7 +2404,7 @@
 					pdf.text(txt, x6, y6);
 
 					pdf.setFontType('normal');
-					txt = pdf.splitTextToSize("               \u2013 We encourage you to reflect upon the circumstances of your life that enable you to effectively prioritize that which is important to you. Establish routines and the intentional discipline to periodically reassess your priorities to maintain effective Life Balance. Consider the following questions. (See Attachment 5 for an associated worksheet template.)", txtWidth);
+					txt = pdf.splitTextToSize("               \u2013 We encourage you to reflect on the circumstances of your life that enable you to effectively pursue what is important to you. Establish routines and the intentional discipline to periodically reassess your priorities to maintain life balance. Consider the following questions. (See attachment 5 for an associated worksheet template.)", txtWidth);
 					pdf.text(txt, x6, y6);
 
 					// discrepancy pair table
@@ -2424,9 +2427,9 @@
 					xTable = 1.33;
 					pdf.setFontType('normal');
 					pdf.setTextColor(0,0,0); // black
-					pdf.text("What characteristics of current circumstances enable me to maintain effective balance?", xTable, yTable);
+					pdf.text("What characteristics of my current circumstances enable me to maintain effective balance?", xTable, yTable);
 					pdf.text("Do such circumstances offer an opportunity for me to further pursue a passion or interest?", xTable, yTable+(1*lsTable));
-					pdf.text("How might changes to future circumstances challenge my priorities?", xTable, yTable+(2*lsTable));
+					pdf.text("How might circumstances change in the future to challenge my priorities?", xTable, yTable+(2*lsTable));
 
 					y6 = y6 + 1.225; // height of the table - used as a buffer to find the next text line after the table
 					y6 = newline(y6, 2);
@@ -2437,7 +2440,7 @@
 					}
 					pdf.setFontType('normal');
 					pdf.setTextColor(0,0,0); // black
-					txt = pdf.splitTextToSize("Even though your professed and demonstrated priorities are aligned, it is important to define what healthy \u2018Life Balance\u2019 means to you. In many cases, individuals will define goals such as spend \u2018more time with family\u2019 or \u2018less time at work.\u2019 Defining balance in terms of \u2018more\u2019 or \u2018less\u2019 is an unattainable goal because there will always exist the potential for \u2018more\u2019 or \u2018less.\u2019 At CEEK, we encourage individuals to define balance in terms of commitments you can make within the realistic constraints of your life. For example...", txtWidth);
+					txt = pdf.splitTextToSize("Even though your professed and demonstrated priorities are aligned, it is important to define what \u2018healthy life balance\u2019 means to you. In many cases, individuals will define goals such as \u201Cspend more time with family\u201D or \u201Cspend less time at work.\u201D However, defining balance in terms of \u201Cmore\u201D or \u201Cless\u201D is an unattainable goal because there will always exist the potential for \u201Cmore\u201D or \u201Cless.\u201D Instead, at CEEK, we encourage individuals to define balance in terms of the \u2018commitments\u2019 they can make within the realistic constraints of their lives. For example:", txtWidth);
 					pdf.text(txt, x6, y6);
 
 					// bulleted list
@@ -2447,7 +2450,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to have dinner with the family each night?", y6);
+					bulletPoint("Can I COMMIT...to have dinner with the family every night?", y6);
 					y6 = newline(y6, 1);
 					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
 						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
@@ -2461,7 +2464,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to spend time on strategic, but not urgent, matters each week at work?", y6);
+					bulletPoint("Can I COMMIT...to spend time on strategic but not urgent matters each week at work?", y6);
 					y6 = newline(y6, 1);
 					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
 						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
@@ -2482,7 +2485,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to attend a class or pursue a hobby or other interest?", y6);
+					bulletPoint("Can I COMMIT...to regularly attend a class or pursue a hobby or other interest?", y6);
 					y6 = newline(y6, 1);
 					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
 						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
@@ -2496,7 +2499,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to serve a higher calling on a weekly, monthly or yearly basis?", y6);
+					bulletPoint("Can I COMMIT...to serve a higher calling on a weekly, monthly, or yearly basis?", y6);
 					
 					y6 = newline(y6, 2);
 					if (newline(y6, 3) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
@@ -2504,10 +2507,10 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					txt = pdf.splitTextToSize("Because your professed and demonstrated priorities are consistent, it is likely that you have a set of established routines or activities that support the priority areas of your life. Regardless, we encourage you to refer to Attachment 1 of this report for an example template to put such goals, or commitments, in writing for the priority areas of your life.", txtWidth);
+					txt = pdf.splitTextToSize("Because your professed priorities and demonstrated priorities are consistent, it is likely that you have a set of established routines or activities that support the priority areas of your life. Regardless, we encourage you to refer to attachment 1 of this report for an example template to use to put in writing such goals, or commitments, for the priority areas of your life.", txtWidth);
 					pdf.text(txt, x6, y6);
 				} else if (sameRankings == false) {
-					txt = pdf.splitTextToSize("Like most of us, the demands of life have revealed instances where your \u2018demonstrated\u2019 priorities are not consistent with your \u2018professed\u2019 priorities. You make sacrifices in areas of your life that are more important in favor of other areas that are deemed less important. In some cases, this may be conscious and necessary. In other cases, this may be without thoughtful consideration and unnecessary. The following list summarizes some of the instances in which you make sacrifices that are not consistent with your \u2018professed\u2019 priorities.", txtWidth);
+					txt = pdf.splitTextToSize("Like most of us, the demands of life have revealed instances where your demonstrated priorities are inconsistent with your professed priorities. You make sacrifices in areas of your life that you deem more important in favor of areas that you deem less important. In some cases, this may be conscious and necessary. In other cases, this may be without thoughtful consideration and unnecessary. The following list summarizes some of the instances in which you make sacrifices that are inconsistent with your professed priorities.", txtWidth);
 					pdf.text(txt, x6, y6);
 
 					y6 = listBuffer(y6, 6);
@@ -2558,7 +2561,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					txt = pdf.splitTextToSize("It is likely that the cases where you \u2018Always\u2019 or \u2018Often\u2019 sacrifice an important area of your life for a less important area of your life, represent a source of significant tension in your life. Similarly, in cases where you \u2018Sometimes\u2019 sacrifice an important area of your life for a less important area of your life, represent a potential source of tension in your life.", txtWidth);
+					txt = pdf.splitTextToSize("It is likely that a source of significant tension in your life results from the times when you sacrifice an important area of your life for a less important area of your life. The same is true, but to a lesser extent, of the less frequent times when you sacrifice an important area of your life for a less important area of your life.", txtWidth);
 					pdf.text(txt, x6, y6);
 
 					y6 = newline(y6, 5);
@@ -2568,7 +2571,7 @@
 						y6 = yNewPage;
 					}
 
-					txt = pdf.splitTextToSize("Simple cognitive awareness of such tensions is critical to the pursuit of healthy \u2018Life Balance.\u2019 To manage these tensions well, it is important to define what healthy \u2018Life Balance\u2019 means to you. In many cases, individuals will define goals such as spend \u2018more time with family\u2019 or \u2018less time at work.\u2019 Defining balance in terms of \u2018more\u2019 or \u2018less\u2019 is an unattainable goal because there will always exist the potential for \u2018more\u2019 or \u2018less.\u2019 At CEEK, we encourage individuals to define balance in terms of commitments you can make within the realistic constraints of your life. For example...", txtWidth);
+					txt = pdf.splitTextToSize("Simple cognitive awareness of such tensions is critical to the pursuit of healthy life balance. To manage these tensions well, it is important to define what \u2018healthy life balance\u2019 means to you. In many cases, individuals will define goals such as \u201Cspend more time with family\u201D or \u201Cspend less time at work.\u201D However, defining balance in terms of \u201Cmore\u201D or \u201Cless\u201D is an unattainable goal because there will always exist the potential for \u201Cmore\u201D or \u201Cless.\u201D Instead, at CEEK, we encourage individuals to define balance in terms of the \u2018commitments\u2019 they can make within the realistic constraints of their lives. For example:", txtWidth);
 					pdf.text(txt, x6, y6);
 
 					// bulleted list
@@ -2578,7 +2581,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to have dinner with the family each night?", y6);
+					bulletPoint("Can I COMMIT...to have dinner with the family every night?", y6);
 					y6 = newline(y6, 1);
 					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
 						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
@@ -2592,7 +2595,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to spend time on strategic, but not urgent, matters each week at work?", y6);
+					bulletPoint("Can I COMMIT...to spend time on strategic but not urgent matters each week at work?", y6);
 					y6 = newline(y6, 1);
 					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
 						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
@@ -2613,7 +2616,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to attend a class or pursue a hobby or other interest?", y6);
+					bulletPoint("Can I COMMIT...to regularly attend a class or pursue a hobby or other interest?", y6);
 					y6 = newline(y6, 1);
 					if (y6 > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
 						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
@@ -2627,7 +2630,7 @@
 						x6 = xNew;
 						y6 = yNewPage;
 					}
-					bulletPoint("Can I COMMIT...to serve a higher calling on a weekly, monthly or yearly basis?", y6);
+					bulletPoint("Can I COMMIT...to serve a higher calling on a weekly, monthly, or yearly basis?", y6);
 					
 					y6 = newline(y6, 2);
 					if (newline(y6, 4) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
@@ -2640,7 +2643,7 @@
 					pdf.text(txt, x6, y6);
 
 					pdf.setFontType('normal');
-					txt = pdf.splitTextToSize("               \u2013 For each of the sources of tension listed earlier in this section, we encourage you to define 1 \u2013 3 goals, stated as commitments, that you can make to reinforce your professed priorities. Refer to Attachment 1 of this report for an example template to define such goals, or commitments. For each commitment, we also recommend that you consider the following questions. (See Attachment 2 for an associated worksheet template.)", txtWidth);
+					txt = pdf.splitTextToSize("               \u2013 For each of the sources of tension listed earlier in this section, we encourage you to define one to three goals, stated as commitments, that you can make to reinforce your professed priorities. Refer to attachment 1 of this report for an example template you can use to define such goals or commitments. For each commitment, we also recommend that you consider the following questions. (See attachment 2 for an associated worksheet template.)", txtWidth);
 					pdf.text(txt, x6, y6);
 
 					// discrepancy pair table
@@ -2665,7 +2668,7 @@
 					pdf.setTextColor(0,0,0); // black
 					pdf.text("What, if anything, would prevent me from making and keeping this commitment?", xTable, yTable);
 					pdf.text("What, if anything, can I do to remove such obstacles?", xTable, yTable+(1*lsTable));
-					pdf.text("Who can I enroll, or what can I do, to hold myself accountable to such commitments?", xTable, yTable+(2*lsTable));
+					pdf.text("Who can I engage or what can I do to hold myself accountable to such commitments?", xTable, yTable+(2*lsTable));
 
 					y6 = y6 + 1.225; // height of the table - used as a buffer to find the next text line after the table
 					y6 = newline(y6, 2);
@@ -2676,7 +2679,7 @@
 					}
 					pdf.setFontType('normal');
 					pdf.setTextColor(0,0,0); // black
-					txt = pdf.splitTextToSize("Always remember, \u2018Life Balance\u2019 is a tension to be managed, not a problem to be solved. Work, family, health, relationships, and other unexpected circumstances may require periods of intense focus. Life will throw adversity your way. While important to challenge yourself to reinforce your priorities through stated commitments, they must be realistic and attainable. If the reality of your current life circumstances prevents you from making a commitment, revise the commitment.", txtWidth);
+					txt = pdf.splitTextToSize("Always remember, life balance is a tension to be managed, not a problem to be solved. Work, family, health, relationships, and other unexpected circumstances may require periods of intense focus. Unfortunately, life will most likely throw adversity your way. While important to challenge yourself to reinforce your priorities through stated commitments, your priorities must be realistic and attainable. If the reality of your current life circumstances prevents you from making a commitment, then revise the commitment.", txtWidth);
 					pdf.text(txt, x6, y6);
 				}
 
@@ -2686,12 +2689,12 @@
 				var x7 = xNew; // x page 7
 				var y7 = yNewSection; // y page 7
 
-				txt = pdf.splitTextToSize("Just as the Life Balance Assessment can reveal sources of tension in your life, it can also reveal sources for \u2018slack.\u2019 At CEEK, we define \u2018slack\u2019 as potential for an individual or organization to create time and space to pursue that which is strategic, but not urgent. Relative to the Life Balance Assessment, we consider a potential source for \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but rarely do.", txtWidth);
+				txt = pdf.splitTextToSize("Just as the Life Balance Assessment can reveal sources of tension in your life, it also can reveal sources of slack. At CEEK, we define \u2018slack\u2019 as potential for an individual or organization to create time and space to pursue what is strategic but not urgent. Relative to the Life Balance Assessment, we consider a potential source for slack to be any instance in which you are willing to sacrifice one area of your life in favor of another, but you rarely do.", txtWidth);
 				pdf.text(txt, x7, y7);
 				
 				y7 = newline(y7, 6);
 				if (slackPairs.length == 0) {
-					txt = pdf.splitTextToSize("Based upon your response to survey questions, you sometimes, often, or always sacrifice lower priority areas of your life in favor of a higher priority area of your life. As a result, you may have limited, if any, room for \u2018slack.\u2019 While you may be effective at maintaining focus on the most significant priorities in your life, it is possible that your neglect for other interests or priorities could introduce new, unresolved tension.", txtWidth);
+					txt = pdf.splitTextToSize("Based on your responses to survey questions, you sometimes, often, or always sacrifice lower-priority areas of your life in favor of a higher-priority area. As a result, you may have limited, if any, slack. While you may be effective in maintaining focus on the most significant priorities in your life, it is possible that your neglect of other interests or priorities could introduce new, unresolved tension.", txtWidth);
 					pdf.text(txt, x7, y7);
 					
 					y7 = newline(y7, 6);
@@ -2700,7 +2703,7 @@
 					pdf.text(txt, x7, y7);
 
 					pdf.setFontType('normal');
-					txt = pdf.splitTextToSize("               \u2013 We encourage you to reflect upon your neglect for lower priority areas specified in your survey response. Consider the following questions. (See Attachment 3 for an associated worksheet template.)", txtWidth);
+					txt = pdf.splitTextToSize("               \u2013 We encourage you to reflect on your neglect for lower-priority areas specified in your survey response. Consider the following questions. (See attachment 3 for an associated worksheet template.)", txtWidth);
 					pdf.text(txt, x7, y7);
 
 					// slack pair table
@@ -2718,18 +2721,18 @@
 					xTable = 1.33;
 					pdf.setFontType('normal');
 					pdf.setTextColor(0,0,0); // black
-					txt = pdf.splitTextToSize("Has my focus on the most important priorities in my life prevented me from pursuing other lower priorities that would enhance my fulfillment in life?", 6.15);
+					txt = pdf.splitTextToSize("Has my focus on the most important priorities in my life prevented me from pursuing lower priorities that would enhance my fulfillment in life?", 6.15);
 					pdf.text(txt, xTable, yTable-(0.25*lsTable));
 					txt = pdf.splitTextToSize("If yes, what commitments can I make that will restore some focus on neglected priority areas?", 6.15);
 					pdf.text(txt, xTable, yTable+(0.75*lsTable));
-					pdf.text("If no, what is it about these other areas of my life that make it a worthwhile priority?", xTable, yTable+(2*lsTable));
+					pdf.text("If no, what is it about these other areas of my life that make them worthwhile priorities?", xTable, yTable+(2*lsTable));
 
 					y7 = y7 + 1.225; // height of the table - used as a buffer to find the next text line after the table
 					y7 = newline(y7, 2);
-					txt = pdf.splitTextToSize("Such circumstances most commonly occur when dealing with the illness of a loved one, supporting a critical, time-sensitive work demand, or dealing with an unexpected crisis. While life circumstances sometimes dictate intense periods of focus, it is important to remain intentional about your own mental, physical and spiritual health during such periods. Finding time to pursue other interests or priorities during such periods can enhance productivity and/or fulfillment while mitigating any associated stress.", txtWidth);
+					txt = pdf.splitTextToSize("Such circumstances most commonly occur when facing and managing the illness of a loved one; supporting a critical, time-sensitive work demand; or dealing with another unexpected crisis. While life circumstances sometimes dictate intense periods of focus, it is important to remain intentional about your own mental, physical, and spiritual health during such periods. Finding time to pursue other interests or priorities during such periods can enhance productivity and/or fulfillment while mitigating any associated stress.", txtWidth);
 					pdf.text(txt, x7, y7);
 				} else if (slackPairs.length > 0) {
-					txt = pdf.splitTextToSize("Based upon your response to survey questions, there are instances in which you rarely or never sacrifice a lower priority area of your life in favor of a higher priority area of your life. These instances afford you the opportunity for additional focus on one or more priority areas in your life if, and when, circumstances warrant the need for additional attention in that particular area. The list below summarizes such instances where you never or rarely sacrifice a lower priority area in favor of a higher priority area:", txtWidth);
+					txt = pdf.splitTextToSize("Based on your responses to survey questions, you rarely or never sacrifice a lower-priority area of your life in favor of a higher-priority area of your life. You therefore have the opportunity for additional focus on one or more higher priority areas in your life if, and when, your life circumstances warrant the need for additional attention in that particular area. The list below summarizes such instances where you never or rarely sacrifice a lower-priority area in favor of a higher-priority area:", txtWidth);
 					pdf.text(txt, x7, y7);
 
 					y7 = listBuffer(y7, 6);
@@ -2767,10 +2770,10 @@
 						x7 = xNew;
 						y7 = yNewPage;
 					}
-					txt = pdf.splitTextToSize("Such instances represent opportunities for \u2018slack.\u2019 If, and when, circumstances warrant additional time and resources focused on higher priorities areas, you have the potential to capitalize on time and resources currently spent in lower priorities areas. It is useful to be aware of these sources for \u2018slack\u2019 and to identify circumstances under which you would sacrifice lower priority areas to focus on one or more high-priority areas. As an example, if work demands, a family illness or significant life event warrant an intense period of focus, you will know where you can conserve time and resources to support more imminent priorities.", txtWidth);
+					txt = pdf.splitTextToSize("Such instances represent opportunities for slack. It is useful to be aware of these sources of slack and to identify circumstances under which you would sacrifice lower-priority areas to focus on one or more high-priority areas. As an example, if work demands, a family illness, or a significant life event warrants an intense period of focus, you will know where you can conserve time and resources to support priorities needing your more immediate attention.", txtWidth);
 					pdf.text(txt, x7, y7);
 
-					y7 = newline(y7, 8);
+					y7 = newline(y7, 6);
 					if (newline(y7, 2) > 10) { // checks for overflow text - checks the last line of text to make sure it is above the border
 						newPage(); // the bullet points could cause the following text to run over the page, so create a new one when the border is reached
 						x7 = xNew;
@@ -2781,7 +2784,7 @@
 					pdf.text(txt, x7, y7);
 
 					pdf.setFontType('normal');
-					txt = pdf.splitTextToSize("               \u2013 We encourage you to consider the following questions that will prepare you for inevitable circumstances that warrant enhanced focus in a high-priority area of your life. (See Attachment 4 for an associated worksheet template.)", txtWidth);
+					txt = pdf.splitTextToSize("               \u2013 We encourage you to consider the following questions, which will prepare you for the inevitable circumstances that warrant your enhanced focus in a high-priority area of your life. (See attachment 4 for an associated worksheet template.)", txtWidth);
 					pdf.text(txt, x7, y7);
 
 					// slack pair table
@@ -2805,10 +2808,10 @@
 					pdf.setFontType('normal');
 					pdf.setTextColor(0,0,0); // black
 
-					pdf.text("What current commitments do you maintain that are optional?", xTable, yTable);
-					pdf.text("What circumstances might warrant reconsideration of such optional commitments?", xTable, yTable+(1*lsTable));
-					txt = pdf.splitTextToSize("What actions, if any, are required to temporarily suspend or permanently discontinue such commitments?", 6.15);
-					pdf.text(txt, xTable, yTable+(1.75*lsTable));
+					pdf.text("What current commitments do I maintain that are optional?", xTable, yTable);
+					pdf.text("What circumstances might warrant my reconsideration of such optional commitments?", xTable, yTable+(1*lsTable));
+					txt = pdf.splitTextToSize("What commitments, if any, could I temporarily suspend or permanently discontinue?", 6.15);
+					pdf.text(txt, xTable, yTable+(2*lsTable));
 
 					y7 = y7 + 1.225; // height of the table - used as a buffer to find the next text line after the table
 					y7 = newline(y7, 2);
@@ -2817,7 +2820,7 @@
 						x7 = xNew;
 						y7 = yNewPage;
 					}
-					txt = pdf.splitTextToSize("Contingency planning of this nature will help you sustain reasonable \u2018Life Balance\u2019 while mitigating stress and anxiety during periods of unexpected demands. At CEEK, we refer to this as pre-crisis integrity. The intentional pursuit of Life Balance will not only help you pursue peace and fulfillment in your life, but will also help you endure challenges faced when life throws adversity your way.", txtWidth);
+					txt = pdf.splitTextToSize("Such contingency planning will help you sustain reasonable life balance while mitigating stress and anxiety during periods of unexpected demands. At CEEK, we refer to this as pre-crisis integrity. The intentional pursuit of life balance will not only help you pursue peace and fulfillment in your life, but will also help you effectively address the unexpected challenges you face when adversity comes your way.", txtWidth);
 					pdf.text(txt, x7, y7);
 				}
 
@@ -2827,31 +2830,33 @@
 				var x8 = xNew; // x page 8
 				var y8 = yNewSection; // y page 8
 
-				txt = pdf.splitTextToSize("The simple initiative to complete this assessment, demonstrates an intentional effort on your part to pursue healthy Life Balance. In completing the assessment, you identified " + numAreas + " priority areas of your life. Based upon the magnitude and frequency of competing tensions among your professed and demonstrated priorities, we calculated a Life Balance Assessment Score of " + score + "%. This score is consistent with our definition of a(n) \u201C" + scoreType + "\u201D life.", txtWidth);
+				txt = pdf.splitTextToSize("The simple initiative to complete this assessment demonstrates an intentional effort on your part to pursue healthy life balance. In completing the assessment, you identified " + numAreas + " priority areas of your life. Based on the magnitude and frequency of competing tensions among your professed priorities and demonstrated priorities, we calculated a Life Balance Assessment Score of " + score + "%. This score is consistent with our definition of a(n) " + scoreType + " life.", txtWidth);
 				pdf.text(txt, x8, y8);
 
 				y8 = newline(y8, 6);
-				txt = pdf.splitTextToSize("Regardless of your current assessment results, your perspective on balance, and objectives related to it, will change depending on the circumstances of your life. Nonetheless, it is important to take the steps necessary to restore or sustain healthy Life Balance based upon your current circumstances. Doing so now, will equip you to effectively manage this tension when life throws adversity your way. Equally important, your intentional effort to pursue healthy Life Balance will enhance your personal joy, fulfillment and peace while also enhancing productivity.", txtWidth);
+				txt = pdf.splitTextToSize("Whatever your current assessment results, your perspective on balance and your objectives related to it will change depending on the circumstances of your life. It is nonetheless important that you take the steps necessary to restore or sustain healthy life balance based on your \u2018current\u2019 circumstances. Doing so now will equip you to effectively manage this tension when life throws adversity your way. Equally important, your intentional effort to pursue healthy life balance will enhance your personal joy, fulfillment, and peace while also enhancing your productivity at work.", txtWidth);
 				pdf.text(txt, x8, y8);
 
-				y8 = newline(y8, 7);
-				txt = pdf.splitTextToSize("To assist you in your pursuit of healthy Life Balance, we provide an attachment to this report of various templates to help develop and sustain a Plan of Action in pursuit of healthy Life Balance. Among other templates for consideration, this attachment includes the actions and associated questions suggested in Sections 4 and 5 of this report. We recommend the following next steps:", txtWidth);
+				y8 = newline(y8, 8);
+				txt = pdf.splitTextToSize("To assist you in your pursuit of healthy life balance, we have included as attachments to this report some templates to help you develop and sustain a plan of action; some were referred to in earlier sections of this report. We recommend these next steps:", txtWidth);
 				pdf.text(txt, x8, y8);
 
-				y8 = listBuffer(y8, 4);
+				y8 = listBuffer(y8, 3);
 				numberedPoint(1, "Complete the relevant portions of the attached templates.", y8);
 				y8 = newline(y8, 1);
 				numberedPoint(2, "Update your calendar with any new commitments.", y8);
 				y8 = newline(y8, 1);
-				numberedPoint(3, "Reassess your life balance in three to six months. As our gift to you, we authorize you to take the assessment a second time at no cost. Simply purchase the balance assessment a second time at https://www.ceekllc.com/product-page/ceek-balance-assessment. Upon checking out, enter the Promo Code, CEEKbalance (case sensitive).", y8);
+				numberedPoint(3, "Reassess your life balance in three to six months. As our gift to you, we authorize you to take the assessment a second time at no cost. Simply purchase the balance assessment a second time using the case sensitive promo code, CEEKbalance at:", y8);
+				y8 = newline(y8, 3);
+				pdf.textWithLink("https://www.ceekllc.com/product-page/ceek-balance-assessment", listIndent, y8, {url:'https://www.ceekllc.com/product-page/ceek-balance-assessment'});
 
-				y8 = newline(y8, 5);
+				y8 = newline(y8, 2);
 				// U+00AE = registered symbol
-				txt = pdf.splitTextToSize("To further assist in your pursuit of healthy Life Balance, we also encourage you to leverage this report as you read the book, \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities\u201D. And, if you desire to do more, or if you are a leader in your organization that seeks to promote a culture of healthy balance, we encourage you to consider participation in one or more of our \u2018CEEK a Better Way\u00AE\u2019 workshops.", txtWidth);
+				txt = pdf.splitTextToSize("To further assist in your pursuit of healthy life balance, we also encourage you to leverage this report as you read \u201CNavigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities.\u201D And if you desire to do more, or if you are a leader in your organization who seeks to promote a culture of healthy balance, we encourage you to consider participating in one or more of our CEEK a Better Way\u00AE Workshops.", txtWidth);
 				pdf.text(txt, x8, y8);
 
 				y8 = newline(y8, 6);
-				txt = pdf.splitTextToSize("Send an email to info@ceekllc.com to inquire about upcoming webinars or to discuss how we can deliver a healthy Life Balance workshop or speaking engagement within your organization that will promote enhanced accountability and productivity while pursuing healthy Life Balance and personal fulfillment.", txtWidth);
+				txt = pdf.splitTextToSize("Send an email to info@ceekllc.com to inquire about upcoming webinars or to discuss how we can deliver a Healthy Life Balance Workshop or speaking engagement within your organization that will promote enhanced productivity for your organization along with healthy life balance and personal fulfillment for your team.", txtWidth);
 				pdf.text(txt, x8, y8);
 
 				/*y8 = newline(y8, 7);
@@ -2870,7 +2875,7 @@
 				var x9 = xNew; // x page 9
 				var y9 = yNewSection; // y page 9
 
-				txt = pdf.splitTextToSize("For each of the priority areas that you specified in your Life Balance Assessment, we encourage you to define at least three goals, stated as daily, weekly, monthly, or yearly commitments, that you can make to reinforce your professed priorities in life. Specify the schedule and frequency with which you commit to fulfill each activity. As appropriate, place the specified commitments on your home and work calendars. Consider tracking your progress in a journal as a relative percent of commitments maintained.", txtWidth);
+				txt = pdf.splitTextToSize("For each of the priority areas that you specified in your Life Balance Assessment, we encourage you to define at least three goals \u2013 stated as daily, weekly, monthly, or yearly commitments \u2013 that you can establish to reinforce your professed priorities in life. Specify the schedule and frequency with which you commit to fulfill each activity. As appropriate, place the specified commitments on your home and work calendars. Consider tracking your progress in a journal as a relative percentage of commitments maintained.", txtWidth);
 				pdf.text(txt, x9, y9);
 
 				y9 = newline(y9, 8);
@@ -2957,7 +2962,7 @@
 
 				pdf.setFontSize(10);
 				pdf.setTextColor(0,0,0); // black
-				pdf.text("* Print extra copies of this sheet as necessary to address additional priority areas in your life.", 4.25, 9.85, 'center');
+				pdf.text("* Print more copies of this sheet as necessary to address additional priority areas in your life.", 4.25, 9.85, 'center');
 				pdf.setFontSize(bodyFontSize);
 
 				// PAGE 11
@@ -2971,7 +2976,7 @@
 				pdf.text(txt, x11, y11);
 
 				pdf.setFontType('normal');
-				txt = pdf.splitTextToSize("               \u2013 For and priority areas in which the professed priority is not consistent with your demonstrated behavior, we encourage you to assess the existing or potential sources of tension that may hinder your ability to sustain the goals or commitments you have proposed. Consider the following questions for each priority area and the associated commitments.", txtWidth);
+				txt = pdf.splitTextToSize("               \u2013 For any priority areas whose professed priority is not consistent with your demonstrated behavior, we encourage you to assess the existing or potential sources of tension that may hinder your ability to sustain the goals or commitments you have proposed. Consider the following questions for each priority area and the associated commitments.", txtWidth);
 				pdf.text(txt, x11, y11);
 
 				y11 = newline(y11, 6);
@@ -3007,7 +3012,7 @@
 				yTable = newline(yTable, 13);
 				pdf.text(txt, xTable, yTable);
 
-				txt = pdf.splitTextToSize("Who can I enroll, or what can I do, to hold myself accountable to such commitments?", columnWidth);
+				txt = pdf.splitTextToSize("Who can I engage or what can I do to hold myself accountable to such commitments?", columnWidth);
 				yTable = newline(yTable, 10.5);
 				pdf.text(txt, xTable, yTable);
 
@@ -3049,13 +3054,13 @@
 				pdf.text(txt, xTable, yTable);
 
 				yTable = newline(yTable, 10.5);
-				txt = pdf.splitTextToSize("Who can I enroll, or what can I do, to hold myself accountable to such commitments?", columnWidth);
+				txt = pdf.splitTextToSize("Who can I engage or what can I do to hold myself accountable to such commitments?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 
 				pdf.setFontSize(10);
 				pdf.setFontType('bold');
 				pdf.setTextColor(0,0,0); // black
-				pdf.text("* Print extra copies of this sheet to address each priority area and the associated commitments.", 4.25, 9.85, 'center');
+				pdf.text("* Print more copies of this sheet to address each priority area and the associated commitments.", 4.25, 9.85, 'center');
 				pdf.setFontSize(bodyFontSize);
 
 				// PAGE 13
@@ -3069,7 +3074,7 @@
 				pdf.text(txt, x13, y13);
 
 				pdf.setFontType('normal');
-				txt = pdf.splitTextToSize("               \u2013 Relative to the Life Balance Assessment, we consider \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but rarely do. If you often or always sacrifice lower priority areas of your life in favor of a higher priority area of your life, you may have limited, if any, room for \u2018slack.\u2019 While you may be effective at maintaining focus on the most significant priorities in your life, it is possible that your neglect for other interests or priorities could introduce new, unresolved tension. We encourage you to reflect upon your neglect for lower priority areas via the following questions.", txtWidth);
+				txt = pdf.splitTextToSize("               \u2013 Relative to the Life Balance Assessment, we consider \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but you rarely do. If you often or always sacrifice \u2018lower-priority areas\u2019 of your life in favor of \u2018higher-priority areas,\u2019 you may have limited, if any, slack. While you may be effective at maintaining focus on the most significant priorities in your life, it is possible that your neglect of other interests or priorities could introduce new, unresolved tension. We encourage you to reflect on your neglect of lower-priority areas via the following questions.", txtWidth);
 				pdf.text(txt, x13, y13);
 
 				// question/response table
@@ -3094,15 +3099,15 @@
 				pdf.setTextColor(0,0,0); // black
 
 				yTable = newline(yTable, 1);
-				txt = pdf.splitTextToSize("Has my focus on the most important priorities in my life prevented me from pursuing other lower priorities that would enhance my fulfillment in life? In what ways?", columnWidth);
+				txt = pdf.splitTextToSize("Has my focus on the most important priorities in my life prevented me from pursuing other priorities that would enhance my fulfillment in life? In what ways?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 				
-				yTable = newline(yTable, 12);
+				yTable = newline(yTable, 12.5);
 				txt = pdf.splitTextToSize("If yes, what commitments can I make that will restore some focus on neglected priority areas?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 
-				yTable = newline(yTable, 12.5);
-				txt = pdf.splitTextToSize("If no, what is it about these other areas of my life that make it a worthwhile priority?", columnWidth);
+				yTable = newline(yTable, 12);
+				txt = pdf.splitTextToSize("If no, what is it about these other areas of my life that make them worthwhile priorities?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 
 				// PAGE 14
@@ -3116,7 +3121,7 @@
 				pdf.text(txt, x14, y14);
 
 				pdf.setFontType('normal');
-				txt = pdf.splitTextToSize("               \u2013 Relative to the Life Balance Assessment, we consider a \u2018slack\u2019 to be any instance in which you are willing to sacrifice one area of your life in favor of another, but rarely do. If you you rarely or never sacrifice a lower priority area of your life in favor of a higher priority area of your life, you likely have room for \u2018slack.\u2019 It is useful to be aware of these sources for \u2018slack\u2019 and to identify circumstances under which you would sacrifice lower priority areas to focus on one or more high-priority areas. We encourage you to reflect upon following questions in preparation for circumstances that may warrant enhanced focus in another priority area of your life.", txtWidth);
+				txt = pdf.splitTextToSize("               \u2013 Relative to the Life Balance Assessment, we consider slack to be any instance in which you are willing to sacrifice a \u2018lower-priority area\u2019 of your life in favor of a \u2018higher-priority area,\u2019 but you rarely do. If such instances are infrequent or rare, it is useful to be aware of these sources for slack and to identify circumstances under which you would sacrifice lower-priority areas to focus on one or more higher-priority areas. We encourage you to reflect on following questions in preparation for circumstances that may warrant enhanced focus on another priority area of your life.", txtWidth);
 				pdf.text(txt, x14, y14);
 
 				// question/response table
@@ -3141,15 +3146,15 @@
 				pdf.setTextColor(0,0,0); // black
 
 				yTable = newline(yTable, 3);
-				txt = pdf.splitTextToSize("What current commitments do you maintain that are optional?", columnWidth);
+				txt = pdf.splitTextToSize("What current commitments do I maintain that are optional?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 				
 				yTable = newline(yTable, 11.5);
-				txt = pdf.splitTextToSize("What circumstances might warrant reconsideration of such optional commitments?", columnWidth);
+				txt = pdf.splitTextToSize("What circumstances might warrant my reconsideration of such optional commitments?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 
-				yTable = newline(yTable, 10);
-				txt = pdf.splitTextToSize("What actions, if any, are required to temporarily suspend or permanently discontinue such commitments?", columnWidth);
+				yTable = newline(yTable, 10.5);
+				txt = pdf.splitTextToSize("What commitments, if any, could I temporarily suspend or permanently discontinue?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 
 				// PAGE 15
@@ -3163,11 +3168,11 @@
 				pdf.text(txt, x15, y15);
 
 				pdf.setFontType('normal');
-				txt = pdf.splitTextToSize("               \u2013 If your professed and demonstrated priorities are well-aligned, we encourage you to reflect upon the circumstances of your life that enable you to effectively prioritize that which is important to you. It is important to establish a routine and the intentional discipline to periodically reassess your priorities to maintain effective Life Balance. Consider the following questions.", txtWidth);
+				txt = pdf.splitTextToSize("               \u2013 If your professed priorities and demonstrated priorities are well-aligned, we encourage you to reflect on the circumstances of your life that enable you to effectively prioritize what is important to you. It is important to establish the intentional discipline to periodically reassess your priorities to maintain effective life balance. Consider and respond to the following questions.", txtWidth);
 				pdf.text(txt, x15, y15);
 
 				// question/response table
-				y15 = imgBuffer(y15, 4);
+				y15 = imgBuffer(y15, 5);
 				pdf.addImage(imgTableWSQuestions, 'PNG', x15, y15, 6.5, 6.312);
 				
 				pdf.setFontType('bold');
@@ -3187,16 +3192,16 @@
 				pdf.setFontType('normal');
 				pdf.setTextColor(0,0,0); // black
 
-				yTable = newline(yTable, 3);
-				txt = pdf.splitTextToSize("What characteristics of current circumstances enable me to maintain effective balance?", columnWidth);
+				yTable = newline(yTable, 2.5);
+				txt = pdf.splitTextToSize("What characteristics of my current circumstances enable me to maintain effective balance?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 				
-				yTable = newline(yTable, 11.5);
+				yTable = newline(yTable, 12);
 				txt = pdf.splitTextToSize("Do such circumstances offer an opportunity for me to further pursue a passion or interest?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 
 				yTable = newline(yTable, 11);
-				txt = pdf.splitTextToSize("How might future circumstances change that would challenge my priorities?", columnWidth);
+				txt = pdf.splitTextToSize("How might circumstances change in the future to challenge my priorities?", columnWidth);
 				pdf.text(txt, xTable, yTable);
 				
 				// CEEK LBA Report - FirstName LastName Year-Month-Day
@@ -3317,7 +3322,7 @@
 				pdf.setFontType('normal');
 			}
 
-			function lmhScale(num) {
+			function lmhScale(num) { // Low-Medium-High Scale
 				if (num >= 1 && num <= 4) {
 					return num + " (Low)";
 				} else if (num >= 5 && num <= 7) {
