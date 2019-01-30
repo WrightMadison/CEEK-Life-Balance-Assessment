@@ -10,9 +10,9 @@ This is a "Life Balance Assessment" written for CEEK LLC during my time as an in
 I was told that I could develop the assessment in any way that I see fit and would be paid for my time learning new programming languages if need be. I ultimately decided to code the assessment in **JavaScript**, **HTML**, and **CSS** and taught myself these three programming languages in the early stages of development. For the backend of the assessment, I decided to use a Google Sheet because the assessment does not collect sensitive information and I wanted it to be user-friendly for when I part from CEEK LLC. Having Google Sheets as the backend would not require a programmer to maintain it and anyone with access to the Google Sheet would be able to easily understand the data. All it required was for me to have a basic understanding of **Google Apps Script** to be able to push data to the spreadsheet.
 
 ## Milestones
-* August 26, 2018: The first complete version of the assessment was released for free trial mode.
-* October 10, 2018: My boss's book, *Navigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities*, was released and the access code was turned on for the assessment.
-* January 30, 2019: Updated all of the report text after it was sent to two editors. Test cases were also written and thoroughly documented in a spreadsheet that has been pushed to this repository, along with test case results.
+* **August 26, 2018:** The first complete version of the assessment was released for free trial mode.
+* **October 10, 2018:** My boss's book, *Navigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities*, was released and the access code was turned on for the assessment.
+* **January 30, 2019:** Updated all of the report text after it was sent to two editors. Test cases were also written and thoroughly documented in a spreadsheet that has been pushed to this repository, along with test case results.
 
 ## Parameters
 * Access code for the assessment that allows users to take it twice, once for an initial evaluation and again after several months to measure personal growth
