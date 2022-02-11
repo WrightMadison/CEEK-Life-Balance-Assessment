@@ -516,7 +516,7 @@
 		</div>
 
 		<!-- The demographic information must be put last in the HTML section in order for the submission button at the end of the assessment to be underneath the final splash screen paragraph -->
-		<form id="gform" method="POST" class="pure-form pure-form-stacked" data-email="info@ceekllc.com" action="https://script.google.com/a/ceekllc.com/macros/s/AKfycbx9EFn2Pv6S4yavnhpX-dxH4LMJpMFIcUW9XzCd/exec"> 
+		<form id="gform" method="POST" class="pure-form pure-form-stacked" data-email="info@ceekllc.com" action="https://script.google.com/macros/s/AKfycbzVcfvDh10gI2YVixMYsnY_rd9h1_w18rGCkydN0CE3lkmhT81MDWWxJ1CxpcIJjm0q/exec">
 		<!-- gform used for pushing data to Google Sheet -->
 			<div id="codeEntry" class='page'>
 				<h2 class="subtitle">Access Code Entry</h2><br>
@@ -972,9 +972,9 @@
 		<!--For PDF generation-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 		<!-- For reading data from a Google sheet -->
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js'></script>
 		<script type='text/javascript'>    
-			var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1GlgFZgXST5LE03bGEBjBSp-jeXmFUVXF068ARPNgMVo/edit?usp=sharing';
+			var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRHuIAhH05RMwlmOylgSLQ34N4TacEk1jvFUxhHwl4o4Vw3gOw8eU2o8gP5HNc6yLTQCaV8_5Gsatg3/pub?gid=1775650065&single=true&output=csv';
 			var tableP;
 			var tableN;
 			var ageP;
@@ -995,15 +995,18 @@
 			var incomeN;
 
 			function init() {
-				Tabletop.init( { key: publicSpreadsheetUrl, callback: showInfo, simpleSheet: true } )
-			}
-
-			function showInfo(data, tabletop) {
-				tableP = data;
-				console.log(data);
+				Papa.parse(publicSpreadsheetUrl, {
+					download: true,
+					header: true,
+					complete: showInfo
+				})
 			}
 
 			window.addEventListener('DOMContentLoaded', init);
+
+			function showInfo(results) {
+				tableP = results.data;
+			}
 		
 			var currentPage = "codeEntry";
 			var accessCode;
