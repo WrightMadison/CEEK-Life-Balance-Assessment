@@ -1,8 +1,8 @@
 # [CEEK Life Balance Assessment](https://www.ceekllc.com/balance-assessment)
 ## Current Version: 1.3
-#### Released: February 11, 2022
-##### Written by: Madison Wright
-##### Contact: wrightmadison@gmail.com
+* **Released:** February 11, 2022
+* **Written by:** Madison Wright
+* **Contact:** wrightmadison@gmail.com
 
 ## Introduction
 This is a "Life Balance Assessment" written for CEEK LLC during my time as an intern there. The purpose of the assessment is to help people determine how balanced their priorities are in life with an initial evaluation, and then provide advice for finding better life balance. The assessment was written to be paired with a book written by the President of CEEK LLC, titled *[Navigate Chaos: A 5-Step Guide to Balance Work, Family, and Other Life Priorities](https://www.amazon.com/gp/product/1732517606)*.
